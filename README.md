@@ -60,7 +60,7 @@ Bij een andere repositorynaam: stel BASE_PATH bij bouwen en PAGES_BASE bij de te
 
 ## GitHub Pages en status
 
-De Pages-workflow blijft uitsluitend handmatig via workflow_dispatch. Push naar main activeert kwaliteitscontrole, geen publicatie. Beide workflows gebruiken npm ci, bouwen met het repositorysubpad en voeren de browser- en productie-subpadtest uit. De workflows zijn lokaal nagekeken, niet op GitHub uitgevoerd. Deze herstelopdracht omvat een broncodecommit en push. De Pages-workflow wordt niet gestart; dit is geen publicatie.
+De Pages-workflow blijft uitsluitend handmatig via workflow_dispatch. Push naar main activeert kwaliteitscontrole. Bij de bestaande repositoryinstelling kan GitHub daarnaast automatisch Pages publiceren; De gebruiker heeft bevestigd dat Source op GitHub Actions is gezet, zodat de handmatige Pages-workflow wordt gebruikt. Beide workflows gebruiken npm ci, bouwen met het repositorysubpad en voeren de browser- en productie-subpadtest uit. De workflows zijn lokaal nagekeken, niet op GitHub uitgevoerd. Deze herstelopdracht omvat een broncodecommit en push. De Pages-workflow is niet handmatig gestart. GitHub heeft door de bestaande Pages-instelling toch automatisch gepubliceerd; zie het actuele testverslag.
 
 Lees docs/TESTVERSLAG.md voor de exacte resultaten, docs/ARCHITECTUUR.md voor de opbouw en PROJECTSPEC.md voor het oorspronkelijke bestek. Historische M1-resultaten staan in docs/TESTVERSLAG_M1_HISTORIE.md. Ongewijzigde beperkingen: eenvoudige NPC-routes zonder conflictvermijding/botsingen, geen juridisch gevalideerde beoordeling, geen stuur/pedalenacceptatie of duurtest. Eigen code MIT; procedurele geometrie, geen gekopieerde CBR-content.
 

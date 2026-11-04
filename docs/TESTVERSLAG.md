@@ -2,7 +2,7 @@
 
 Datum: 4 november 2026. Repository: Reinirus/autorijsimulator-1.2. Uitgangscommit: 90ab8fbb9fbf44811ab6728d28228e4d096ec9ea. Referentie: het oorspronkelijke autorijsimulator-milestone2.zip.
 
-**Oordeel: structuurherstel en alle onderstaande lokale technische controles geslaagd.** M1 blijft formeel open voor hardware- en duuracceptatie; geen Pages-publicatie uitgevoerd.
+**Oordeel: structuurherstel en alle onderstaande lokale technische controles geslaagd.** M1 blijft formeel open voor hardware- en duuracceptatie; geen handmatige Pages-workflow aangeroepen. Zie de hieronder vastgelegde onverwachte automatische publicatie.
 
 ## Inhoudsvergelijking en herstel
 
@@ -45,7 +45,13 @@ Klokspreiding van de drie weergegeven toestanden in die steekproef: 0.0071428571
 
 Pages.yml start uitsluitend met workflow_dispatch. CI controleert push/pull_request en bouwt met /${{ github.event.repository.name }}/; de Pages-subpadtest krijgt hetzelfde PAGES_BASE. Er is geen Pages-workflow aangeroepen. Een bestaande automatische Pages-run van vóór deze herstelopdracht is waargenomen; vóór verdergaan is de gebruiker gevraagd de Pages-bron op GitHub Actions te zetten. De gebruiker heeft daarna 'ga verder' gegeven. Die beheerinstelling kon niet via de connector worden gelezen en is niet als zelfstandig geverifieerd geclaimd.
 
-Dit verslag is vóór de broncodepush opgesteld. Het bevestigde commit-id en de push-/CI-uitkomst worden na de GitHub-operatie in de chat vermeld. Geen deployment opdracht uitgevoerd.
+## Bevestigde push en onverwachte automatische Pages-run
+
+Herstelcommit 3c94eccf65c0c1b97f765dc6b874f032d0778f2b is als normale fast-forward naar main gepusht. De GitHub-treehash 5492041c0a643dcf7017de4e786452f9219b494c is exact gelijk aan de gecontroleerde lokale Git-index. De GitHub-kwaliteitscontrole voor deze commit is geslaagd: https://github.com/Reinirus/autorijsimulator-1.2/actions/runs/41831882367.
+
+**GitHub startte door de bestaande Pages-instelling bij de push ook automatisch een Pages-build/deployment**, event dynamic: https://github.com/Reinirus/autorijsimulator-1.2/actions/runs/41831879414. Die run is voltooid met success. Er is geen workflow_dispatch of andere expliciete deployment-opdracht door de agent uitgevoerd, maar de uitkomst voldoet daardoor niet aan de gewenste 'geen deployment'-voorwaarde. Dit wordt nadrukkelijk niet als 'niets gepubliceerd' gerapporteerd.
+
+De connector heeft geen Pages-instellings- of workflow-annuleerfunctie; de eerdere browserbediening was automatisch gestopt wegens onbetrouwbare URL-herkenning. Er was geen niet-interactieve Git-authenticatie beschikbaar om de run via de API te annuleren. De gebruiker is direct gewaarschuwd en gevraagd de Pages-bron op GitHub Actions te zetten. De run was al voltooid. Er zijn geen herstel-/terugdraaideployments uitgevoerd. Deze auditnotitie is na de push aangevuld. De gebruiker heeft daarna bevestigd dat de Pages-instelling is aangepast. De auditnotitie wordt met een afzonderlijke documentatiecommit vastgelegd; er wordt geen deployment-workflow aangeroepen.
 
 ## Beperkingen
 
