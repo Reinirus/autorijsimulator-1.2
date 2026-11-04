@@ -1,4 +1,4 @@
-# Architectuur — Milestone 1 + 2
+# Architectuur — Milestone 1–3
 
 ## Eén eigenaar, passieve schermen
 
@@ -40,3 +40,17 @@ FrameMetrics toont per venster een rollende circa 1 s FPS en gemiddelde CPU-tijd
 ## Formele status
 
 M1 blijft open voor hardware- en duuracceptatie. M2 is op expliciet gebruikersverzoek ontwikkeld terwijl M1 openstaat. De tests leveren technische softwaredekking, geen acceptatie op drie fysieke schermen, geen juridisch oordeel en geen publicatietoestemming.
+
+
+## Milestone 3: verkeersregels en zes situaties
+
+- rules/traffic.ts is een pure, afzonderlijke beslismodule op expliciete TrafficFacts: signaal, borden, beweging, kruisend verkeer, wegdek, tram en voetganger/fietser. Geen rendering, fysica of puntentelling in deze module. rules/catalog.ts bevat bron-ID, artikel, versie, controledatum en open menselijke review. De legacy M1-demo-API blijft apart bestaan.
+- scenarios/catalog.ts beschrijft zes deterministische scèneconfiguraties; model.ts bevat serialiseerbare definities en bewijsstructuren. Geen willekeurig NPC-gedrag. Plaatsingen en beoordelingspunten staan in docs/SCENARIOS.md.
+- core/Simulation.selectScenario initialiseert de ene canonieke toestand. Een actieve M3-stap voert dezelfde voertuigfysica uit, vervolgens verkeersinteractie en de scenariobeoordeling. Stop pauzeert, reset behoudt de gekozen situatie. De bestaande demo blijft het oorspronkelijke M1-pad gebruiken.
+- traffic/scenarios.ts regelt begrensd optrekken/remmen, stoppen voor het eigen kruislicht, wachten/oversteken en noodremmen bij voorspeld fysiek conflict. traffic/geometry.ts voert routevoortgang en georiënteerde rechthoek-overlap uit. De gebruikte tijden, afmetingen en marges zijn modelparameters, geen wettelijke normen.
+- scenarios/runtime.ts bepaalt de fysieke feiten, roept de regelmodule aan en registreert bewijs bij overgangen: stopstreep, conflictgebied, begin afslaan en verlaten van parkeervak. Geel is alleen modeladvies. Fysiek contact en NPC-remmen leveren geen juridisch schuldlabel op. Gebeurteniscodes worden per poging ontdubbeld; er is geen CBR-slaagscore.
+- scenarios/panel.ts toont opdrachten, richtingaanwijzers, bron, feiten en handelingsalternatief. Het beoordeelt zelf geen verkeer. Open uitlegdetails blijven open bij nieuwe gebeurtenissen.
+- world/scenarios.ts bouwt B6, haaientanden, stopstrepen, zebra, parkeervak en kruisverkeerslicht. DrivingView toont modellen per actor-ID/type en hetzelfde canonieke scenario-ID in elk venster. De drie echte spiegels blijven rendercamera's. Gemeenschappelijke klok en toestand bevatten ook scenariofase, gebeurtenissen, richtingaanwijzer en kruislichtfase.
+- SnapshotBuffer wist de interpolatiereeks bij scenario-ID-wisseling, ook als beide scenario's klok 0 hebben. Daardoor wordt een auto uit de vorige situatie niet geïnterpoleerd naar een voetganger uit de volgende. Zijvensters blijven uitsluitend renderen en berekenen geen eigen regels, score, NPC's of fysica.
+
+De fysieke weg- en verkeersclassificatie is afgebakend op deze scènes. Geen algemene visuele herkenning van verkeersborden, adaptieve stads-AI, oog-/hoofdtracking of volledig banden-/botsingsmodel. Broncontrole is uitgevoerd tegen de officiële RVV-versie 01-07-2026 die op 04-11-2026 als geldend is geleverd. Menselijke verkeerskundige, juridische en didactische validatie blijft open.

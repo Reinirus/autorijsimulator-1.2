@@ -1,58 +1,44 @@
-# TESTVERSLAG — herstel Milestone 2 / autorijsimulator-1.2
+# TESTVERSLAG — Milestone 3, gecontroleerde branch
 
-Datum: 4 november 2026. Repository: Reinirus/autorijsimulator-1.2. Uitgangscommit: 90ab8fbb9fbf44811ab6728d28228e4d096ec9ea. Referentie: het oorspronkelijke autorijsimulator-milestone2.zip.
+Datum: 4 november 2026. Repository Reinirus/autorijsimulator-1.2, branch milestone-3-gecontroleerd. Uitgangspunt: bdbc9aa3e8256eb1e7474e32ddef6323ef052d73. Het opgegeven ZIP-pakket is volledig overgenomen; zie OVERDRACHT_M3.md voor herkomst en vergelijking. De oorspronkelijke src/, tests/, docs/ en .github/workflows/ zijn behouden. Er waren geen aantoonbare codefouten bij deze hercontrole en daarom zijn geen functionele reparaties aangebracht.
 
-**Oordeel: structuurherstel en alle onderstaande lokale technische controles geslaagd.** M1 blijft formeel open voor hardware- en duuracceptatie; geen handmatige Pages-workflow aangeroepen. Zie de hieronder vastgelegde onverwachte automatische publicatie.
+**Automatische lokale kwaliteitscontrole geslaagd. Geen formele hardware-, juridische of didactische acceptatie. M1 blijft formeel open. DEMO — NIET CBR-GECERTIFICEERD.**
 
-## Inhoudsvergelijking en herstel
+## Werkelijk uitgevoerd
 
-Alle 26 gevolgde repositorybestanden waren vóór herstel byte-identiek aan het corresponderende referentiebestand (volledige Git-blobhash vergeleken). 15 foutief geplaatste bestanden zijn verplaatst naar de canonieke map; 30 ontbrekende bestanden zijn aangevuld. Er is geen afwijkende of unieke repositorybron overschreven/verwijderd. Volledige oud/nieuw/hash-tabel: STRUCTUURHERSTEL.md. Het eerdere M2-testverslag is bewaard als TESTVERSLAG_M2_VOOR_HERSTEL.md.
+Schone branchclone met eigen npm-installatie. Windows, Node v24.22.1, npm 10.9.2, headless Playwright Chromium. npm is uitgevoerd als node ../../work/package/bin/npm-cli.js vanuit de projectmap; browserbestanden via PLAYWRIGHT_BROWSERS_PATH=../../work/browsers en npm-cache in work/npm-cache. Geen dependencies gekopieerd uit een eerder project.
 
-Hersteld: src/ met core, renderer, world, traffic, rules, assessment, questions en displays; tests/unit, tests/e2e en tests/pages; docs/; .github/workflows/ci.yml en pages.yml; .gitignore. Imports zijn via TypeScript, Vite, Vitest en werkelijk geladen browsermodules gecontroleerd. De M2-toepassingsbron is inhoudelijk behouden. De Pages-test en README zijn aangepast naar het exacte pad /autorijsimulator-1.2/; testpoorten zijn 4373 en 4376.
-
-## Werkelijke uitvoering
-
-Windows, Node v24.22.1, npm 10.9.2, Vitest 3.2.7, Vite 7.3.7 en Playwright Chromium 156.0.8078.4 (build 1248). npm is hier aangeroepen via node ../../work/package/bin/npm-cli.js. PLAYWRIGHT_BROWSERS_PATH wijst naar de al aanwezige browserbinary in work/browsers. Er is daadwerkelijk een schone npm ci uitgevoerd in de herstelde checkout; geen gekopieerde node_modules als vervanging voor die controle.
-
-| Commando | Werkelijk resultaat |
+| Commando | Resultaat |
 |---|---|
-| npm ci --no-audit --no-fund | Exit 0, 168 pakketten geïnstalleerd in 34 s; package-lock.json behouden. Deprecated-melding eslint 9.39.5; geen audit uitgevoerd. |
+| npm ci --no-audit --no-fund | Exit 0, 168 packages, 37 s; package-lock.json gebruikt. |
 | npm run lint | Exit 0. |
-| npm run typecheck | Exit 0; dekking src, tests/unit en vite.config.ts volgens tsconfig. |
-| npm test | Exit 0; 31/31 tests in 8 bestanden, 2,38 s. |
-| npm run build | Exit 0; TypeScript en Vite-productiebouw geslaagd. |
-| node node_modules/vite/bin/vite.js --host 127.0.0.1 --port 4373 --strictPort | Apart gestarte server in deze herstelde checkout. |
-| npm run test:e2e -- --workers=1 | Exit 0; 13/13 geslaagd, 1,1 minuut zoals Playwright rapporteerde. |
-| BASE_PATH=/autorijsimulator-1.2/ npm run build | Exit 0; 26 modules, 3,41 s Vite-bouw; assets onder het juiste kleine-letterpad. In PowerShell: $env:BASE_PATH='/autorijsimulator-1.2/' vóór het buildcommando. |
-| node node_modules/vite/bin/vite.js preview --host 127.0.0.1 --port 4376 --strictPort met dezelfde BASE_PATH | Lokale productiepreview gestart op /autorijsimulator-1.2/. |
-| npm run test:pages -- --workers=1 | Exit 0; 1/1 geslaagd, 4,4 s. Cockpit, dynamische JS/CSS, versnellen en beide zijvensters geladen onder het exacte subpad; geen HTTP >=400 of pageerror. |
+| npm run typecheck | Exit 0. |
+| npm test | Exit 0, 93/93 tests, 9 bestanden, 3,85 s. Inclusief 31 M1/M2- en 62 M3-tests. |
+| npm run build | Exit 0, 33 modules, Vite 4,27 s; standaard relatief base-pad. |
+| node node_modules/vite/bin/vite.js --host 127.0.0.1 --port 4473 --strictPort | Afzonderlijke ontwikkelserver van deze clone gestart. |
+| npm run test:e2e -- --workers=1 | Exit 0, 23/23 tests, 1,8 minuut. |
+| $env:BASE_PATH='/autorijsimulator-1.2/'; npm run build | Exit 0, 33 modules, Vite 1,51 s. |
+| node node_modules/vite/bin/vite.js preview --host 127.0.0.1 --port 4476 --strictPort | Productiepreview met hetzelfde subpad gestart. |
+| npm run test:pages -- --workers=1 | Exit 0, 2/2 tests, 9,5 s, exact /autorijsimulator-1.2/. |
 
-Een eerste serverstart op 4173 gaf EACCES. Een eerste browserpoging op die poort is afgebroken en telt niet als geslaagde volledige run. De hele suite is opnieuw uitgevoerd tegen de expliciet in de herstelde checkout gestarte server op 4373. De poorten zijn daarvoor ook in de testconfiguraties gewijzigd. Er zijn geen niet-uitgevoerde tests als geslaagd aangemerkt.
+Browsersuites gebruiken de echte Chromium/WebGL-app: bediening en loslaten/focusverlies, cockpit en drie echte spiegelcamera's, verkeerslichtcyclus, snelheid, kalibratie, drie schermmodi, canonieke toestand, verlies/herstel van bron of pakketten, sluiten/heropenen zijvensters, zes verkeerssituaties, beoordeling, richtingaanwijzers en scenariowisseling. Productiesubpadtests bezoeken zowel de oude demo als alle zes M3-situaties en gesynchroniseerde zijvensters. Nieuwe schermafbeeldingen staan in qa-*.png; qa-m3-beoordeling.png en qa-m3-breedbeeld.png zijn ook visueel bekeken. Dit is browserautomatisering met screenshotinspectie, geen handmatig gereden hardwareacceptatie.
 
-De 13 browsertests controleren bestaande cockpit, echte spiegels inclusief pixeloriëntatie, snelheidsweergave, besturing en key-up, focusverlies, vraagpauze, lichtcyclus, één/breed/drie vensters, kalibratie, bron- en pakketverlies, herladen en terugval. De Pages-test gebruikt relatieve ./-navigatie en controleert dat de zijvensters hetzelfde subpad houden.
+De unit-tests omvatten regelbeslissingen, NPC-reacties, geometrische contacten en complete scenarioverlopen met de voertuigfysica. Een eindpositie bereiken betekent oefening afgerond, geen officiële slaagscore. Ontbrekende spiegelcontrole geldt niet als bewezen fout zonder waarneming.
 
-## Korte meetgegevens
+## Prestaties en waarschuwingen
 
-Ruwe meetgegevens staan in qa-m2-performance.json; korte headless-steekproeven, geen hardwaregarantie:
+Korte headless-steekproef (qa-m2-performance.json): één scherm 41,9 FPS; breedbeeld 36,0 FPS; drie vensters midden 19,1 FPS, zijvensters 18,2/18,3 FPS. Klokspreiding 0,02945 s. M3-steekproef (qa-m3-performance.json): midden 19,6 FPS, zijvensters 19,8/19,7 FPS; klokspreiding 0,04663 s. Dit zijn korte monsters op deze computer, geen minimum-FPS, GPU-completion of fysieke monitorlatentie. Driervensterprestaties zijn een expliciet optimalisatiepunt voor M4.
 
-- single: Midden: 36.0 FPS · render 6.9 ms.
-- span: Midden: 33.3 FPS · render 7.4 ms.
-- windows: Midden: 15.5 FPS · render 7.0 ms. links: pakket 199, klok 12.10 s, ouderdom 130 ms, 15.5 FPS | rechts: pakket 200, klok 12.10 s, ouderdom 78 ms, 15.6 FPS 15.6 FPS · render 1.1 ms · pakketouderdom 103 ms · klok 12.33 s | 15.8 FPS · render 1.0 ms · pakketouderdom 59 ms · klok 12.35 s
-
-Klokspreiding van de drie weergegeven toestanden in die steekproef: 0.007142857142858006 s. CPU-render-aanroeptijd is geen fysieke GPU-/monitorlatentie. Geen langdurige minimum-FPS-claim.
+Niet-fataal: Vite waarschuwt voor de JS-chunk van 515,28 kB (gzip 132,13 kB). npm meldt een verouderingswaarschuwing bij ESLint 9.39.5. npm audit is niet uitgevoerd. Geen falende uitgevoerde test.
 
 ## GitHub en publicatie
 
-Pages.yml start uitsluitend met workflow_dispatch. CI controleert push/pull_request en bouwt met /${{ github.event.repository.name }}/; de Pages-subpadtest krijgt hetzelfde PAGES_BASE. Er is geen Pages-workflow aangeroepen. Een bestaande automatische Pages-run van vóór deze herstelopdracht is waargenomen; vóór verdergaan is de gebruiker gevraagd de Pages-bron op GitHub Actions te zetten. De gebruiker heeft daarna 'ga verder' gegeven. Die beheerinstelling kon niet via de connector worden gelezen en is niet als zelfstandig geverifieerd geclaimd.
+De CI-workflow draait op push en pull_request; Pages uitsluitend op workflow_dispatch. Deze opdracht gebruikt alleen de featurebranch en een pull request naar main. Er wordt niet gemerged en geen Pages-workflow gestart. De resultaten van de na deze broncontrole gestarte GitHub-runs worden in de pull request en de eindrapportage vermeld; dit verslag claimt vooraf geen geslaagde remote run. De eerdere M2-publicatie en herstelcontrole zijn historisch bewaard in TESTVERSLAG_M2_REPOSITORY_AUDIT.md; die gelden niet als huidige M3-test.
 
-## Bevestigde push en onverwachte automatische Pages-run
+## Resterende acceptatie en basis voor M4
 
-Herstelcommit 3c94eccf65c0c1b97f765dc6b874f032d0778f2b is als normale fast-forward naar main gepusht. De GitHub-treehash 5492041c0a643dcf7017de4e786452f9219b494c is exact gelijk aan de gecontroleerde lokale Git-index. De GitHub-kwaliteitscontrole voor deze commit is geslaagd: https://github.com/Reinirus/autorijsimulator-1.2/actions/runs/41831882367.
+M3 is een geschikte technische ontwikkelbasis onder voorwaarden; zie M4_TECHNISCHE_BASIS.md. De zes situaties zijn begrensde deterministische oefeningen, geen algemeen Nederlands verkeersnetwerk. Voor tien missies zijn een missiemodel, doorlopende route/klok, herhaalde beoordelingsmomenten, voortgang/opslag/export en leer-/examenstand nog nodig. Parkeren, rotondes en snelwegen zijn nog geen complete missies.
 
-**GitHub startte door de bestaande Pages-instelling bij de push ook automatisch een Pages-build/deployment**, event dynamic: https://github.com/Reinirus/autorijsimulator-1.2/actions/runs/41831879414. Die run is voltooid met success. Er is geen workflow_dispatch of andere expliciete deployment-opdracht door de agent uitgevoerd, maar de uitkomst voldoet daardoor niet aan de gewenste 'geen deployment'-voorwaarde. Dit wordt nadrukkelijk niet als 'niets gepubliceerd' gerapporteerd.
+RVV-bronnen, artikelen, datum en reviewstatus staan in REGELBRONNEN.md en RVV_BRONUITTREKSELS.txt. De historische bronnencontrole is bewaard; deze overdracht heeft geen nieuwe juridische verificatie of menselijke review uitgevoerd. Scenariofeiten zijn deels voorgedefinieerd; NPC's en botsingen zijn vereenvoudigd. Juridisch/didactische review door een deskundige blijft open. Hardwaretests op echte één/twee/drie schermen, DPI/uitlijning, stuur/pedalen, Edge, laptopbenchmark en twee duurproeven van 30 minuten zijn niet uitgevoerd. Geen formele M1/M2/M3-eindacceptatie of CBR-certificering.
 
-De connector heeft geen Pages-instellings- of workflow-annuleerfunctie; de eerdere browserbediening was automatisch gestopt wegens onbetrouwbare URL-herkenning. Er was geen niet-interactieve Git-authenticatie beschikbaar om de run via de API te annuleren. De gebruiker is direct gewaarschuwd en gevraagd de Pages-bron op GitHub Actions te zetten. De run was al voltooid. Er zijn geen herstel-/terugdraaideployments uitgevoerd. Deze auditnotitie is na de push aangevuld. De gebruiker heeft daarna bevestigd dat de Pages-instelling is aangepast. De auditnotitie wordt met een afzonderlijke documentatiecommit vastgelegd; er wordt geen deployment-workflow aangeroepen.
-
-## Beperkingen
-
-Geen hardware- en duurtests van twee keer 30 minuten, geen acceptatie op 1/2/3 echte schoolmonitoren of stuur/pedalen, geen Edge-/DPI-matrix, geen juridische/WRM-review of toegankelijkheidsreview. M2 blijft een technisch prototype met de eerder beschreven model- en synchronisatiebeperkingen. M3-verkeerssituaties worden afzonderlijk op deze herstelde basis bijgewerkt en getest; zij worden niet ongemerkt met deze M2-herstelcommit vermengd.
+De oude pakketrapporten zijn bewaard als historische documenten en vervangen geen bovenstaande actuele resultaten. Milestone 4 is bij deze opdracht niet ontwikkeld.
