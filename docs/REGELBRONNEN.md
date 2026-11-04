@@ -1,14 +1,31 @@
-# Regelbronnen — versie 0.1 (3 november 2026)
+# RVV-broncontrole — Milestone 3
 
-Juridische status: **geen menselijke/WRM-validatie; niet CBR-gecertificeerd**. Automatische beoordeling is een didactische demonstratie.
+Technische broncontrole: **4 november 2026**. Bron: [RVV 1990, BWBR0004825, geconsolideerde versie 01-07-2026](https://wetten.overheid.nl/BWBR0004825/2026-07-01/0). De op 4 november rechtstreeks opgehaalde officiële pagina vermeldt: geldend van 01-07-2026 t/m heden. De webzoektool gaf 429; de rechtstreekse download van de officiële pagina is wel gelukt. Zie RVV_BRONUITTREKSELS.txt voor de gebruikte artikelen, bijlagevermeldingen en SHA256 van de volledige opgehaalde HTML. Er zijn geen CBR-opgaven of externe verkeersbeelden overgenomen.
 
-| Sleutel | Regel | Bron | Geldigheidsversie | Broninspectie | Menselijke review | Productgebruik |
-|---|---|---|---|---|---|---|
-| RIGHT | RVV 1990 art. 3 lid 1, zoveel mogelijk rechts | [wetten.overheid.nl](https://wetten.overheid.nl/BWBR0004825/2026-07-01/0) | 2026-07-01 | Tekst gecontroleerd | Nee | Alleen oefenadvies op gemodelleerd wegdeel |
-| PRIORITY | RVV 1990 art. 15 lid 1, rechts op gelijkwaardig kruispunt; uitzonderingen lid 2 | [wetten.overheid.nl](https://wetten.overheid.nl/BWBR0004825/2026-07-01/0) | 2026-07-01 | Tekst gecontroleerd | Nee | Unit-test basisbeslissing; niet live gescoord |
-| SPEED | RVV 1990 art. 20 / A1-zonebord, casus 30 km/u | [wetten.overheid.nl](https://wetten.overheid.nl/BWBR0004825/2026-07-01/0) | 2026-07-01 | Niet integraal nagekeken | Nee | Alleen scenario-overschrijding als demonstratie |
-| RED | RVV 1990 art. 62 en 68 (lichtgedrag) | [wetten.overheid.nl](https://wetten.overheid.nl/BWBR0004825/2026-07-01/0) | 2026-07-01 | Niet integraal nagekeken | Nee | Visueel licht, **geen** sanctionering |
+**Bron gecontroleerd betekent geen menselijke juridische validatie van het algoritme.** Alle RULES hebben reviewedByHuman:false. Een WRM-/verkeerskundig en juridisch deskundige moet scenario's, waarnemingsgrenzen en uitleg beoordelen voordat dit als gevalideerde verkeersopleiding wordt aangeboden.
 
-**Niet geïmplementeerd:** juridisch volwaardige afhandeling van verkeerstekens, voorrangslagen, zebrapaden, tram, hulpdiensten, 2toDrive, ADAS en CBR-rubriek.
+| Regel-ID | Rechtsbasis | Toepassing en geteste afbakening |
+|---|---|---|
+| RIGHT | Art. 3 lid 1 | Zoveel mogelijk rechts. De behouden M1-observatie blijft advies, geen harde universele rijstrookgrens. |
+| PRIORITY | Art. 15 leden 1–2 | Bestuurder van rechts; uitzonderingen onverhard/verhard en tram. Scenario 1 betreft twee verharde wegen, personenauto's en geen voorrangstekens. Uitzonderingen zijn in de pure regeltests opgenomen. |
+| YIELD_SIGN | Art. 62, 63, 80; bijlage 1 B6 | B6/haaientanden: kruisende bestuurders voorrang verlenen, ook van links. Geen algemene stopverplichting bij een leeg kruispunt. B7 is niet hetzelfde en wordt niet als B6 behandeld. |
+| RED | Art. 68 lid 1, art. 79 | Rood stoppen vóór de bestemde stopstreep. Geel stoppen tenzij redelijkerwijs niet mogelijk; het rekenmodel voor die mogelijkheid is geen wettelijke numerieke norm. Geelbeoordeling levert daarom alleen modeladvies op. |
+| SIGNAL_PRIORITY | Art. 64 | Lichten gaan boven voorrangstekens. Groen schakelt verplichtingen bij afslaan of bijzondere manoeuvres niet algemeen uit. Getest met B6 en fietser. |
+| TURN | Art. 18 lid 1 en lid 3 | Personenauto slaat rechtsaf; rechtdoorgaande fietser op dezelfde weg naast/dicht achter voor laten gaan. Tramuitzondering geldt niet voor deze personenauto. Andere afslaansituaties zijn niet als complete engine gedekt. |
+| TURN_SIGNAL | Art. 17 lid 2 | Richting aangeven bij willen afslaan; in deze rechtsafopdracht is dat rechts. Geen verzonnen minimumaantal seconden. |
+| PEDESTRIAN | Art. 49 leden 2–4 | Voetganger op of kennelijk op het punt van oversteken bij zebra. Scenario 5 heeft geen voetgangerslicht, colonne of uitvaartstoet. De uitzondering rood voetgangerslicht is apart getest; militaire-/uitvaartstoeten en geel knipperlicht zijn niet uitgewerkt in een speelbare scène. |
+| MANOEUVRE | Art. 54 | Wegrijden: het overige verkeer voor laten gaan, niet alleen bestuurders van rechts. Scenario 6 heeft een naderende auto achter de speler. |
+| INDICATOR | Art. 55 | Richtingaanwijzer bij wegrijden en belangrijke zijdelingse verplaatsingen; in de getekende parkeersituatie is de verplaatsing naar links. |
+| SPEED | Art. 62, 63; bijlage 1 A1 | Expliciet A1 met 30 km/u, geen universele 30-zoneclaim. De M3-toetsing is beperkt tot de bekende naderingsrijbaan, abs(x)<4 en z>4; de waarde wordt niet na afslaan naar een onbekend wegvak doorgetrokken. De M1-demo blijft een afzonderlijke demonstratie. |
 
-Een goede automatische score vereist exacte wegconfiguratie, gereviewde norm, bewijs van de feitelijke handeling en een vrijgegeven scenarioversie. Geen automatisch CBR-oordeel.
+## Geen juridische getallen verzinnen
+
+De volgende waarden zijn **simulator-/waarnemingsparameters**, geen RVV-grenswaarden: modelafmetingen, lijncoördinaten, 0,7 s reactieruimte bij geel, 6 m/s² spelersremmen, 5 m/s² NPC-remmen, een seconde voorspelling voor botsingsvermijding, aankomstvensters en ruimtelijke marges voor padconflicten. Het RVV bevat voor deze situaties geen universele seconden-/metergrens die deze code juridisch sluitend zou maken. Een modelafwijking is alleen een uitlegbare observatie binnen de beschreven scène.
+
+Geometrisch contact en NPC-noodremmen krijgen advies/waarneming, geen automatisch juridisch schuldlabel. Niet gemeten spiegel-/ooggedrag wordt niet beoordeeld. Er is geen verzonnen CBR-slaagscore of boetebedrag.
+
+## Volgorde en onzekerheid
+
+De pure decideTraffic-functie verwerkt onbekende situaties zonder juridische conclusie. Rood en geel worden vóór de andere verplichtingen bekeken. Bijzondere manoeuvre, afslaan en zebra blijven relevant bij groen waar de feiten dat vereisen. Zonder actieve lichten regelen expliciete voorrangstekens de toepasselijke kruispuntvoorrang; daarna pas de rechtsregel met uitzonderingen. De aanroep vanuit een scenario levert bekende, expliciete feiten. Dit is geen algemene verkeersjurist die willekeurige wegbeelden classificeert.
+
+Legacy rightOfWay en evaluate zijn alleen behouden voor de M1-demonstratie en regressies. De M3-situaties gebruiken decideTraffic en eigen overgangs-/bewijsevaluatie. Tests controleren de codeconclusies voor de opgegeven feiten; zij vervangen geen menselijke beoordeling van de feitelijke scène of wetsinterpretatie.

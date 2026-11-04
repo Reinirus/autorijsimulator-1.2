@@ -56,5 +56,5 @@ export class DisplayController {
   document.querySelector('#displayMetrics')!.textContent=`Midden: ${this.metrics.fps.toFixed(1)} FPS · render ${this.metrics.renderMs.toFixed(1)} ms. ${peers}`;
  }
  renderState(){return this.mode==='windows'?(this.buffer.sample(Date.now())??this.getState()):this.getState();}
- stamp(state:WorldState){const screen=document.querySelector<HTMLElement>('.screen')!;screen.dataset.clock=String(state.clock);screen.dataset.seq=String(this.buffer.latest?.seq??0);screen.dataset.mode=this.mode;}
+ stamp(state:WorldState){const screen=document.querySelector<HTMLElement>('.screen')!;screen.dataset.clock=String(state.clock);screen.dataset.seq=String(this.buffer.latest?.seq??0);screen.dataset.mode=this.mode;screen.dataset.scenario=state.scenario?.id??'demo';}
 }

@@ -1,10 +1,18 @@
-# Nederlandse Autorijsimulator — Milestone 1 + 2 demo
+# Nederlandse Autorijsimulator — Milestone 3
 
-**DEMO · NIET CBR-GECERTIFICEERD. Geen vervanging voor rijles.** Milestone 1 blijft formeel open voor hardware- en duurtests. De gebruiker heeft de ontwikkeling van Milestone 2 uitdrukkelijk toegestaan terwijl die acceptatie openstaat.
+**DEMO · NIET CBR-GECERTIFICEERD. Geen vervanging voor rijles.** Milestone 1 blijft formeel open voor hardware- en duurtests. De gebruiker heeft de ontwikkeling van Milestone 2 en 3 uitdrukkelijk toegestaan terwijl die acceptatie openstaat.
+
+## Nieuw in Milestone 3
+
+Kies bij **Verkeerssituaties** één van de zes oefeningen: gelijkwaardig kruispunt, B6/haaientanden, verkeerslichten, rechtsaf naast een fietser, zebra of wegrijden uit een parkeervak. De oorspronkelijke M1/M2-demo blijft de standaardoptie. Een situatie kiezen zet de rit stil en wist die oefenpoging; klik daarna op Start missie.
+
+Gebruik Richting links / rechts / uit voor de richtingaanwijzers. NPC's reageren op de nadering, verkeerslichten, een stilstaande auto en voorspelde botsingen. Open de observaties rechts voor positie, tijd, snelheid, bron en alternatief. Bereiken van een eindpositie is alleen het afronden van een oefening, geen officiële slaagscore.
+
+De zes situaties zijn volledig met de voertuigfysica doorgelopen in automatische tests, naast de browser- en regressiecontroles. De gebruikte RVV-artikelen zijn rechtstreeks aan de actuele officiële geconsolideerde tekst gecontroleerd. Menselijke juridische/didactische review en hardware-/duuracceptatie blijven open. Details: docs/REGELBRONNEN.md, docs/RVV_BRONUITTREKSELS.txt en docs/SCENARIOS.md.
 
 ## Starten
 
-Node.js 22+ en een WebGL-browser:
+Node.js 22+ en een WebGL-browser (open index.html niet rechtstreeks als lokaal bestand):
 
 ```sh
 npm ci
@@ -33,7 +41,7 @@ Instellingen en het kanaal-ID worden alleen per browsertab in sessionStorage bew
 
 ## Verbinding en herstel
 
-Alleen het middenvenster simuleert. Dezelfde klok, voertuigpose, acteurs en verkeerslichtstatus gaan naar de zijvensters. De drie vensters tonen een circa 100 ms gebufferd beeld. Bij ontbrekende pakketten langer dan 1,5 seconde wordt het zijbeeld verborgen met een verbindingsmelding. Nieuwe pakketten herstellen het beeld vanzelf. Herladen van een zijvenster sluit weer aan. Herladen van het middenvenster start de missie opnieuw op 0; de bestaande zijvensters volgen die nieuwe bron. Er is geen herstel van de oude rit na een bronherstart.
+Alleen het middenvenster simuleert. Dezelfde klok, voertuigpose, acteurs en verkeerslichtstatus gaan naar de zijvensters. De drie vensters tonen een circa 100 ms gebufferd beeld. Bij ontbrekende pakketten langer dan 1,5 seconde wordt het zijbeeld verborgen met een verbindingsmelding. Nieuwe pakketten herstellen het beeld vanzelf. Herladen van een zijvenster sluit weer aan. Herladen van het middenvenster start opnieuw op 0 in de standaarddemo; de bestaande zijvensters volgen die nieuwe bron. Kies zo nodig de gewenste M3-situatie opnieuw. Er is geen herstel van de oude rit na een bronherstart.
 
 Open geen tweede zelfstandige eigenaar voor dezelfde rit. Communicatie werkt binnen dezelfde browser/origin; geen ondersteuning voor verschillende computers of browsers. Achtergrondtabbladen kunnen door de browser worden vertraagd. Dit is geen hardwarematige framesynchronisatie.
 
@@ -58,12 +66,8 @@ npm run test:pages -- --workers=1
 
 Bij een andere repositorynaam: stel BASE_PATH bij bouwen en PAGES_BASE bij de test op hetzelfde subpad in. De Pages-test start zelf een lokale previewserver. De e2e-suite bevat een korte prestatiesteekproef en schrijft docs/qa-m2-performance.json. Deze cijfers zijn geen garantie voor leerlinghardware.
 
-## GitHub Pages en status
+## GitHub en overdracht
 
-De Pages-workflow blijft uitsluitend handmatig via workflow_dispatch. Push naar main activeert kwaliteitscontrole. Bij de bestaande repositoryinstelling kan GitHub daarnaast automatisch Pages publiceren; De gebruiker heeft bevestigd dat Source op GitHub Actions is gezet, zodat de handmatige Pages-workflow wordt gebruikt. Beide workflows gebruiken npm ci, bouwen met het repositorysubpad en voeren de browser- en productie-subpadtest uit. De workflows zijn lokaal nagekeken, niet op GitHub uitgevoerd. Deze herstelopdracht omvat een broncodecommit en push. De Pages-workflow is niet handmatig gestart. GitHub heeft door de bestaande Pages-instelling toch automatisch gepubliceerd; zie het actuele testverslag.
+De volledige M3-inhoud staat voor beoordeling op branch milestone-3-gecontroleerd van Reinirus/autorijsimulator-1.2. De CI-workflow controleert push en pull requests. Pages wordt alleen via workflow_dispatch gestart; deze overdracht publiceert niet en merge naar main vereist beoordeling.
 
-Lees docs/TESTVERSLAG.md voor de exacte resultaten, docs/ARCHITECTUUR.md voor de opbouw en PROJECTSPEC.md voor het oorspronkelijke bestek. Historische M1-resultaten staan in docs/TESTVERSLAG_M1_HISTORIE.md. Ongewijzigde beperkingen: eenvoudige NPC-routes zonder conflictvermijding/botsingen, geen juridisch gevalideerde beoordeling, geen stuur/pedalenacceptatie of duurtest. Eigen code MIT; procedurele geometrie, geen gekopieerde CBR-content.
-
-## Herstel repository 1.2
-
-De oorspronkelijke Milestone 2-structuur is hersteld na inhoudsvergelijking. Zie docs/STRUCTUURHERSTEL.md. De standaard voor de Pages-subpadtest is /autorijsimulator-1.2/. Lokale browsercontroles gebruiken poorten 4373 en 4376 om de herstelde checkout afzonderlijk te testen. Het historische testverslag staat in docs/TESTVERSLAG_M2_VOOR_HERSTEL.md.
+Lees docs/TESTVERSLAG.md voor de werkelijk uitgevoerde controles en beperkingen, docs/OVERDRACHT_M3.md voor de pakketvergelijking, docs/M4_TECHNISCHE_BASIS.md voor het oordeel over M4 en docs/ARCHITECTUUR.md voor de opbouw. Historische verslagen zijn afzonderlijk bewaard. De zes M3-situaties zijn een begrensd verkeersmodel; menselijke juridische/didactische review en hardware-/duuracceptatie blijven open. Eigen code MIT, procedurele geometrie, geen gekopieerde CBR-content.
