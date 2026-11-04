@@ -1,0 +1,1 @@
+export const demoQuestion={id:'DEMO-01',text:'Je nadert een groen verkeerslicht. Wat doe je?',answers:['Altijd harder rijden','Blijven kijken of je veilig kunt doorgaan','Je ogen sluiten'],correctIndex:1,status:'NIET JURIDISCH GEVALIDEERD',explanation:'Groen betekent niet dat je blind op het kruispunt kunt rijden. Dit is uitsluitend een didactische demonstratie.'};

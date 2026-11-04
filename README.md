@@ -51,7 +51,7 @@ npm run test:e2e -- --workers=1
 Voor de afzonderlijke productie-subpadtest in PowerShell:
 
 ```powershell
-$env:BASE_PATH='/Autorijsimulator-1.1/'
+$env:BASE_PATH='/autorijsimulator-1.2/'
 npm run build
 npm run test:pages -- --workers=1
 ```
@@ -60,6 +60,10 @@ Bij een andere repositorynaam: stel BASE_PATH bij bouwen en PAGES_BASE bij de te
 
 ## GitHub Pages en status
 
-De Pages-workflow blijft uitsluitend handmatig via workflow_dispatch. Push naar main activeert kwaliteitscontrole, geen publicatie. Beide workflows gebruiken npm ci, bouwen met het repositorysubpad en voeren de browser- en productie-subpadtest uit. De workflows zijn lokaal nagekeken, niet op GitHub uitgevoerd. In deze levering is niets gecommit, gepusht of gepubliceerd.
+De Pages-workflow blijft uitsluitend handmatig via workflow_dispatch. Push naar main activeert kwaliteitscontrole, geen publicatie. Beide workflows gebruiken npm ci, bouwen met het repositorysubpad en voeren de browser- en productie-subpadtest uit. De workflows zijn lokaal nagekeken, niet op GitHub uitgevoerd. Deze herstelopdracht omvat een broncodecommit en push. De Pages-workflow wordt niet gestart; dit is geen publicatie.
 
 Lees docs/TESTVERSLAG.md voor de exacte resultaten, docs/ARCHITECTUUR.md voor de opbouw en PROJECTSPEC.md voor het oorspronkelijke bestek. Historische M1-resultaten staan in docs/TESTVERSLAG_M1_HISTORIE.md. Ongewijzigde beperkingen: eenvoudige NPC-routes zonder conflictvermijding/botsingen, geen juridisch gevalideerde beoordeling, geen stuur/pedalenacceptatie of duurtest. Eigen code MIT; procedurele geometrie, geen gekopieerde CBR-content.
+
+## Herstel repository 1.2
+
+De oorspronkelijke Milestone 2-structuur is hersteld na inhoudsvergelijking. Zie docs/STRUCTUURHERSTEL.md. De standaard voor de Pages-subpadtest is /autorijsimulator-1.2/. Lokale browsercontroles gebruiken poorten 4373 en 4376 om de herstelde checkout afzonderlijk te testen. Het historische testverslag staat in docs/TESTVERSLAG_M2_VOOR_HERSTEL.md.

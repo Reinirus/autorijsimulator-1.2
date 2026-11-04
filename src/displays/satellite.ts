@@ -1,0 +1,15 @@
+import {DrivingView} from '../renderer/scene';
+import {SnapshotBuffer,type Snapshot} from './sync';
+import {calibrate,FrameMetrics,type Side} from './config';
+export function startSatellite(side:Side,session:string){
+ document.body.classList.add('satellite');document.querySelector('#app')!.innerHTML=`<main class="satellite-view"><canvas id="sideDrive" aria-label="${side} zijaanzicht"></canvas><div class="calibration-guide"></div><div class="satellite-hud"><strong>${side.toUpperCase()} · ZIJAANZICHT (geen spiegel)</strong><p id="connection" role="status">Wachten op middenvenster…</p><output id="sideMetrics"></output><p>Bestuur in het middenvenster. Sluit dit venster om terug te vallen naar één scherm.</p></div><div id="lostConnection">Geen verbinding. Open of herstel het middenvenster.</div></main>`;
+ const canvas=document.querySelector<HTMLCanvasElement>('#sideDrive')!;const buffer=new SnapshotBuffer(),metrics=new FrameMetrics();let channel:BroadcastChannel|null=null,view:DrivingView|null=null,offline=false;
+ try{channel=new BroadcastChannel('autosim-'+session);channel.onmessage=e=>{if(e.data?.type==='shutdown'){window.close();return;}if(e.data?.type==='offline')offline=true;if(e.data?.type==='snapshot'&&buffer.accept(e.data as Snapshot))offline=false;};}catch{document.querySelector('#connection')!.textContent='Synchronisatie niet ondersteund. Gebruik één scherm.';}
+ const hello=()=>{channel?.postMessage({type:'hello'});channel?.postMessage({type:'ack',side,seq:buffer.latest?.seq??0,clock:Number(canvas.dataset.clock??0),age:buffer.age(Date.now()),fps:metrics.fps});};
+ const timer=window.setInterval(hello,250);hello();let stopped=false;
+ function frame(){if(stopped)return;const before=performance.now(),now=Date.now(),state=buffer.sample(now);const lost=offline||buffer.stale(now);document.querySelector<HTMLElement>('#lostConnection')!.hidden=!lost;canvas.style.visibility=lost?'hidden':'visible';
+ if(state&&!lost){try{view??=new DrivingView(canvas);const c=calibrate(buffer.latest!.calibration);document.body.classList.toggle('calibration-on',c.guides);view.render(state,null,{side,calibration:c});canvas.dataset.clock=String(state.clock);canvas.dataset.seq=String(buffer.latest!.seq);canvas.dataset.heading=String(state.vehicle.heading);document.querySelector('#connection')!.textContent='Verbonden met middenvenster';}catch{document.querySelector('#connection')!.textContent='WebGL-fout. Gebruik één scherm.';view?.dispose();view=null;}}
+ metrics.record(performance.now(),performance.now()-before);document.querySelector('#sideMetrics')!.textContent=`${metrics.fps.toFixed(1)} FPS · render ${metrics.renderMs.toFixed(1)} ms · pakketouderdom ${Math.round(buffer.age(now))} ms · klok ${state?.clock.toFixed(2)??'—'} s`;
+ requestAnimationFrame(frame);}
+ requestAnimationFrame(frame);window.addEventListener('beforeunload',()=>{stopped=true;clearInterval(timer);view?.dispose();channel?.close();});
+}
