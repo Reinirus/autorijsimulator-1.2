@@ -1,3 +1,4 @@
+import {buildMissionRoad} from '../world/missions';
 import {buildScenarioRoad,disposeGroup} from '../world/scenarios';
 import {SCENARIOS} from '../scenarios/catalog';
 import {copyMirrorPixels} from '../displays/pixels';
@@ -28,8 +29,8 @@ export class DrivingView{
  this.renderer.setPixelRatio(Math.min(devicePixelRatio,config.pixelRatio));
  this.camera.position.set(v.x+.35*Math.sin(v.heading),1.55,v.z-.35*Math.cos(v.heading));this.camera.rotation.order='YXZ';this.camera.rotation.set(-.03,-v.heading,0);
  updateMirrorCameras(this.mirrors,v);
- const id=s.scenario?.id??'';if(id!==this.scenarioId){if(this.scenarioRoad)disposeGroup(this.scenarioRoad);this.scenarioRoad=id?buildScenarioRoad(s.scenario!.id):null;if(this.scenarioRoad)this.scene.add(this.scenarioRoad);this.scenarioId=id;}
- const showLight=!s.scenario||SCENARIOS[s.scenario.id].signal;this.scene.traverse(o=>{if(o.name==='traffic-fixture')o.visible=showLight;if(o.name==='speed-sign')o.position.z=s.scenario?30:18;if(o.name.startsWith('cross-lamp-')&&o instanceof THREE.Mesh){const name=o.name.slice(11);(o.material as THREE.MeshBasicMaterial).color.set(name===s.scenario?.crossLight?(name==='rood'?'#fb2939':name==='oranje'?'#fcb02e':'#36e16b'):'#33383b');}});this.red.visible=showLight;this.yellow.visible=showLight;this.green.visible=showLight;
+ const id=s.mission?'mission-'+s.mission.id:s.scenario?.id??'';if(id!==this.scenarioId){if(this.scenarioRoad)disposeGroup(this.scenarioRoad);this.scenarioRoad=s.mission?buildMissionRoad(s.mission.id):id?buildScenarioRoad(s.scenario!.id):null;if(this.scenarioRoad)this.scene.add(this.scenarioRoad);this.scenarioId=id;}
+ const showLight=s.mission?Boolean(s.scenario&&SCENARIOS[s.scenario.id].signal):!s.scenario||SCENARIOS[s.scenario.id].signal;this.scene.traverse(o=>{if(o.name==='traffic-fixture')o.visible=showLight;if(o.name==='speed-sign')o.position.z=s.scenario?30:18;if(o.name.startsWith('cross-lamp-')&&o instanceof THREE.Mesh){const name=o.name.slice(11);(o.material as THREE.MeshBasicMaterial).color.set(name===s.scenario?.crossLight?(name==='rood'?'#fb2939':name==='oranje'?'#fcb02e':'#36e16b'):'#33383b');}});this.red.visible=showLight;this.yellow.visible=showLight;this.green.visible=showLight;
  for(const mesh of this.actorPool.values())mesh.visible=false;
  s.actors.forEach((a,i)=>{const key=a.kind+':'+(a.id??i);let mesh=this.actorPool.get(key);if(!mesh){mesh=a.kind==='auto'?makeCar('#cf6143'):a.kind==='fietser'?makeBike():makePedestrian();this.actorPool.set(key,mesh);this.scene.add(mesh);}mesh.visible=true;mesh.position.set(a.x,0,a.z);mesh.rotation.y=-a.heading;});
  for(const [name,mesh] of [['rood',this.red],['oranje',this.yellow],['groen',this.green]] as const){(mesh.material as THREE.MeshBasicMaterial).color.set(name===s.light?(name==='rood'?'#fb2939':name==='oranje'?'#fcb02e':'#36e16b'):'#33383b');}

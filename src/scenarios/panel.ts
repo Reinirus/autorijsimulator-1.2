@@ -11,7 +11,7 @@ export class ScenarioPanel {
   for(const [id,value] of [['indicatorLeft','links'],['indicatorOff','uit'],['indicatorRight','rechts']] as const)panel.querySelector('#'+id)!.addEventListener('click',()=>onIndicator(value));
  }
  render(s:WorldState){
-  const runtime=s.scenario;document.querySelector<HTMLElement>('#indicatorControls')!.hidden=!runtime;
+  const runtime=s.scenario;document.querySelector<HTMLElement>('#indicatorControls')!.hidden=!runtime&&!s.mission;
   document.querySelector('#indicatorState')!.textContent=s.indicator??'uit';
   if(!runtime){document.querySelector('#scenarioDecision')!.textContent='';document.querySelector('#npcStatus')!.textContent='';return;}
   const def=SCENARIOS[runtime.id];document.querySelector('#scenarioInstruction')!.textContent=def.instruction;

@@ -56,5 +56,5 @@ export class DisplayController {
   document.querySelector('#displayMetrics')!.textContent=`Midden: ${this.metrics.fps.toFixed(1)} FPS · render ${this.metrics.renderMs.toFixed(1)} ms. ${peers}`;
  }
  renderState(){return this.mode==='windows'?(this.buffer.sample(Date.now())??this.getState()):this.getState();}
- stamp(state:WorldState){const screen=document.querySelector<HTMLElement>('.screen')!;screen.dataset.clock=String(state.clock);screen.dataset.seq=String(this.buffer.latest?.seq??0);screen.dataset.mode=this.mode;screen.dataset.scenario=state.scenario?.id??'demo';}
+ stamp(state:WorldState){const screen=document.querySelector<HTMLElement>('.screen')!;screen.dataset.vehicle=JSON.stringify(state.vehicle);screen.dataset.mission=JSON.stringify(state.mission?{id:state.mission.id,index:state.mission.index,completed:state.mission.completed}:null);screen.dataset.clock=String(state.clock);screen.dataset.seq=String(this.buffer.latest?.seq??0);screen.dataset.mode=this.mode;screen.dataset.scenario=state.scenario?.id??'demo';}
 }

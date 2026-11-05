@@ -1,6 +1,10 @@
-# Nederlandse Autorijsimulator — Milestone 3
+# Nederlandse Autorijsimulator — Milestone 4 ontwikkelversie
 
 **DEMO · NIET CBR-GECERTIFICEERD. Geen vervanging voor rijles.** Milestone 1 blijft formeel open voor hardware- en duurtests. De gebruiker heeft de ontwikkeling van Milestone 2 en 3 uitdrukkelijk toegestaan terwijl die acceptatie openstaat.
+
+## Milestone 4
+
+Branch milestone-4-rijmissies bevat twee speelbare oefenmissies. Missie 1 oefent sturen, gas, remmen en stoppen. Missie 2 oefent wegrijden, rechts afslaan en parkeren met D/R. Wissel alleen bij stilstand van richting. Volg de zichtbare routeopdracht; bewaar je anonieme rapport lokaal of exporteer JSON/CSV. Missies 3–10 blijven uitgeschakeld en heten in ontwikkeling. De onderstaande M3-oefeningen blijven daarnaast afzonderlijk beschikbaar. Details en resterend werk: docs/M4_VOORTGANG.md.
 
 ## Nieuw in Milestone 3
 
@@ -68,6 +72,6 @@ Bij een andere repositorynaam: stel BASE_PATH bij bouwen en PAGES_BASE bij de te
 
 ## GitHub en overdracht
 
-De volledige M3-inhoud staat voor beoordeling op branch milestone-3-gecontroleerd van Reinirus/autorijsimulator-1.2. De CI-workflow controleert push en pull requests. Pages wordt alleen via workflow_dispatch gestart; deze overdracht publiceert niet en merge naar main vereist beoordeling.
+De M4-ontwikkelversie staat voor beoordeling op branch milestone-4-rijmissies van Reinirus/autorijsimulator-1.2. De CI-workflow controleert push en pull requests. Pages wordt alleen via workflow_dispatch gestart; deze overdracht publiceert niet en merge naar main vereist beoordeling.
 
 Lees docs/TESTVERSLAG.md voor de werkelijk uitgevoerde controles en beperkingen, docs/OVERDRACHT_M3.md voor de pakketvergelijking, docs/M4_TECHNISCHE_BASIS.md voor het oordeel over M4 en docs/ARCHITECTUUR.md voor de opbouw. Historische verslagen zijn afzonderlijk bewaard. De zes M3-situaties zijn een begrensd verkeersmodel; menselijke juridische/didactische review en hardware-/duuracceptatie blijven open. Eigen code MIT, procedurele geometrie, geen gekopieerde CBR-content.

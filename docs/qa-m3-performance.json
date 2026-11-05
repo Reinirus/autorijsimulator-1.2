@@ -1,8 +1,8 @@
 {
-  "center": "Midden: 19.6 FPS · render 6.4 ms. links: pakket 84, klok 4.32 s, ouderdom 78 ms, 19.8 FPS | rechts: pakket 80, klok 4.15 s, ouderdom 102 ms, 19.7 FPS",
+  "center": "Midden: 12.8 FPS · render 11.3 ms. rechts: pakket 81, klok 4.53 s, ouderdom 166 ms, 12.2 FPS | links: pakket 81, klok 4.53 s, ouderdom 167 ms, 12.2 FPS",
   "sides": [
-    "19.8 FPS · render 0.9 ms · pakketouderdom 101 ms · klok 4.63 s",
-    "19.7 FPS · render 0.9 ms · pakketouderdom 114 ms · klok 4.63 s"
+    "12.9 FPS · render 1.2 ms · pakketouderdom 147 ms · klok 4.90 s",
+    "12.8 FPS · render 1.1 ms · pakketouderdom 123 ms · klok 4.90 s"
   ],
-  "clockSpreadSeconds": 0.046629575874859164
+  "clockSpreadSeconds": 0.057627118644068
 }
