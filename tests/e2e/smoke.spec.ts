@@ -1,6 +1,6 @@
 import {test,expect} from '@playwright/test';
 test('start, missie en stop',async({page})=>{
- await page.goto('./');await expect(page.getByText('DEMO · NIET CBR-GECERTIFICEERD')).toBeVisible();
+ await page.goto('./');await expect(page.getByText('DEMO — NIET CBR-GECERTIFICEERD')).toBeVisible();
  await page.getByRole('button',{name:'Start missie'}).click();
  await expect(page.getByRole('button',{name:'Stop missie'})).toBeEnabled();
  await expect(page.getByText('Missie gestart.')).toBeVisible();

@@ -1,3 +1,5 @@
+import {COURSES} from '../missions/advanced-course';
+import {configureCourseVisibility} from '../world/advanced';
 import {updateSignalHeads} from '../world/signals';
 import {buildMissionRoad} from '../world/missions';
 import {buildScenarioRoad,disposeGroup} from '../world/scenarios';
@@ -29,6 +31,7 @@ export class DrivingView{
  }
  render(s:WorldState,mirrorElements:Record<'links'|'rechts'|'binnen',HTMLCanvasElement>|null,options:{mode?:'single'|'span';side?:Side;calibration?:Calibration}={}):void {
  const {vehicle:v}=s;const config=options.calibration??DEFAULT_CALIBRATION;
+ configureCourseVisibility(this.scene,s.mission?.id===8?COURSES[8]:undefined,s.course?.visibility??140);
  this.baseWorld.visible=!s.mission||s.mission.id<3;
  this.renderer.setPixelRatio(Math.min(devicePixelRatio,config.pixelRatio));
  this.camera.position.set(v.x+.35*Math.sin(v.heading),1.55,v.z-.35*Math.cos(v.heading));this.camera.rotation.order='YXZ';this.camera.rotation.set(-.03,-v.heading,0);
