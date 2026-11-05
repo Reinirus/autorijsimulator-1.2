@@ -62,4 +62,10 @@ Missies 5–10 blijven uitgeschakeld en worden niet als speelbaar of voltooid ge
 
 ## GitHub
 
-PR #2 is gecontroleerd en gericht op milestone-3-gecontroleerd (e4737be), omdat main nog de M2-commit bdbc9aa bevat. Alleen milestone-4-rijmissies krijgt de M4B-code. De daadwerkelijke nieuwe GitHub-run wordt na het pushen gecontroleerd en in de PR/eindrapportage gekoppeld; dit document claimt niet vooraf dat die run slaagt. Geen merge en geen Pages-workflow gestart.
+### Werkelijk uitgevoerde M4B-controles
+
+Broncommit **e18aa30d18646d2677b431860557dbdbe3134ce8** is op Ubuntu / Node 22 volledig geslaagd: [pushcontrole 42020938008](https://github.com/Reinirus/autorijsimulator-1.2/actions/runs/42020938008) en [PR-controle 42020945240](https://github.com/Reinirus/autorijsimulator-1.2/actions/runs/42020945240), beide **success**. De gecontroleerde logs tonen npm ci, lint, typecheck en build geslaagd; **116/116 unit-tests (2,24 s), 32/32 Chromium-e2e (7,1 minuten), 5/5 subpadtests (16,6 s)**. De onverkorte JSON/CSV-downloadtest slaagt daar inclusief het lezen van de echte bestanden. Dat bevestigt Linux-browserexport, maar vervangt de nog open lokale Windows-downloadacceptatie niet.
+
+Deze aanvulling wijzigt alleen documentatie. De uitvoerbare code blijft die van de geslaagde broncommit. De actuele opvolgcontrole staat bij PR #2; geen merge of Pages-publicatie uitgevoerd.
+
+PR #2 is gecontroleerd en gericht op milestone-3-gecontroleerd (e4737be), omdat main nog de M2-commit bdbc9aa bevat. Alleen milestone-4-rijmissies krijgt de M4B-code. De daadwerkelijk uitgevoerde broncontroles staan hierboven; de actuele opvolgcontrole wordt ook in de eindrapportage gekoppeld. Geen merge en geen Pages-workflow gestart.

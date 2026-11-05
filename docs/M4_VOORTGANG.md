@@ -35,6 +35,6 @@ Eén scherm, breedbeeld en drie gesynchroniseerde vensters blijven beschikbaar. 
 
 Per actief verkeersmoment is er één primaire NPC, met de bestaande M3-rem-/conflictlogica. Dit is geen algemene verkeersstroom, volledige stadskaart of gevalideerde botsingswereld voor gebouwen en weggrenzen. Nieuwe rijroutes zijn bewust recht doorgaand; afslaan en parkeren blijven missie 2. Leer-/oefenexamenstand, volledige rotonde-/snelweglogica en algemene rijstrookbeoordeling zijn nog geen afgeronde M4-functies.
 
-De bekende lokale Windows-sandbox annuleert de strikte bestandsdownloadtest. De test blijft actief; eerdere M4A-Linux-CI slaagde, maar een nieuwe M4B-CI wordt afzonderlijk gecontroleerd. Zie TESTVERSLAG.md voor de huidige echte resultaten, zonder een nog niet uitgevoerde remote run groen te noemen.
+De bekende lokale Windows-sandbox annuleert de strikte bestandsdownloadtest. De test is actief gebleven en slaagt in de nieuwe M4B-Linux-CI. Broncommit e18aa30: 116 unit-tests, 32 Chromium-tests en 5 subpadtests geslaagd; pushcontrole 42020938008 en PR-controle 42020945240 zijn beide success. De logs en links staan in TESTVERSLAG.md. Dit is geen geslaagde Windows-downloadacceptatie.
 
 Open blijven: menselijke juridische/WRM-/didactische review, doelgroep-/toegankelijkheidsacceptatie, echte monitoren/DPI, Edge, stuur/pedalen, twee duurtests van 30 minuten en hardware-FPS/latentie. PR #2 is gericht op milestone-3-gecontroleerd omdat main nog M2 bevat. Niet mergen en geen Pages-workflow starten.
