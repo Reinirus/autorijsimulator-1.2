@@ -3,20 +3,20 @@
   "results": {
     "single": {
       "clockSpreadSeconds": 0,
-      "center": "Midden: 30.0 FPS · render 9.2 ms. ",
+      "center": "Midden: 31.3 FPS · render 8.7 ms. ",
       "sides": []
     },
     "span": {
       "clockSpreadSeconds": 0,
-      "center": "Midden: 27.1 FPS · render 10.0 ms. ",
+      "center": "Midden: 27.7 FPS · render 9.6 ms. ",
       "sides": []
     },
     "windows": {
-      "clockSpreadSeconds": 0.018978102189782575,
-      "center": "Midden: 14.0 FPS · render 8.6 ms. rechts: pakket 173, klok 12.64 s, ouderdom 110 ms, 14.2 FPS | links: pakket 173, klok 12.66 s, ouderdom 110 ms, 14.2 FPS",
+      "clockSpreadSeconds": 0.05252177068215147,
+      "center": "Midden: 14.2 FPS · render 8.6 ms. links: pakket 179, klok 12.48 s, ouderdom 108 ms, 14.3 FPS | rechts: pakket 180, klok 12.52 s, ouderdom 89 ms, 14.3 FPS",
       "sides": [
-        "13.9 FPS · render 1.3 ms · pakketouderdom 94 ms · klok 13.13 s",
-        "14.0 FPS · render 1.3 ms · pakketouderdom 73 ms · klok 13.09 s"
+        "14.2 FPS · render 1.2 ms · pakketouderdom 71 ms · klok 12.91 s",
+        "14.1 FPS · render 1.3 ms · pakketouderdom 90 ms · klok 12.94 s"
       ]
     }
   }

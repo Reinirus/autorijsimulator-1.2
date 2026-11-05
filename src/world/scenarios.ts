@@ -19,4 +19,4 @@ export function buildScenarioRoad(id:ScenarioId):THREE.Group {
  if(id==='wegrijden'){box(5.2,20,3.2,8,'#464e56').position.y=.04;box(6.75,20,.08,8,'white');box(5.2,24,3.2,.08,'white');box(5.2,16,3.2,.08,'white');}
  return group;
 }
-export function disposeGroup(group:THREE.Group){group.traverse(o=>{if(o instanceof THREE.Mesh){o.geometry.dispose();for(const m of Array.isArray(o.material)?o.material:[o.material])m.dispose();}});group.removeFromParent();}
+export function disposeGroup(group:THREE.Group){const materials=new Set<THREE.Material>(),textures=new Set<THREE.Texture>();group.traverse(o=>{if(o instanceof THREE.Mesh){o.geometry.dispose();if(o instanceof THREE.InstancedMesh)o.dispose();for(const m of Array.isArray(o.material)?o.material:[o.material]){materials.add(m);if('map' in m&&m.map instanceof THREE.Texture)textures.add(m.map);}}});for(const t of textures)t.dispose();for(const m of materials)m.dispose();group.removeFromParent();}

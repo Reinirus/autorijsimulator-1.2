@@ -1,0 +1,39 @@
+{
+  "environment": "Windows headless Chromium, korte steekproef; geen hardwarebenchmark",
+  "mission3": {
+    "single": {
+      "center": "Midden: 42.0 FPS · render 7.4 ms. ",
+      "sides": []
+    },
+    "span": {
+      "center": "Midden: 37.7 FPS · render 7.3 ms. ",
+      "sides": []
+    },
+    "windows": {
+      "center": "Midden: 19.6 FPS · render 6.8 ms. links: pakket 192, klok 10.16 s, ouderdom 121 ms, 19.3 FPS | rechts: pakket 188, klok 9.91 s, ouderdom 100 ms, 19.4 FPS",
+      "sides": [
+        "19.7 FPS · render 0.9 ms · pakketouderdom 75 ms · klok 10.30 s",
+        "19.4 FPS · render 0.9 ms · pakketouderdom 51 ms · klok 10.31 s"
+      ]
+    },
+    "clockSpreadSeconds": 0.04124293785310584
+  },
+  "mission4": {
+    "single": {
+      "center": "Midden: 39.9 FPS · render 8.6 ms. ",
+      "sides": []
+    },
+    "span": {
+      "center": "Midden: 33.4 FPS · render 9.0 ms. ",
+      "sides": []
+    },
+    "windows": {
+      "center": "Midden: 19.0 FPS · render 7.9 ms. links: pakket 497, klok 10.12 s, ouderdom 134 ms, 18.0 FPS | rechts: pakket 497, klok 10.12 s, ouderdom 134 ms, 18.1 FPS",
+      "sides": [
+        "19.1 FPS · render 1.1 ms · pakketouderdom 80 ms · klok 10.42 s",
+        "19.1 FPS · render 1.0 ms · pakketouderdom 96 ms · klok 10.43 s"
+      ]
+    },
+    "clockSpreadSeconds": 0.07282282282281827
+  }
+}

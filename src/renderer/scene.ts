@@ -14,10 +14,11 @@ export class DrivingView{
  private mirrorBuffers:Partial<Record<'links'|'rechts'|'binnen',{pixels:Uint8Array;image:ImageData}>>={};
  private mirrors=makeMirrors();private targets:Record<'links'|'rechts'|'binnen',THREE.WebGLRenderTarget>;
  private actorPool=new Map<string,THREE.Group>();private scenarioRoad:THREE.Group|null=null;private scenarioId='';private red!:THREE.Mesh;private yellow!:THREE.Mesh;private green!:THREE.Mesh;
+ private baseWorld=new THREE.Group();
  constructor(canvas:HTMLCanvasElement){
  this.renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:'high-performance'});
  this.renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
- this.scene=new THREE.Scene();buildWorld(this.scene);
+ this.scene=new THREE.Scene();buildWorld(this.scene);for(const object of [...this.scene.children])this.baseWorld.add(object);this.scene.add(this.baseWorld);
  this.scene.add(new THREE.HemisphereLight('#f4f7ff','#52663e',2.0));const sun=new THREE.DirectionalLight('#fff6e8',2.5);sun.position.set(8,18,20);this.scene.add(sun);
  this.camera=new THREE.PerspectiveCamera(72,1,.08,180);
  this.targets={links:new THREE.WebGLRenderTarget(320,190),rechts:new THREE.WebGLRenderTarget(320,190),binnen:new THREE.WebGLRenderTarget(320,190)};
@@ -26,6 +27,7 @@ export class DrivingView{
  }
  render(s:WorldState,mirrorElements:Record<'links'|'rechts'|'binnen',HTMLCanvasElement>|null,options:{mode?:'single'|'span';side?:Side;calibration?:Calibration}={}):void {
  const {vehicle:v}=s;const config=options.calibration??DEFAULT_CALIBRATION;
+ this.baseWorld.visible=s.mission?.id!==3&&s.mission?.id!==4;
  this.renderer.setPixelRatio(Math.min(devicePixelRatio,config.pixelRatio));
  this.camera.position.set(v.x+.35*Math.sin(v.heading),1.55,v.z-.35*Math.cos(v.heading));this.camera.rotation.order='YXZ';this.camera.rotation.set(-.03,-v.heading,0);
  updateMirrorCameras(this.mirrors,v);

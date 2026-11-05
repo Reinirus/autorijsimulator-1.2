@@ -4,8 +4,6 @@ import type {MissionRoute,RoutePoint} from './route';
 const point=(x:number,z:number,instruction:string,stop=false):RoutePoint=>({x,z,instruction,stop,radius:stop?1:2});
 const straight=(id:number,scenarios:('rechts'|'haaientanden'|'lichten'|'zebra')[]):MissionRoute=>({id,encounters:scenarios.map((scenario,i)=>({id:`m${id}-encounter-${i+1}`,scenario,z:-70*i})),points:[...scenarios.map((_,i)=>point(1.55,-70*i-25,'Volg de weg; controleer het volgende verkeersmoment.')),point(1.55,-70*(scenarios.length-1)-40,'Stop in het eindvak.',true)]});
 export const DEVELOPMENT_ROUTES:Readonly<Record<number,MissionRoute>>={
- 3:straight(3,['rechts','zebra','rechts']),
- 4:straight(4,['rechts','haaientanden','rechts','haaientanden']),
  5:straight(5,['lichten','zebra','lichten']),
  6:{id:6,encounters:[{id:'m6-fietser',scenario:'fietser',z:0}],points:[point(1.55,5,'Laat de fietser passeren. Geef rechts richting aan.'),point(5,1.55,'Volg de bocht rechtsaf.'),point(15,1.55,'Rijd rustig door.'),point(25,1.55,'Stop; bespreek spiegels en dode hoek.',true)]},
  7:{id:7,encounters:[],points:[point(1.55,5,'Nader de rotonde.'),...Array.from({length:12},(_,i)=>{const a=(i+1)*Math.PI/8;return point(12*Math.cos(a),-20+12*Math.sin(a),'Volg de voorgestelde rijstrook.');}),point(-25,-20,'Verlaat de rotonde en stop.',true)]},

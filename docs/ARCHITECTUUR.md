@@ -1,4 +1,4 @@
-# Architectuur — Milestone 1–3
+# Architectuur — Milestone 1–4B
 
 ## Eén eigenaar, passieve schermen
 
@@ -54,3 +54,7 @@ M1 blijft open voor hardware- en duuracceptatie. M2 is op expliciet gebruikersve
 - SnapshotBuffer wist de interpolatiereeks bij scenario-ID-wisseling, ook als beide scenario's klok 0 hebben. Daardoor wordt een auto uit de vorige situatie niet geïnterpoleerd naar een voetganger uit de volgende. Zijvensters blijven uitsluitend renderen en berekenen geen eigen regels, score, NPC's of fysica.
 
 De fysieke weg- en verkeersclassificatie is afgebakend op deze scènes. Geen algemene visuele herkenning van verkeersborden, adaptieve stads-AI, oog-/hoofdtracking of volledig banden-/botsingsmodel. Broncontrole is uitgevoerd tegen de officiële RVV-versie 01-07-2026 die op 04-11-2026 als geldend is geleverd. Menselijke verkeerskundige, juridische en didactische validatie blijft open.
+
+## Milestone 4B: doorlopende verkeersmomenten
+
+RouteRuntime bevat nu een encounterregister met begin/einde en expliciete IDs. De route-adapter verandert alleen de coördinaten voor de aanroep van de bestaande M3-simulatie en zet gebeurtenissen terug naar de globale klok/wereld; voertuig en klok blijven behouden. roads.ts levert de asfaltvlakken die zowel de lange wegopbouw als de continuïteitscontrole gebruiken. streets.ts bouwt daarbij eigen huizen, trottoirs en borden; de oude demo-wereld wordt voor missie 3/4 verborgen en bij terugkeer weer getoond. Dispose maakt ook textures en instanced buffers vrij. Zijvensters ontvangen dezelfde volledige WorldState, zonder eigen Simulation. De publicatie-/reviewstatus staat in M4_VOORTGANG.md.
