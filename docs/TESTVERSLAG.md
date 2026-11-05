@@ -57,4 +57,10 @@ Niet uitgevoerd: tien complete missies, volledig semantisch verkeersnetwerk, afg
 
 ## GitHub en publicatie
 
-Alleen milestone-4-rijmissies wordt bijgewerkt. main en milestone-3-gecontroleerd worden niet gewijzigd. Pages blijft alleen workflow_dispatch; geen merge of deployment uitvoeren. De pushcontrole blijft inclusief de strikte exporttest. Een PR naar main wordt pas gemaakt nadat GitHub Actions slaagt. Die remote uitkomst wordt in de PR en eindrapportage gekoppeld; dit verslag claimt vooraf geen geslaagde remote run. main bevat nog de M2-basis; de M4-PR omvat daarom ook de gecontroleerde M3-voorouder. M3-PR #1 blijft afzonderlijk ter beoordeling.
+### Uitgevoerde GitHub-controle
+
+Broncommit **56544b1a32b5b392f086a2b233b01454366e3e68** heeft alle stappen op Ubuntu / Node 22 doorlopen: [Kwaliteitscontrole 42005897583](https://github.com/Reinirus/autorijsimulator-1.2/actions/runs/42005897583), conclusie **success**. npm ci, lint, typecheck en build slagen; **108/108 unit-tests, 29/29 Chromium-e2e (3,6 minuten) en 3/3 productie-subpadtests (17,1 s)**. De strikte exporttest is daarbij niet overgeslagen: de echte JSON- en CSV-downloadbestanden zijn gelezen en gevalideerd; herladen en wissen slagen. Dit bevestigt de export op die Linux-browseromgeving, niet de nog open downloadacceptatie op de lokale Windows-sandbox.
+
+Deze aanvulling verandert uitsluitend documentatie. De uitvoerbare code is dezelfde als in de geslaagde broncontrole. Een volgende PR-controle wordt afzonderlijk gevolgd; geen merge of Pages-publicatie uitgevoerd.
+
+Alleen milestone-4-rijmissies wordt bijgewerkt. main en milestone-3-gecontroleerd worden niet gewijzigd. Pages blijft alleen workflow_dispatch; geen merge of deployment uitvoeren. De pushcontrole blijft inclusief de strikte exporttest. Een PR naar main wordt pas gemaakt nadat GitHub Actions slaagt. De geslaagde broncontrole is hierboven vastgelegd; de actuele PR-controle wordt ook in de eindrapportage gekoppeld. main bevat nog de M2-basis; de M4-PR omvat daarom ook de gecontroleerde M3-voorouder. M3-PR #1 blijft afzonderlijk ter beoordeling.

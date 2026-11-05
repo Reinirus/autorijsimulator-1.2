@@ -43,3 +43,7 @@ Cockpit, alle drie echte spiegels, één scherm, breedbeeld en drie vensters bli
 Missies 3–10 blijven uitgeschakeld. Er is nog geen afgeronde leer-/oefenexamenstand, algemeen verkeersnetwerk, vrije botsingswereld of gekalibreerde voertuigfysica. Achteruitrijden en parkeren in M2 zijn oefenmodellen; overige verkeer bij parkeren en een volledige parkeeropleiding ontbreken. Externe fysieke objectbotsingen buiten de gemodelleerde NPC's zijn geen gevalideerde wereldbegrenzing.
 
 Menselijke verkeerskundige/juridische/didactische review, doelgroep-/toegankelijkheidsacceptatie, echte 1/2/3 monitoren met DPI, stuur/pedalen, Edge en twee ritten van 30 minuten blijven open. Geen nieuwe npm-security-audit. Geen merge en geen Pages-publicatie. Automatische controles en PR-resultaten worden feitelijk vastgelegd in het testverslag en de PR.
+
+## GitHub-hercontrole
+
+Broncommit 56544b1 is geslaagd op Ubuntu / Node 22: 108 unit-tests, 29 Chromium-tests en 3 subpadtests. Ook de echte JSON/CSV-bestanden, herladen en wissen zijn daar gecontroleerd. Run: https://github.com/Reinirus/autorijsimulator-1.2/actions/runs/42005897583 . De lokale Windows-downloadmislukking blijft een afzonderlijk open punt. Dit maakt missies 3–10 niet voltooid.
