@@ -1,3 +1,76 @@
+# Milestone 4C — testverslag, 5 november 2026
+
+**DEMO — NIET CBR-GECERTIFICEERD.** Softwarecontrole voor de M4C-ontwikkelversie; menselijke juridische/WRM-/didactische review en M1-hardware-/duuracceptatie blijven open. Alleen branch milestone-4-rijmissies, uitgangscommit 8dd484a581eee533ea2940062d53e44aeec3766c (gecontroleerde M4B). Geen merge of publicatie.
+
+## Omgeving en werkelijk uitgevoerde commando’s
+
+Windows, Node v24.22.1, npm 10.9.2, Playwright 1.64.1 met Chromium 156.0.8078.4 (revision 1248). Werkmap: outputs/autorijsimulator-m4-rijmissies in deze Codex-werkruimte. Omdat npm niet op PATH staat, zijn npm-commando’s feitelijk uitgevoerd via `node ../../work/package/bin/npm-cli.js ...`. PLAYWRIGHT_BROWSERS_PATH verwijst naar work/browsers; de bestaande browserinstallatie is werkelijk gebruikt. package-lock.json is behouden en npm ci heeft alle afhankelijkheden daaruit opnieuw geïnstalleerd.
+
+| Commando / controle | Werkelijk resultaat |
+|---|---|
+| npm ci --offline --cache C:/Users/Q038575/Documents/Codex/2026-11-03/je-x20/work/npm-cache --no-audit --no-fund | Laatste uitvoering exit 0, 168 packages in 23 s. Een voorafgaande herinstallatie gaf EPERM op esbuild.exe doordat de eigen Vite-server nog liep; server gestopt en dezelfde installatie geslaagd herhaald. Een eerdere installatie deze werksessie was eveneens geslaagd. |
+| npm run lint | Exit 0, opnieuw uitgevoerd na de laatste bronwijzigingen. |
+| npm run typecheck | Exit 0, opnieuw uitgevoerd na de laatste bronwijzigingen. |
+| npm test | Laatste uitvoering exit 0: **136/136 tests, 14 bestanden, 3,16 s**. Inclusief alle bestaande M1/M2/M3/M4A/M4B-tests en twintig M4C-tests. |
+| BASE_PATH=/autorijsimulator-1.2/ npm run build | Exit 0; 43 modules, Vite-bouw 1,31 s. Bestaande chunkwaarschuwing: gedeelde Three.js-code circa 550,40 kB na minificatie. Geen fout of verborgen verruiming van de waarschuwing. |
+| node node_modules/vite/bin/vite.js --host 127.0.0.1 --port 4573 --strictPort | Afzonderlijke lokale ontwikkelserver gebruikt voor Chromium. |
+| npm run test:e2e | Volledige Windows-suite uitgevoerd: **34/35 geslaagd, 11,3 min**, exit 1. Alle zes complete ritten slagen. Alleen de strikte echte bestandsdownloadtest meldt `canceled`; zie hieronder. Dit was vóór de laatste gerichte aanpassingen aan fietsactivering, geel bij binnenkomst en de positie van het A1-bord. |
+| npm run test:e2e -- tests/e2e/milestone3.spec.ts tests/e2e/milestone4c.spec.ts tests/e2e/milestone4c-displays.spec.ts | Exit 0: **13/13 geslaagd, 4,9 min** op de laatste broncode. Alle tien M3-browsercontroles, twee complete M4C-ritten en de M4C-scherm-/prestatiecontrole. De routebeelden van beide nieuwe missies zijn visueel bekeken. |
+| BASE_PATH=/autorijsimulator-1.2/ node node_modules/vite/bin/vite.js preview --host 127.0.0.1 --port 4576 --strictPort | Afzonderlijke preview van de laatste productiebuild gestart. |
+| npm run test:pages | Laatste build: **7/7 geslaagd, 16,6 s**, exit 0, exact /autorijsimulator-1.2/. Bestaande dynamische imports/zijvensters, M3-wisseling, D/R, spiegels en missies 3–6 laden correct. |
+| git diff -- src/rules/traffic.ts src/rules/catalog.ts src/core/physics.ts src/displays/mirrors.ts src/displays/pixels.ts src/displays/sync.ts | Geen wijzigingen ten opzichte van de gecontroleerde M4B-basis: pure M3-regels en register, voertuigfysica, spiegelcamera’s, pixeltransformatie en sync-protocol behouden. Scenario- en NPC-adapters zijn wel gericht uitgebreid en opnieuw getest. |
+
+De volledige e2e-suite blijft 35 actieve tests bevatten. Geen testskip, verwacht-falen-label of afgezwakte downloadassertie is toegevoegd om de suite groen te laten lijken. De laatste volledige regressie van de uiteindelijke broncode wordt ook door de GitHub push-/PR-controles uitgevoerd; die resultaten worden pas na afloop vermeld.
+
+## Inhoudelijke testdekking
+
+- **Missie 5:** drie afzonderlijke signaalpassages (kruisende auto, geregelde zebra/voetganger, licht boven B6), echte voertuigfysica en browser-keydown/keyup, stop/optrekken en eindstop. Alle encounters afgerond, globale klok niet teruggelopen, geen teleportatie, geen regel- of contactmelding op de voorzichtige testrit. De tweede en derde lichten worden niet opnieuw gestart. Unit-tests controleren alle fasen, ontruiming, conflicterend groen, onafhankelijke offsets, de zichtbare lampkleuren en de overeenkomst van getekende en beoordeelde stopstreep.
+- **Geel:** dezelfde integrateVehicle-remfysica bij meerdere actuele snelheden, voldoende/onvoldoende afstand, onzekere scherpe stuurbeweging en achteropkomende auto, plus binnenkomst tijdens een al lopende geelfase. De oude vaste 0,7-s-toeslag is verwijderd. Geen getal in dit model wordt als wettelijke remgrens gepresenteerd. De afstand, modelremweg, stoptijd en onzekerheid zijn uitlegbaar. Een geel-modelafwijking blijft advies.
+- **Missie 6:** fietser van rechts, daadwerkelijk achter de auto geactiveerde fietser bij rechts afslaan, gedraaide zebra op de oostelijke weg, ruimtelijk geactiveerde voetganger achter een bestelbus met seed 603. Een echte rechtsafbocht, doorlopende wereldpose, voor laten gaan, anticiperend remmen en eindstop. Dezelfde seed/invoer geeft exact dezelfde gebeurtenissen in unit-tests. De veiligheidssituatie krijgt geen automatische zebra-/schuldbeoordeling.
+- **NPC’s:** kruisende auto bereikt daadwerkelijk zijn rode stoplijn, wacht en trekt bij groen weer op; geregelde voetganger begint alleen bij eigen groen; voorspeld conflict/overlap met de speler geeft een NPC-noodremreactie. De bestaande 62 M3-tests blijven aanwezig voor voorrang, uitzonderingen, afslaan, geel, richting, contact en uitlegbare beoordeling.
+- **Registratie:** unieke encounter-ID’s en eventcodes binnen de rit; begin/einde, oplopende globale tijden, feiten, regel-ID’s en handelingsalternatief. Iedere afgeronde nieuwe rit wordt werkelijk in lokale opslag bewaard en na herladen teruggelezen. Herstart wist de actuele klok, route, gebeurtenissen en encounters. JSON/CSV-formattering met nieuwe eventId/missionId 5 en 6 en oude rapporten wordt door unit-tests gecontroleerd. De generieke strikte browserdownloadtest leest echte JSON/CSV-bestanden wanneer het platform dit toestaat; lokaal faalt deze zoals hieronder beschreven.
+- **Behoud:** volledige browserritten 1–4, sturen en loslaten, focusverlies, pauze, D/R, achteruit parkeren, drie verschillende echte spiegelbeelden, kalibratie, pop-upterugval, bron-/pakketverlies en herstel. De nieuwe M4C-schermtest controleert missie-/encounter-ID, NPC-soort, drie gevulde en verschillende spiegelbeelden, zijvensterherladen, klokspreiding en terug naar één scherm.
+
+Geen ontbrekende spiegel- of dodehoekcontrole wordt als bewezen fout geregistreerd. Een remactie na de hazardtrigger is uitsluitend een bedieningsobservatie, geen bewijs dat de leerling het gevaar of een spiegel heeft bekeken.
+
+## Werkelijke FPS en spiegelonderzoek
+
+Korte steekproeven van circa vier seconden per schermmodus aan het begin van beide missies, met draaiende wereldklok. Geen volledige drie-schermen-duurtest of hardwarebenchmark. De exacte ruwe waarden staan in qa-m4c-performance.json. Alle spiegelstappen zijn behouden: drie 320×190-renderdoelen, synchronische readRenderTargetPixels, spiegel-/rijtransformatie en canvasoverdracht. Alleen CPU-walltijdinstrumentatie is toegevoegd.
+
+| Missie | Modus | Gemeten FPS | Readback drie spiegels (ms/frame) |
+|---|---|---:|---:|
+| 5 | single | 38.7 | 4.13 |
+| 5 | span | 34.9 | 4.07 |
+| 5 | windows | 18.4 | 3.97 |
+| 6 | single | 41.4 | 3.19 |
+| 6 | span | 32.2 | 3.54 |
+| 6 | windows | 18.8 | 2.95 |
+
+Gemeten klokspreiding: missie 5 31.0 ms; missie 6 53.3 ms. Dit is een korte steekproef met de bestaande interpolatiebuffer, geen hardware-genlock.
+
+De readbackmeting omvat CPU-wachten op mogelijk eerder GPU-werk en is geen geïsoleerde GPU-timerquery. De totale spiegelkosten bevatten daarnaast ongeveer 1,2–1,4 ms renderaanroepen, 0,4–0,5 ms pixelkopie en 0,1–0,2 ms canvasoverdracht per frame voor de drie spiegels samen. Er is geen bewezen optimalisatie geïmplementeerd: geen lagere spiegelfrequentie/resolutie en geen nieuwe asynchrone keten. Verschillende camera-inhoud en sync/herstel zijn getest. Circa 18–19 FPS bij drie vensters blijft een relevante prestatiebeperking en geen geslaagde schoolhardwareacceptatie.
+
+## Fouten tijdens ontwikkeling en herstel
+
+De eerste fysieke M6-testbestuurder stuurde op ver weg liggende doelen en verliet daardoor de rijlijn; de testbestuurder gebruikt nu een lokaal vooruitkijkpunt. Het product bestuurt de auto niet automatisch. De complete voorzichtige rit slaagt daarna zonder contact. Een oude registratietest verwachtte nog vier speelbare routes; die is aangepast aan de werkelijk uitgewerkte zes, met vier uitgeschakelde missies. Een vroege Chromium-M6-poging is onderbroken door een eigen Vite-HMR-bronwijziging (`Execution context was destroyed`); deze poging is niet als productfout of geslaagde rit geteld en de ritten zijn na bevriezen van de broncode herhaald. De tijdelijke npm-ci-EPERM is opgelost door de eigen ontwikkelserver te stoppen. Geen bestanden of gebruikerswerk zijn daarvoor verwijderd.
+
+**Resterende lokale fout:** tests/e2e/mission-features.spec.ts, echte anonieme JSON/CSV-bestandsdownload: `download.failure()` geeft `canceled`. De JSON-stap faalt, zodat de CSV-stap in deze strikte test niet wordt bereikt. Dit is ook op de ongewijzigde M4B-basis bekend. De precieze oorzaak in deze Windows-uitvoeringsomgeving is niet definitief vastgesteld. Opgeslagen rapportgegevens, anonieme serialisatie, downloadnaam en formattering zijn wel afzonderlijk gecontroleerd; daarmee wordt geen geslaagde lokale bestandsdownload geclaimd. Linux-CI-resultaten worden afzonderlijk vermeld en vervangen geen Windows-acceptatie.
+
+## Niet uitgevoerd / open
+
+Menselijke juridische/WRM-/verkeerskundige en didactische validatie, gebruikersonderzoek met 15–18-jarigen, toegankelijkheidsacceptatie, Edge, echte monitoren en DPI-/randkalibratie, schoollaptop-GPU’s, stuur/pedalen en twee duurtests van dertig minuten zijn niet uitgevoerd. Geen algemene stadsverkeersstroom, volledige statische botsingswereld, banden-/wegdekvalidatie, oogtracking of gecertificeerde VRI. Missies 7–10 blijven uitgeschakeld. Leer-/oefenexamenstand, rotondes en snelwegen worden niet als voltooid geclaimd.
+
+Officiële RVV-versie 01-07-2026 opnieuw rechtstreeks opgehaald (HTTP 200), artikelen 68/79 opnieuw gelezen; web-open gaf 429. Hash en de afbakening staan in REGELBRONNEN.md. Broncontrole is geen menselijke goedkeuring; alle reviewvlaggen blijven false.
+
+## GitHub en oordeel
+
+PR #2 blijft concept tegen milestone-3-gecontroleerd; main en M3 zijn niet gewijzigd. Pages is alleen workflow_dispatch en is niet aangeroepen. De broncommit, push-/PR-controles en hun echte resultaten worden na uitvoering hieronder toegevoegd. Software voor missies 5/6 wordt pas op grond van de complete ritten en regressies als oefenbaar aangeboden; M1-acceptatie blijft formeel open. Geen CBR-certificering, merge of publicatie.
+
+---
+
+# Historisch testverslag Milestone 4B (onderstaande resultaten betreffen de eerdere versie)
+
+
 # TESTVERSLAG — Milestone 4B
 
 Datum: 5 november 2026. Repository Reinirus/autorijsimulator-1.2, uitsluitend branch milestone-4-rijmissies. Uitgangspunt: 56be2a00ab2d8848cf59741ebed382d2e26a259a, de gecontroleerde M4A-versie op M3. M4A-resultaten zijn bewaard in TESTVERSLAG_M4A_HISTORIE.md en M4_VOORTGANG_M4A_HISTORIE.md. Eerdere testresultaten worden niet automatisch als nieuwe run geteld.

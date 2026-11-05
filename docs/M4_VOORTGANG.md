@@ -1,40 +1,35 @@
-# Milestone 4B — voortgang, 5 november 2026
+# Milestone 4C — verkeerslichten en kwetsbare weggebruikers
 
-**Missies 1–4 zijn speelbare oefenritten. Missies 5–10 blijven uitgeschakeld en in ontwikkeling. DEMO — NIET CBR-GECERTIFICEERD.** M1 blijft formeel open voor hardware- en duuracceptatie.
+**DEMO — NIET CBR-GECERTIFICEERD.** Ontwikkeld vanaf de gecontroleerde M4B-commit `8dd484a581eee533ea2940062d53e44aeec3766c`, uitsluitend op `milestone-4-rijmissies`. M1 blijft formeel open voor fysieke hardware- en duuracceptatie.
 
-## Speelbare missies
+## Speelbare routes
 
-| Missie | Opbouw en getoetst gedrag |
-|---|---|
-| 1 — voertuigbeheersing | Sturen door twee poorten, versnellen, remmen, stoppen en herstart. Bestaande fysica en route behouden. |
-| 2 — wegrijden, afslaan en parkeren | M3-achteropkomende auto, invoegen, rechts afslaan, D/R, korte achteruitmanoeuvre en volledige voertuigcontour in het parkeervak. Behouden. |
-| 3 — woonwijk | Circa 195 meter doorlopende rijbaan: fietser van rechts, zebra met voetganger, daarna auto van rechts. Drie verkeersmomenten en een eindvak. |
-| 4 — kruispunten | Circa 265 meter doorlopende rijbaan: B6 met auto van links, gelijkwaardig met fietser van rechts, B6 met fietser van links, gelijkwaardig met auto van rechts. Vier verkeersmomenten en een eindvak. |
+Missies 1–4 blijven beschikbaar, inclusief D/R en parkeren in missie 2. Missie 5 voegt een circa 195 meter lange route toe met drie afzonderlijke verkeerslichtsituaties: kruisende auto; geregelde voetgangersoversteek; verkeerslicht boven B6/haaientanden met een andere fase-offset. Missie 6 rijdt circa 260 meter over een noordelijke en oostelijke weg: fietser van rechts; rechts afslaan met een fietser naast/achter de auto; zebra; voetganger achter een bestelbus. De laatste situatie is een reproduceerbare veiligheidsoefening met seed 603. Missies 7–10 blijven uitgeschakeld. De historische voorstellen voor 5/6 in development.ts zijn geen actieve routes; de uitgewerkte implementaties staan in ROUTES.
 
-De nieuwe routes hebben aansluitende kruisende wegen, trottoirs met openingen bij de kruisingen, huizen, A1-borden 30, zebra en B6/haaientanden. De zebra ligt in een doorlopend wegvak en maakt geen extra kruising. Het is een met A1 aangegeven 30-km/u-oefenweg, geen nieuw juridisch model voor een volledige 30-zone. Huizen gebruiken instancing; alle geometrie is eigen procedureel werk.
+Elke rit heeft een startpunt, bereikbare routepunten, korte opdrachten, navigatie, eindvak met werkelijk remmen/stilstaan, rapport en herstart. Alleen de testbestuurder gebruikt een rijhulpfunctie: het product bestuurt het voertuig niet automatisch. Complete browserritten gebruiken de echte toetsenbordhandlers en 1/60-s-voertuigfysica, zonder teleportatie of klokversnelling.
 
-## Canonieke wereld en beoordeling
+## Canonieke toestand en verkeersregels
 
-Alle fysica, verkeer en beoordeling lopen in de ene Simulation met vaste stap 1/60 s. De voertuigpose en klok worden niet teruggezet tussen verkeersmomenten. De adapter zet de wereld tijdelijk om naar de lokale coördinaten van de bestaande M3-situatie en brengt de uitkomst terug naar wereldcoördinaten. De acht bestaande regel-/scenario-/verkeersimplementaties zijn inhoudelijk ongewijzigd; alleen het TrafficEvidence-type heeft een optioneel encounterId gekregen.
+Alle voertuig- en NPC-bewegingen, signalen en beoordelingen gebruiken dezelfde Simulation. De route-adapter vertaalt voortaan ook gedraaide verkeersmomenten; tijdens een afslag of nieuw verkeersmoment wordt geen wereldklok, voertuigpose of afgelegde afstand teruggezet. Zijvensters ontvangen uitsluitend snapshots. De lichten op alle drie locaties zijn ook buiten het actieve verkeersmoment zichtbaar en volgen een faseplan op de globale klok. Hun fase wordt niet bij nadering opnieuw gestart. Ontruimingstijden voorkomen gelijktijdig conflicterend groen. Een begonnen voetgangersoversteek mag worden afgemaakt; de auto krijgt afzonderlijke veiligheidsfeedback als de oversteek bij groen nog bezet is.
 
-De fietser op een kruisende weg gebruikt dezelfde bestuurder-/voorrangsfeiten van het bestaande M3-kruispunt; er is geen nieuwe verkeersregel toegevoegd. Bron, artikel, versie en menselijke reviewstatus blijven in het M3-register staan. Menselijke beoordeling van de nieuwe ruimtelijke toepassing blijft open. Nieuwe opdrachten of een bereikte eindpositie zijn geen CBR-slaagcriterium. Een niet waargenomen spiegelcontrole wordt niet als bewezen fout beoordeeld.
+De pure M3-regelmodule en broncatalogus zijn behouden. De scenario- en NPC-adapters zijn uitgebreid voor expliciete signaalplannen, voetgangerslichten en de gezaaide conflictsituatie. Er is geen nieuwe juridische verkeersregel verzonnen. De RVV-broncontrole en grenzen staan in REGELBRONNEN.md. Alle menselijke reviewvlaggen blijven false.
 
-Elk verkeersmoment heeft een vaste ID, begin- en eindtijd, actorsoort en uitleg. Meldingen krijgen ook een expliciete encounterId, globale simulatietijd en wereldpositie. M3-detectiefeiten bevatten daarnaast de lokale kruispuntcoördinaten. IDs zijn uniek binnen de rit en reproduceerbaar bij herstart; een nieuw opgeslagen ritrapport heeft een eigen datum/tijd. Herhaalde voorrangsfouten blijven afzonderlijk geregistreerd, ook als hetzelfde regeltype opnieuw voorkomt.
+Bij geel wordt de actuele pose, snelheid en stuurinput met hetzelfde voertuigremmodel doorgerekend. De oude vaste 0,7-s-reactietoeslag is vervallen. Het resultaat beschrijft modelremweg en afstand tot de bestemde stopstreep; het is geen wettelijke afstand of remgrens. Niet betrouwbaar te beoordelen stuur-/achteropkomende situaties blijven onzeker. Ook een geel-modelafwijking is uitsluitend oefenadvies. Dit model bewijst niet dat een echte leerling onder alle omstandigheden veilig kon stoppen.
 
-De zijbalk en het volledige rapport gebruiken voor M4B dezelfde globale tijden. De volledige Chromium-ritten controleren dat de klok niet terugloopt, het voertuig niet naar een volgende situatie springt, alle verkeersmomenten worden afgewerkt en de rapporten hun IDs/tijden bewaren. Herstart wist alle ritgegevens en begint weer bij nul. Anonieme opslag en JSON/CSV-formattering ondersteunen nu ook missie 3/4 en bewaren de encountergegevens; oude M4A-rapporten blijven leesbaar.
+Per verkeersmoment: vaste encounter-ID, globale begin/eindtijd, actorsoort en uitleg. Per gebeurtenis: unieke code binnen de rit, globale tijd, encounter-ID, feiten, regelverwijzingen en verbeteradvies. JSON en CSV bewaren nu ook eventId; oude rapporten blijven leesbaar. Een nieuwe rit heeft een eigen rapportdatum; IDs zijn bewust reproduceerbaar bij herstart. Rembediening in het onverwachte conflict is een beperkte bedieningsobservatie, geen bewijs van herkennen, kijken, spiegel- of dodehoekcontrole. De situatie zonder zebra levert geen automatische zebra-overtreding op.
 
-## Behoud van beeldschermen
+## Cockpit, beelden en prestaties
 
-Eén scherm, breedbeeld en drie gesynchroniseerde vensters blijven beschikbaar. Alle drie echte spiegelcamera's blijven behouden. Nieuwe lange wegen worden vanuit dezelfde wereld door iedere camera getekend. Getest: nieuwe missie-ID/NPC/encounter-ID op de zijvensters, herladen, terugval en de bestaande bron-/pakketverliesregressies. Korte FPS-metingen staan in qa-m4b-performance.json; geen garantie voor fysieke schoollaptops of genlock.
+Cockpit, drie echte spiegelcamera’s en de drie schermmodi blijven behouden. De spiegelketen blijft renderen naar 320×190, synchroon GPU-readback, x-flip/rij-omkering en canvasoverdracht. Alleen tijdmetingen per stap zijn toegevoegd; geen frequentieverlaging, resolutieverlaging of asynchrone pixelverwerking. Daardoor is geen onbewezen optimalisatie met risico op verouderd of verkeerd spiegelbeeld geïntroduceerd. De gemeten CPU-wachttijd bij readback is geen afzonderlijke GPU-timerquery. Meetresultaten en korte FPS-steekproeven staan in qa-m4c-performance.json en TESTVERSLAG.md.
 
-## Nog uitgeschakeld
+## Resterende grenzen
 
-5 verkeerslichten; 6 gecombineerde kwetsbare weggebruikers; 7 rotondes; 8 buitenwegen/afstand; 9 snelweg; 10 zelfstandig gecombineerde rit. Zij hebben nog slechts routevoorstellen in development.ts en zijn niet als speelbaar geregistreerd. Ze worden niet als voltooid gepresenteerd.
+Eén primaire NPC per actief verkeersmoment, geen algemene stadsverkeersstroom. De onverwachte voetganger wordt reproduceerbaar ruimtelijk geactiveerd; niet door een echte zicht-/oogtracker. Bestelbus en huizen zijn zichtgeometrie, geen volledig statisch botsingssysteem. NPC-noodremming en geometrisch contact zijn veiligheidsobservaties, geen automatische juridische schuldvaststelling. Het voertuig heeft een eenvoudig rem-/stuurmodel, geen gevalideerde banden, wegdek, menselijke reactietijd of volledige ongevalsanalyse. De signaalplannen zijn oefentimings, geen gecertificeerde VRI-installatie.
 
-## Grenzen en overdracht
+Open: menselijke juridische, WRM-/verkeerskundige en didactische review; doelgroep-/toegankelijkheidsacceptatie; Windows-schoolhardware; fysieke drie-monitoropstelling/DPI; Edge; stuur/pedalen; twee duurtests van 30 minuten. Leer-/oefenexamenstand, rotondes en snelwegen worden niet als voltooid gepresenteerd. De bekende Windows-bestandsdownloadbeperking wordt apart vermeld; Linux-CI kan deze lokale acceptatie niet vervangen.
 
-Per actief verkeersmoment is er één primaire NPC, met de bestaande M3-rem-/conflictlogica. Dit is geen algemene verkeersstroom, volledige stadskaart of gevalideerde botsingswereld voor gebouwen en weggrenzen. Nieuwe rijroutes zijn bewust recht doorgaand; afslaan en parkeren blijven missie 2. Leer-/oefenexamenstand, volledige rotonde-/snelweglogica en algemene rijstrookbeoordeling zijn nog geen afgeronde M4-functies.
+PR #2 blijft een concept ter beoordeling tegen milestone-3-gecontroleerd. Geen merge en geen GitHub Pages-deployment.
 
-De bekende lokale Windows-sandbox annuleert de strikte bestandsdownloadtest. De test is actief gebleven en slaagt in de nieuwe M4B-Linux-CI. Broncommit e18aa30: 116 unit-tests, 32 Chromium-tests en 5 subpadtests geslaagd; pushcontrole 42020938008 en PR-controle 42020945240 zijn beide success. De logs en links staan in TESTVERSLAG.md. Dit is geen geslaagde Windows-downloadacceptatie.
+## Werkelijk uitgevoerde softwarecontrole
 
-Open blijven: menselijke juridische/WRM-/didactische review, doelgroep-/toegankelijkheidsacceptatie, echte monitoren/DPI, Edge, stuur/pedalen, twee duurtests van 30 minuten en hardware-FPS/latentie. PR #2 is gericht op milestone-3-gecontroleerd omdat main nog M2 bevat. Niet mergen en geen Pages-workflow starten.
+Laatste broncode: npm ci, lint, typecheck en productiebuild geslaagd; 136/136 unit-tests en 7/7 subpadtests geslaagd. Volledige lokale Chromium-suite: 34/35, met alleen de bestaande geannuleerde Windows-bestandsdownload. Na de laatste gerichte correcties zijn alle tien M3-browsercontroles, beide complete M4C-ritten en de scherm-/prestatiecontrole herhaald: 13/13 geslaagd. De volledige nieuwe GitHub-regressie wordt pas na uitvoering als geslaagd vermeld. Zie TESTVERSLAG.md voor exacte commando’s, tijden, ontwikkelfouten en beperkingen.

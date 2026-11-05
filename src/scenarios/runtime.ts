@@ -1,5 +1,6 @@
 import {initialState,type WorldState,type Actor} from '../core/state';
-import {VEHICLE} from '../core/physics';
+import {assessStopping} from '../core/stopping';
+import type {SignalFrame} from '../traffic/signals';
 import {cycleLight} from '../traffic/engine';
 import {advanceScenarioActors,crossLight} from '../traffic/scenarios';
 import {overlapBodies} from '../traffic/geometry';
@@ -25,19 +26,22 @@ export function scenarioFacts(state:WorldState,def:ScenarioDefinition):TrafficFa
   }
  }
  const known=def.movement==='rechtdoor'?Math.abs(v.heading)<.4&&Math.abs(v.x)<3.8:true;
- return {...BASE_FACTS,known,signalActive:def.signal,light:state.light,yellowCanStop:state.scenario?.yellowAt?.canStop??null,movement:def.movement,conflicting,otherFromRight:def.id==='rechts',sign:def.sign,pedestrianIntent:def.zebra&&conflicting,pedestrianLight:'geen',sameRoadCyclist:def.id==='fietser'};
+ return {...BASE_FACTS,known,signalActive:def.signal,light:state.light,yellowCanStop:state.scenario?.yellowAt?.canStop??null,movement:def.movement,conflicting,otherFromRight:def.id==='rechts',sign:def.sign,pedestrianIntent:def.zebra&&conflicting,pedestrianLight:state.scenario?.pedestrianLight??'geen',sameRoadCyclist:def.id==='fietser'};
 }
-export function advanceScenario(previous:WorldState,next:WorldState,dt:number):WorldState {
- const old=previous.scenario!;const def=SCENARIOS[old.id];const runtime={...old,events:[...old.events],contacts:[...old.contacts]};next={...next,scenario:runtime,light:cycleLight(next.clock)};
- runtime.startedActors=old.startedActors||next.vehicle.z<19||def.id==='wegrijden'||def.id==='fietser'||def.id==='lichten';
- runtime.crossLight=def.signal?crossLight(next.clock):undefined;
+export function advanceScenario(previous:WorldState,next:WorldState,dt:number,environment:{definition?:ScenarioDefinition;signals?:SignalFrame}={}):WorldState {
+ const old=previous.scenario!;const def=environment.definition??SCENARIOS[old.id];const runtime={...old,hazardTriggered:next.scenario?.hazardTriggered??old.hazardTriggered,events:[...old.events],contacts:[...old.contacts]};if(environment.definition)runtime.description={title:def.title,instruction:def.instruction,objective:def.objective,rules:def.rules};next={...next,scenario:runtime,light:environment.signals?.ego??cycleLight(next.clock)};
+ runtime.startedActors=old.startedActors||runtime.hazardTriggered===true||next.vehicle.z<19||def.id==='wegrijden'||def.id==='fietser'||def.id==='lichten';
+ runtime.crossLight=def.signal?(environment.signals?.cross??crossLight(next.clock)):undefined;runtime.pedestrianLight=environment.signals?.pedestrian;
  next.actors=advanceScenarioActors(next,def,dt);
- if(def.signal&&next.light==='oranje'&&previous.light!=='oranje'){
-  const distance=frontZ(next)-def.gateZ,speed=next.vehicle.speed;
-  runtime.yellowAt={distance,speed,canStop:distance>=speed*.7+speed*speed/(2*VEHICLE.braking)};
+ if(def.signal&&next.light==='oranje'&&(previous.light!=='oranje'||!old.yellowAt)){
+  runtime.yellowAt=assessStopping(next,def.gateZ);
  }
  const facts=scenarioFacts(next,def),decision=decideTraffic(facts);runtime.decision=decision;
  const emit=(event:Omit<TrafficEvidence,'time'|'scenarioId'>)=>{if(!runtime.events.some(e=>e.code===event.code))runtime.events.push({...event,time:next.clock,scenarioId:def.id});};
+ if(environment.signals&&next.light!==previous.light)emit({code:'LIGHT_'+next.light+'_'+next.clock.toFixed(3),category:'waarneming',ruleIds:['RED'],message:'Verkeerslichtfase: '+next.light+'.',facts:[`lokale stopstreep z=${def.gateZ.toFixed(2)} m`],alternative:next.light==='groen'?'Rijd alleen door als de weg vrij is.':next.light==='rood'?'Stop vóór de bestemde stopstreep.':'Stop, tenzij dat redelijkerwijs niet meer mogelijk is; beoordeel de actuele situatie.'});
+ if(runtime.yellowAt&&def.signal&&next.light==='oranje'&&(previous.light!=='oranje'||!old.yellowAt))emit({code:'YELLOW_MODEL_'+next.clock.toFixed(3),category:'waarneming',ruleIds:['RED'],message:'Stopmogelijkheid bij geel onderzocht met het actuele voertuigmodel.',facts:[`snelheid ${runtime.yellowAt.speed.toFixed(2)} m/s`,`afstand stopstreep ${runtime.yellowAt.distance.toFixed(2)} m`,`berekende remweg ${runtime.yellowAt.stoppingDistance?.toFixed(2)??'onbekend'} m`,`berekende stoptijd ${runtime.yellowAt.stopTime?.toFixed(2)??'onbekend'} s`,`modelconclusie ${runtime.yellowAt.canStop===null?'onzeker':runtime.yellowAt.canStop?'stoppen mogelijk':'stoppen vóór de lijn niet mogelijk'}`],alternative:runtime.yellowAt.reason??'Stop bij geel, tenzij dat redelijkerwijs niet meer mogelijk is. Dit is geen wettelijke getalsgrens.'});
+ if(runtime.hazardTriggered&&!old.hazardTriggered)emit({code:'HAZARD_NOTICE',category:'waarneming',ruleIds:[],message:'Veiligheidssituatie geactiveerd: voetganger achter de bestelbus.',facts:[`voertuig z=${next.vehicle.z.toFixed(2)} m`,`snelheid ${(next.vehicle.speed*3.6).toFixed(1)} km/u`],alternative:'Verminder snelheid en houd ruimte om op een onverwachte beweging te reageren. Dit is een veiligheidsoefening.'});
+ if(runtime.hazardTriggered&&next.input.brake)emit({code:'HAZARD_BRAKE',category:'waarneming',ruleIds:[],message:'Na het ontstaan van het conflict is rembediening geregistreerd.',facts:[`snelheid ${(next.vehicle.speed*3.6).toFixed(1)} km/u`],alternative:'Kijk vooruit en houd de oversteek vrij; deze remactie bewijst geen spiegel- of dodehoekcontrole.'});
  const evidence=()=>[`voertuig x=${next.vehicle.x.toFixed(2)} m, z=${next.vehicle.z.toFixed(2)} m`,`snelheid ${(next.vehicle.speed*3.6).toFixed(1)} km/u`,def.signal?`licht ${next.light}`:'geen verkeerslicht in deze situatie',`verwacht padconflict ${facts.conflicting?'ja':'nee'}`,`NPC ${next.actors[0]?.mode??'onbekend'}`];
  const entersGate=frontZ(previous)>def.gateZ&&frontZ(next)<=def.gateZ&&Math.abs(next.vehicle.x)<3.8;
  const leftEdge=(state:WorldState)=>state.vehicle.x-.8*Math.abs(Math.cos(state.vehicle.heading))-EGO_FRONT*Math.abs(Math.sin(state.vehicle.heading));
@@ -45,10 +49,11 @@ export function advanceScenario(previous:WorldState,next:WorldState,dt:number):W
  const crossesBike=def.id==='fietser'&&previous.vehicle.x<=2.35&&next.vehicle.x>2.35&&Math.abs(next.vehicle.z)<7;
  const relevant=def.id==='wegrijden'?leavesBay:def.id==='fietser'?crossesBike:entersGate;
  if(relevant){runtime.crossed=true;
+  if(def.signal&&def.zebra&&next.light==='groen'&&next.actors.some(a=>Math.abs(a.x)<4))emit({code:'BLOCKED_GREEN',category:'advies',ruleIds:[],message:'De oversteek was nog bezet bij groen.',facts:evidence(),alternative:'Groen maakt een bezette oversteek niet veilig. Wacht tot de weg vrij is; dit is veiligheidsfeedback, geen automatische schuldvaststelling.'});
   if(decision.action==='stop'||decision.action==='voorrang'){
    const yellow=def.signal&&next.light==='oranje';emit({code:'GIVE_WAY',category:yellow?'advies':'regel',ruleIds:decision.ruleIds,message:yellow?'Volgens het remmodel was stoppen bij geel mogelijk.':'Je passeerde het beoordelingspunt terwijl stoppen of voor laten gaan nodig was in dit scenario.',facts:evidence(),alternative:decision.reason+' Verminder eerder snelheid en wacht buiten het conflictgebied.'});
   }else if(decision.action==='onzeker')emit({code:'UNSUPPORTED',category:'advies',ruleIds:[],message:'Geen betrouwbare automatische regelbeoordeling van deze passage.',facts:evidence(),alternative:'Blijf op de aangegeven route en bespreek deze passage met de docent.'});
-  else emit({code:'CLEAR_PASSAGE',category:'waarneming',ruleIds:def.rules,message:'Bij het meetpunt was geen stop- of voorrangsafwijking vastgesteld.',facts:evidence(),alternative:'Blijf ook na de passage het verkeer volgen.'});
+  else emit({code:'CLEAR_PASSAGE',category:'waarneming',ruleIds:def.rules,message:runtime.hazardTriggered!==undefined?'Veiligheidspassage geregistreerd; geen juridische beoordeling.':'Bij het meetpunt was geen stop- of voorrangsafwijking vastgesteld.',facts:evidence(),alternative:'Blijf ook na de passage het verkeer volgen.'});
  }
  if(next.actors.some(a=>a.mode==='noodrem')&&previous.actors.some(a=>a.mode!=='noodrem'))emit({code:'NPC_BRAKE',category:'advies',ruleIds:[],message:'De andere verkeersdeelnemer remde voor een voorspeld fysiek conflict.',facts:evidence(),alternative:'Controleer het volledige verkeersbeeld en voorkom dat anderen moeten uitwijken of remmen. Dit is geen automatische schuldvaststelling.'});
  if((def.id==='rechts'||def.id==='haaientanden')&&old.crossed&&decision.action==='voorrang'&&next.actors.some(a=>a.mode==='noodrem')&&Math.abs(next.vehicle.z)<5)emit({code:'GIVE_WAY',category:'regel',ruleIds:decision.ruleIds,message:'Tijdens de passage moest het voorrangsgerechtigde verkeer afremmen bij een padconflict.',facts:evidence(),alternative:decision.reason+' Wacht vóór het conflictgebied.'});

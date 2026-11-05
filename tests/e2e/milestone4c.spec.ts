@@ -1,0 +1,20 @@
+import {test,expect} from '@playwright/test';
+import {ROUTES} from '../../src/missions/route';
+import {pilotInput} from '../helpers/m4c-pilot';
+for(const id of [5,6])test(`M4C missie ${id}: volledige fysieke browserrit, gebeurtenissen, opslag en herstart`,async({page})=>{
+ test.setTimeout(360000);const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));await page.goto('/');await page.selectOption('#missionSelect',String(id));await page.locator('#missionSelect').blur();await page.click('#start');
+ const pilot=page.evaluate(async({route,source})=>new Promise<{completed:boolean;clock:number;minDelta:number;maxJump:number}>(resolve=>{
+  const drive=new Function('return ('+source+')')(),held=new Set<string>(),start=performance.now();let lastClock=0,last={x:1.55,z:23},minDelta=1,maxJump=0,indicator=false;
+  const key=(key:string,on:boolean)=>{if(on===held.has(key))return;window.dispatchEvent(new KeyboardEvent(on?'keydown':'keyup',{key,bubbles:true}));if(on)held.add(key);else held.delete(key);};
+  function frame(){const el=document.querySelector<HTMLElement>('.screen')!,v=JSON.parse(el.dataset.vehicle!),m=JSON.parse(el.dataset.mission!),t=JSON.parse(el.dataset.traffic!),clock=Number(el.dataset.clock);minDelta=Math.min(minDelta,clock-lastClock);maxJump=Math.max(maxJump,Math.hypot(v.x-last.x,v.z-last.z));lastClock=clock;last=v;
+   if(m.completed||performance.now()-start>320000){for(const k of [...held])key(k,false);resolve({completed:m.completed,clock,minDelta,maxJump});return;}
+   if(route.id===6&&m.index>=3&&!indicator){document.querySelector<HTMLButtonElement>('#indicatorRight')!.click();indicator=true;}
+   const input=drive(route,m.index,m.encounterIndex,v,t);key('ArrowUp',input.throttle);key('ArrowDown',input.brake);key('ArrowLeft',input.left);key('ArrowRight',input.right);requestAnimationFrame(frame);
+  }requestAnimationFrame(frame);
+ }),{route:ROUTES[id],source:pilotInput.toString()});
+ await expect.poll(async()=>JSON.parse((await page.locator('.screen').getAttribute('data-mission'))!).encounterIndex,{timeout:120000}).toBeGreaterThanOrEqual(1);await expect.poll(async()=>JSON.parse((await page.locator('.screen').getAttribute('data-mission'))!).encounterId,{timeout:140000}).toBe(ROUTES[id].encounters[id===5?1:2].id);await page.locator('.screen').screenshot({path:`docs/qa-m4c-missie-${id}-route.png`});
+ const outcome=await pilot;expect(outcome.completed).toBe(true);expect(outcome.minDelta).toBeGreaterThanOrEqual(0);expect(outcome.maxJump).toBeLessThan(2);expect(outcome.clock).toBeGreaterThan(60);await expect(page.locator('#missionProgress')).toContainText('Oefendoel bereikt');await page.click('#missionSave');
+ const result=await page.evaluate(()=>JSON.parse(localStorage.getItem('nederlandse-autorijsimulator-m4-anoniem-v1')!).at(-1));expect(result.missionId).toBe(id);expect(result.encounters.map((e:{id:string})=>e.id)).toEqual(ROUTES[id].encounters.map(e=>e.id));expect(result.encounters.every((e:{startedAt:number;finishedAt:number})=>e.finishedAt>e.startedAt)).toBe(true);expect(result.trafficEvents.filter((e:{category:string;message:string})=>e.category==='regel'||e.message.includes('contouren'))).toEqual([]);expect(new Set(result.encounters.map((e:{id:string})=>e.id)).size).toBe(ROUTES[id].encounters.length);expect(result.trafficEvents.every((e:{time:number;facts:string[];advice:string})=>e.time>=0&&e.facts.length>0&&e.advice.length>10)).toBe(true);
+ if(id===5)expect(result.trafficEvents.some((e:{message:string})=>e.message.includes('geel'))).toBe(true);else expect(result.trafficEvents.some((e:{message:string})=>e.message.includes('rembediening'))).toBe(true);
+ await page.screenshot({path:`docs/qa-m4c-missie-${id}-einde.png`,fullPage:true});await page.reload();await page.click('#missionJson');expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('nederlandse-autorijsimulator-m4-anoniem-v1')!).at(-1).missionId)).toBe(id);await page.selectOption('#missionSelect',String(id));await page.click('#reset');await expect(page.locator('#clock')).toHaveText('0:00');await expect(page.locator('#missionReport')).toBeEmpty();expect(errors).toEqual([]);
+});

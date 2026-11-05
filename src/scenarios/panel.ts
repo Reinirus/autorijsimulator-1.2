@@ -14,7 +14,7 @@ export class ScenarioPanel {
   const runtime=s.scenario;document.querySelector<HTMLElement>('#indicatorControls')!.hidden=!runtime&&!s.mission;
   document.querySelector('#indicatorState')!.textContent=s.indicator??'uit';
   if(!runtime){document.querySelector('#scenarioDecision')!.textContent='';document.querySelector('#npcStatus')!.textContent='';return;}
-  const def=SCENARIOS[runtime.id];document.querySelector('#scenarioInstruction')!.textContent=def.instruction;
+  const def={...SCENARIOS[runtime.id],...runtime.description};document.querySelector('#scenarioInstruction')!.textContent=def.instruction;
   document.querySelector('#scenarioTitle')!.textContent=def.title;
   document.querySelector('#scenarioObjectives')!.textContent=def.objective;
   document.querySelector('#ruleScope')!.textContent='Beoordeling op expliciete scenariogegevens; geen officieel slaag-/zakcriterium.';

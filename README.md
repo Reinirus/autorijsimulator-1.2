@@ -2,9 +2,9 @@
 
 **DEMO · NIET CBR-GECERTIFICEERD. Geen vervanging voor rijles.** Milestone 1 blijft formeel open voor hardware- en duurtests. De gebruiker heeft de ontwikkeling van Milestone 2 en 3 uitdrukkelijk toegestaan terwijl die acceptatie openstaat.
 
-## Milestone 4B
+## Milestone 4C
 
-Branch milestone-4-rijmissies bevat vier speelbare oefenmissies: voertuigbeheersing; wegrijden/afslaan/parkeren met D/R; een doorlopende woonwijkroute van circa 195 meter; en een kruispuntenroute van circa 265 meter. Missie 3 bevat een kruisende fietser, zebra en auto. Missie 4 herhaalt gelijkwaardige en B6/haaientanden-kruispunten met fietsers en auto's. Verkeersmomenten krijgen afzonderlijke IDs, globale tijden en uitleg; klok en voertuig blijven doorlopen. Missies 5–10 blijven uitgeschakeld en in ontwikkeling. Volg de opdracht in de cockpit, bekijk het rapport en herstart naar wens. Details en feitelijke tests: docs/M4_VOORTGANG.md en docs/TESTVERSLAG.md. PR #2 is ter beoordeling gericht op milestone-3-gecontroleerd; niets mergen of publiceren.
+Branch milestone-4-rijmissies bevat zes speelbare oefenmissies: voertuigbeheersing; wegrijden/afslaan/parkeren met D/R; een doorlopende woonwijkroute van circa 195 meter; en een kruispuntenroute van circa 265 meter. Missie 3 bevat een kruisende fietser, zebra en auto. Missie 4 herhaalt gelijkwaardige en B6/haaientanden-kruispunten met fietsers en auto's. Verkeersmomenten krijgen afzonderlijke IDs, globale tijden en uitleg; klok en voertuig blijven doorlopen. Missie 5 bevat drie verkeerslichtsituaties met kruisende auto, geregelde voetgangersoversteek en B6. Missie 6 combineert fietsers, een rechtsafslag, zebra en een reproduceerbaar onverwacht conflict. Missies 7–10 blijven uitgeschakeld en in ontwikkeling. Geel levert transparant remmodeladvies op, geen vaste wettelijke remgrens. Volg de opdracht in de cockpit, bekijk het rapport en herstart naar wens. Details en feitelijke tests: docs/M4_VOORTGANG.md en docs/TESTVERSLAG.md. PR #2 is ter beoordeling gericht op milestone-3-gecontroleerd; niets mergen of publiceren.
 
 ## Nieuw in Milestone 3
 
