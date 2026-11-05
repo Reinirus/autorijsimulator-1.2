@@ -20,7 +20,7 @@ Technische broncontrole: **4 november 2026**. Bron: [RVV 1990, BWBR0004825, geco
 
 ## Geen juridische getallen verzinnen
 
-De volgende waarden zijn **simulator-/waarnemingsparameters**, geen RVV-grenswaarden: modelafmetingen, lijncoördinaten, 0,7 s reactieruimte bij geel, 6 m/s² spelersremmen, 5 m/s² NPC-remmen, een seconde voorspelling voor botsingsvermijding, aankomstvensters en ruimtelijke marges voor padconflicten. Het RVV bevat voor deze situaties geen universele seconden-/metergrens die deze code juridisch sluitend zou maken. Een modelafwijking is alleen een uitlegbare observatie binnen de beschreven scène.
+De volgende waarden zijn **simulator-/waarnemingsparameters**, geen RVV-grenswaarden: modelafmetingen, lijncoördinaten, 6 m/s² spelersremmen, 5 m/s² NPC-remmen, een seconde voorspelling voor botsingsvermijding, aankomstvensters en ruimtelijke marges voor padconflicten. Het RVV bevat voor deze situaties geen universele seconden-/metergrens die deze code juridisch sluitend zou maken. Een modelafwijking is alleen een uitlegbare observatie binnen de beschreven scène.
 
 Geometrisch contact en NPC-noodremmen krijgen advies/waarneming, geen automatisch juridisch schuldlabel. Niet gemeten spiegel-/ooggedrag wordt niet beoordeeld. Er is geen verzonnen CBR-slaagscore of boetebedrag.
 

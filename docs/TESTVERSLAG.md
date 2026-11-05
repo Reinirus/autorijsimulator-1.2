@@ -20,7 +20,7 @@ Windows, Node v24.22.1, npm 10.9.2, Playwright 1.64.1 met Chromium 156.0.8078.4 
 | npm run test:pages | Laatste build: **7/7 geslaagd, 16,6 s**, exit 0, exact /autorijsimulator-1.2/. Bestaande dynamische imports/zijvensters, M3-wisseling, D/R, spiegels en missies 3–6 laden correct. |
 | git diff -- src/rules/traffic.ts src/rules/catalog.ts src/core/physics.ts src/displays/mirrors.ts src/displays/pixels.ts src/displays/sync.ts | Geen wijzigingen ten opzichte van de gecontroleerde M4B-basis: pure M3-regels en register, voertuigfysica, spiegelcamera’s, pixeltransformatie en sync-protocol behouden. Scenario- en NPC-adapters zijn wel gericht uitgebreid en opnieuw getest. |
 
-De volledige e2e-suite blijft 35 actieve tests bevatten. Geen testskip, verwacht-falen-label of afgezwakte downloadassertie is toegevoegd om de suite groen te laten lijken. De laatste volledige regressie van de uiteindelijke broncode wordt ook door de GitHub push-/PR-controles uitgevoerd; die resultaten worden pas na afloop vermeld.
+De volledige e2e-suite blijft 35 actieve tests bevatten. Geen testskip, verwacht-falen-label of afgezwakte downloadassertie is toegevoegd om de suite groen te laten lijken. De volledige regressie van de uiteindelijke broncode is ook door de GitHub push-/PR-controles uitgevoerd en geslaagd; zie de resultaten hieronder.
 
 ## Inhoudelijke testdekking
 
@@ -64,7 +64,18 @@ Officiële RVV-versie 01-07-2026 opnieuw rechtstreeks opgehaald (HTTP 200), arti
 
 ## GitHub en oordeel
 
-PR #2 blijft concept tegen milestone-3-gecontroleerd; main en M3 zijn niet gewijzigd. Pages is alleen workflow_dispatch en is niet aangeroepen. De broncommit, push-/PR-controles en hun echte resultaten worden na uitvoering hieronder toegevoegd. Software voor missies 5/6 wordt pas op grond van de complete ritten en regressies als oefenbaar aangeboden; M1-acceptatie blijft formeel open. Geen CBR-certificering, merge of publicatie.
+**Broncommit 03b5fa81de96925cf47f26f5ea085894002cecdc: volledige Linux-CI geslaagd.**
+
+| GitHub Actions | Werkelijk resultaat uit de joblogs |
+|---|---|
+| [Pushcontrole 42043255611](https://github.com/Reinirus/autorijsimulator-1.2/actions/runs/42043255611) | success; npm ci (169 packages, 5 s), lint, typecheck, 136/136 tests (3,27 s), build (1,53 s), 35/35 Chromium-e2e (11,9 min), 7/7 productiesubpadtests (24,5 s). |
+| [PR-controle 42043266133](https://github.com/Reinirus/autorijsimulator-1.2/actions/runs/42043266133) | success; npm ci (169 packages, 3 s), lint, typecheck, 136/136 tests (3,84 s), build (1,44 s), 35/35 Chromium-e2e (12,3 min), 7/7 productiesubpadtests (27,5 s). |
+
+Ook de actieve strikte echte JSON/CSV-bestandsdownloadtest is op Linux geslaagd. De resterende Windows-downloadacceptatie wordt daarmee niet als geslaagd aangemerkt. De hierop volgende commit vult uitsluitend deze documentatie aan; de uitvoerbare code en tests blijven gelijk aan de hierboven volledig gecontroleerde broncommit.
+
+Oordeel: missies 5 en 6 vormen technisch geteste speelbare oefenroutes. Missies 1–4 en de bestaande scherm-/spiegelfuncties zijn behouden en de volledige regressie slaagt in Linux-CI. Dit is geen volledige hardware-, juridische of opleidingsacceptatie: de hierboven genoemde punten blijven open en missies 7–10 blijven uitgeschakeld.
+
+PR #2 blijft concept tegen milestone-3-gecontroleerd; main en M3 zijn niet gewijzigd. Pages is alleen workflow_dispatch en is niet aangeroepen. M1-acceptatie blijft formeel open. Geen CBR-certificering, merge of publicatie.
 
 ---
 
