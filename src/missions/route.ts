@@ -1,3 +1,5 @@
+import {JOURNEYS,journeyInitial} from './journey-course';
+import {advanceJourney} from './journey-runtime';
 import {COURSES,type Difficulty} from './advanced-course';
 import {advancedInitial,advanceAdvanced} from './advanced-runtime';
 import {initialState,type WorldState} from '../core/state';
@@ -5,9 +7,9 @@ import {scenarioState,advanceScenario} from '../scenarios/runtime';
 import type {ScenarioId,TrafficEvidence} from '../scenarios/model';
 import {definitionFor,toLocal,toWorld,createEncounter,hazardRevealZ} from './encounters';
 import {signalFrame,type SignalPlan} from '../traffic/signals';
-export type RoutePoint={x:number;z:number;radius:number;instruction:string;stop?:boolean;reverse?:boolean;heading?:number};
+export type RoutePoint={x:number;z:number;radius:number;instruction:string;navigation?:string;stop?:boolean;reverse?:boolean;heading?:number};
 export type Encounter={id:string;scenario:ScenarioId;z:number;x?:number;heading?:number;actorKind?:'auto'|'fietser';signals?:SignalPlan;signalPedestrian?:boolean;signalWithYield?:boolean;hazardSeed?:number};
-export type EncounterRecord={id:string;scenario:ScenarioId|'rotonde'|'buitenweg';actorKind:string;startedAt:number;finishedAt:number|null;instruction:string};
+export type EncounterRecord={id:string;scenario:ScenarioId|'rotonde'|'buitenweg'|'snelweg'|'combinatie';actorKind:string;startedAt:number;finishedAt:number|null;instruction:string};
 export type MissionRoute={id:number;points:RoutePoint[];encounters:Encounter[]};
 export type RouteRuntime={id:number;index:number;completed:boolean;distance:number;maxKmh:number;steered:boolean;braked:boolean;reversed:number;dwell:number;events:TrafficEvidence[];encounters:EncounterRecord[];encounterIndex:number;encounterStart:number;encounterId:string;lastEventCount:number;overspeed:boolean;finishClock:number|null};
 const p=(x:number,z:number,instruction:string,stop=false,heading?:number,reverse=false):RoutePoint=>({x,z,radius:stop?1:2,instruction,stop,heading,reverse});
@@ -22,19 +24,21 @@ export const ROUTES:Record<number,MissionRoute>={
  6:{id:6,encounters:[{id:'m6-fiets-rechts-01',scenario:'rechts',z:0,actorKind:'fietser'},{id:'m6-rechtsaf-fiets-02',scenario:'fietser',z:-70},{id:'m6-zebra-03',scenario:'zebra',x:70,z:-70,heading:Math.PI/2},{id:'m6-onverwacht-04',scenario:'zebra',x:140,z:-70,heading:Math.PI/2,hazardSeed:603}],points:[p(1.55,17,'Laat de fietser van rechts voor.'),p(1.55,-15,'Rijd verder naar de volgende kruising.'),p(1.55,-53,'Nader langzaam. Er rijdt een fietser naast of achter je.'),p(1.55,-63,'Geef rechts richting aan en laat de rechtdoorgaande fietser passeren.'),p(4,-68.3,'Stuur rustig rechtsaf.'),p(12,-68.45,'Volg de nieuwe weg rechtdoor.'),p(53,-68.45,'Nader de zebra en laat de voetganger oversteken.'),p(85,-68.45,'Rijd pas verder als de oversteek vrij is.'),p(113,-68.45,'Beperkt zicht bij de bestelbus: nader langzaam en wees klaar om te remmen.'),p(155,-68.45,'Controleer of het conflict voorbij is en rijd rustig door.'),p(172,-68.45,'Rem en stop in het eindvak.',true,Math.PI/2)]}
 };
 for(const id of [7,8] as const)ROUTES[id]={id,encounters:[],points:COURSES[id].path};
-export function encounterCount(id:number):number{return id===7||id===8?COURSES[id].zones.length:ROUTES[id].encounters.length;}
+for(const id of [9,10] as const)ROUTES[id]={id,encounters:[],points:JOURNEYS[id].path};
+export function encounterCount(id:number):number{return id===9||id===10?JOURNEYS[id].gates.length:id===7||id===8?COURSES[id].zones.length:ROUTES[id].encounters.length;}
 export function encounterInstruction(e:Encounter):string {return definitionFor(e).instruction;}
 function streetRoute(id:number,encounters:Encounter[]):MissionRoute{return {id,encounters,points:[...encounters.flatMap((e,i)=>[p(1.55,e.z+17,`Nader verkeersmoment ${i+1}. ${encounterInstruction(e)}`,false,0),p(1.55,e.z-15,'Rijd rechtdoor zodra je veilig kunt passeren.',false,0)]),p(1.55,encounters.at(-1)!.z-32,'Rem en stop volledig in het gemarkeerde eindvak.',true,0)]};}
 export function routeState(id:number,difficulty:Difficulty='rustig'):WorldState {
  if(!ROUTES[id])throw new Error('Deze missie is nog in ontwikkeling');
- const advanced:Partial<WorldState>=id===7||id===8?advancedInitial(id,difficulty):{};
+ const advanced:Partial<WorldState>=id===9||id===10?journeyInitial(id,difficulty):id===7||id===8?advancedInitial(id,difficulty):{};
  const base=id===2?scenarioState('wegrijden'):initialState();
  return {...base,...advanced,actors:id===2?base.actors:advanced.actors??[],light:'groen',gear:'D',mission:{id,index:0,completed:false,distance:0,maxKmh:0,steered:false,braked:false,reversed:0,dwell:0,events:[],encounters:[],encounterIndex:0,encounterStart:0,encounterId:id===2?'m2-wegrijden':'',lastEventCount:0,overspeed:false,finishClock:null}};
 }
 export function advanceRoute(before:WorldState,next:WorldState,dt:number):WorldState {
  const old=before.mission!,m:RouteRuntime={...old,events:[...old.events],encounters:old.encounters.map(e=>({...e}))};next={...next,mission:m};const route=ROUTES[m.id];
  if(m.completed)return {...next,running:false,vehicle:{...next.vehicle,speed:0}};
- if(m.id===7||m.id===8)next=advanceAdvanced(before,next,dt);
+ if(m.id===9||m.id===10)next=advanceJourney(before,next,dt);
+ else if(m.id===7||m.id===8)next=advanceAdvanced(before,next,dt);
  else {const encounter=route.encounters[m.encounterIndex];
  if(encounter?.signals)next.light=signalFrame(next.clock,encounter.signals).ego;
  if(encounter&&!next.scenario&&toLocal(next,encounter).vehicle.z<(encounter.scenario==='fietser'?14:40)){const fresh=createEncounter(encounter);next={...next,scenario:fresh.scenario,actors:toWorld(fresh,encounter).actors};m.encounterId=encounter.id;m.encounterStart=before.clock;m.lastEventCount=0;}

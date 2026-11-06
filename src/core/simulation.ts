@@ -8,9 +8,9 @@ import {advanceTraffic} from '../traffic/engine';
 export const FIXED_DT=1/60;
 export class Simulation{
  state:WorldState=initialState();private accumulator=0;
- start():void {this.state.running=true;}
+ start():void {if(!this.state.course?.ended)this.state.running=true;}
  stop():void {this.state.running=false;this.state.input={...DEFAULT_INPUT};this.accumulator=0;}
- reset():void {this.state=this.state.mission?routeState(this.state.mission.id,this.state.course?.difficulty):this.state.scenario?scenarioState(this.state.scenario.id):initialState();this.accumulator=0;}
+ reset():void {const mode=this.state.course?.mode;this.state=this.state.mission?routeState(this.state.mission.id,this.state.course?.difficulty):this.state.scenario?scenarioState(this.state.scenario.id):initialState();if(this.state.course)this.state.course.mode=mode;this.accumulator=0;}
  selectMission(id:number,difficulty:Difficulty='rustig'):void {this.state=routeState(id,difficulty);this.accumulator=0;}
  setGear(gear:'D'|'R'):boolean {if(Math.abs(this.state.vehicle.speed)>.12)return false;this.state.gear=gear;return true;}
  selectScenario(id:ScenarioId|'demo'):void {this.state=id==='demo'?initialState():scenarioState(id);this.accumulator=0;}

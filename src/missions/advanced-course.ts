@@ -6,22 +6,22 @@ export type CourseZone={id:string;end:number;title:string;instruction:string;kin
 export type CourseGate={id:string;s:number;kind:'yield'|'crossing'|'exit';ring?:number;actors?:string[]};
 export type NpcPlan={onlyDruk?:boolean;id:string;kind:Actor['kind'];path:Point[];speed:number;trigger:number;waitForStop?:boolean;gate?:{s:number;ring:number};lane?:'same'|'opposite';startS?:number};
 export type CourseDefinition={id:7|8;path:RoutePoint[];road:Point[];lengths:number[];rings:Point[];gates:CourseGate[];zones:CourseZone[];npcs:NpcPlan[];limit:number};
-export type CourseState={difficulty:Difficulty;seed:number;routeS:number;visibility:number;limit:number;activated:Record<string,number>;checked:string[];risks:string[];stopDistance:number|null;stopReason:string;leadGap:number|null;leadSpeed:number|null;headway:number|null};
+export type CourseState={mode?:'leren'|'examen';ended?:boolean;difficulty:Difficulty;seed:number;routeS:number;visibility:number;limit:number;activated:Record<string,number>;checked:string[];risks:string[];stopDistance:number|null;stopReason:string;leadGap:number|null;leadSpeed:number|null;headway:number|null};
 const dist=(a:Point,b:Point)=>Math.hypot(a.x-b.x,a.z-b.z);
 const lengthCache=new WeakMap<Point[],number[]>();
 export function lengths(path:Point[]):number[]{let out=lengthCache.get(path);if(!out){out=[];let sum=0;path.forEach((p,i)=>{if(i)sum+=dist(path[i-1],p);out!.push(sum);});lengthCache.set(path,out);}return out;}
 export function poseAt(path:Point[],s:number){const ls=lengths(path);let i=1;while(i<ls.length-1&&ls[i]<s)i++;const a=path[i-1],b=path[i],f=Math.max(0,Math.min(1,(s-ls[i-1])/(ls[i]-ls[i-1])));return {x:a.x+(b.x-a.x)*f,z:a.z+(b.z-a.z)*f,heading:Math.atan2(b.x-a.x,-(b.z-a.z))};}
 export function projection(path:Point[],p:Point,from=0,to=path.length-1){const ls=lengths(path);let best={s:0,distance:Infinity};for(let i=Math.max(1,from+1);i<=Math.min(to,path.length-1);i++){const a=path[i-1],b=path[i],dx=b.x-a.x,dz=b.z-a.z,l=dx*dx+dz*dz,t=Math.max(0,Math.min(1,((p.x-a.x)*dx+(p.z-a.z)*dz)/l)),distance=Math.hypot(p.x-a.x-t*dx,p.z-a.z-t*dz);if(distance<best.distance)best={s:ls[i-1]+Math.sqrt(l)*t,distance};}return best;}
-function line(a:Point,b:Point,step=4):Point[]{const n=Math.ceil(dist(a,b)/step);return Array.from({length:n+1},(_,i)=>({x:a.x+(b.x-a.x)*i/n,z:a.z+(b.z-a.z)*i/n}));}
-function bezier(a:Point,b:Point,c:Point,d:Point,n=12):Point[]{return Array.from({length:n+1},(_,i)=>{const t=i/n,u=1-t;return {x:u**3*a.x+3*u*u*t*b.x+3*u*t*t*c.x+t**3*d.x,z:u**3*a.z+3*u*u*t*b.z+3*u*t*t*c.z+t**3*d.z};});}
-const rotate=(p:Point,c:Point,h:number)=>({x:c.x+Math.cos(h)*p.x-Math.sin(h)*p.z,z:c.z+Math.sin(h)*p.x+Math.cos(h)*p.z});
+export function line(a:Point,b:Point,step=4):Point[]{const n=Math.ceil(dist(a,b)/step);return Array.from({length:n+1},(_,i)=>({x:a.x+(b.x-a.x)*i/n,z:a.z+(b.z-a.z)*i/n}));}
+export function bezier(a:Point,b:Point,c:Point,d:Point,n=12):Point[]{return Array.from({length:n+1},(_,i)=>{const t=i/n,u=1-t;return {x:u**3*a.x+3*u*u*t*b.x+3*u*t*t*c.x+t**3*d.x,z:u**3*a.z+3*u*u*t*b.z+3*u*t*t*c.z+t**3*d.z};});}
+export const rotate=(p:Point,c:Point,h:number)=>({x:c.x+Math.cos(h)*p.x-Math.sin(h)*p.z,z:c.z+Math.sin(h)*p.x+Math.cos(h)*p.z});
 export function trip(c:Point,h:number,exit:number){const end=.35-(exit-1)*Math.PI/2,entry={x:14*Math.cos(1.3),z:14*Math.sin(1.3)},leave={x:14*Math.cos(end),z:14*Math.sin(end)};
  const start=line({x:1.55,z:58},{x:1.55,z:27}),merge=bezier(start.at(-1)!,{x:1.55,z:19},{x:entry.x-5*Math.sin(1.3),z:entry.z+5*Math.cos(1.3)},entry);
  const n=Math.ceil((1.3-end)/.15),arc=Array.from({length:n+1},(_,i)=>({x:14*Math.cos(1.3+(end-1.3)*i/n),z:14*Math.sin(1.3+(end-1.3)*i/n)}));
  const outRot=-(exit-1)*Math.PI/2,outEnd=rotate({x:28,z:1.55},{x:0,z:0},outRot),outControl=rotate({x:22,z:1.55},{x:0,z:0},outRot),out=bezier(leave,{x:leave.x+6*Math.sin(end),z:leave.z-6*Math.cos(end)},outControl,outEnd);
  const path=[...start,...merge.slice(1),...arc.slice(1),...out.slice(1)].map(p=>rotate(p,c,h));return {path,entry:projection(path,rotate(entry,c,h)).s,exit:projection(path,rotate(leave,c,h)).s};
 }
-function routePoints(path:Point[],instruction:string):RoutePoint[]{return path.map(p=>({...p,radius:1.3,instruction}));}
+export function routePoints(path:Point[],instruction:string):RoutePoint[]{return path.map(p=>({...p,radius:1.3,instruction}));}
 function roundabout():CourseDefinition {
  const rings=[{x:0,z:-35},{x:100,z:-35}],a=trip(rings[0],0,1),b=trip(rings[1],Math.PI/2,3),connector=line(a.path.at(-1)!,b.path[0]),base=[...a.path,...connector.slice(1),...b.path.slice(1)],offset=lengths([...a.path,...connector.slice(1)]).at(-1)!,end=line(base.at(-1)!,{x:101.55,z:-95});
  const points=routePoints([...base,...end.slice(1)],'Volg de rijbaan en houd rechts.'),ls=lengths(points),entry1=a.entry-4,exit1=a.exit,entry2=offset+b.entry-4,exit2=offset+b.exit,cross1=projection(points,{x:1.55,z:-4}).s,cross2=projection(points,{x:101.55,z:-72}).s;

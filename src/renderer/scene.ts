@@ -31,21 +31,22 @@ export class DrivingView{
  }
  render(s:WorldState,mirrorElements:Record<'links'|'rechts'|'binnen',HTMLCanvasElement>|null,options:{mode?:'single'|'span';side?:Side;calibration?:Calibration}={}):void {
  const {vehicle:v}=s;const config=options.calibration??DEFAULT_CALIBRATION;
- configureCourseVisibility(this.scene,s.mission?.id===8?COURSES[8]:undefined,s.course?.visibility??140);
+ configureCourseVisibility(this.scene,s.mission?.id===8||s.mission?.id===10&&(s.course?.visibility??140)<140?COURSES[8]:undefined,s.course?.visibility??140);
  this.baseWorld.visible=!s.mission||s.mission.id<3;
  this.renderer.setPixelRatio(Math.min(devicePixelRatio,config.pixelRatio));
  this.camera.position.set(v.x+.35*Math.sin(v.heading),1.55,v.z-.35*Math.cos(v.heading));this.camera.rotation.order='YXZ';this.camera.rotation.set(-.03,-v.heading,0);
  updateMirrorCameras(this.mirrors,v);
  const id=s.mission?'mission-'+s.mission.id:s.scenario?.id??'';if(id!==this.scenarioId){if(this.scenarioRoad)disposeGroup(this.scenarioRoad);this.scenarioRoad=s.mission?buildMissionRoad(s.mission.id):id?buildScenarioRoad(s.scenario!.id):null;if(this.scenarioRoad)this.scene.add(this.scenarioRoad);this.scenarioId=id;}
- updateSignalHeads(this.scene,s.clock);
+ updateSignalHeads(this.scene,s.clock);this.scene.traverse(o=>{if(o.name==='learning-guide')o.visible=s.course?.mode!=='examen';});
  const showLight=s.mission&&s.mission.id>=3?false:s.mission?Boolean(s.scenario&&SCENARIOS[s.scenario.id].signal):!s.scenario||SCENARIOS[s.scenario.id].signal;this.scene.traverse(o=>{if(o.name==='traffic-fixture')o.visible=showLight;if(o.name==='speed-sign')o.position.z=s.scenario?30:18;if(o.name.startsWith('cross-lamp-')&&o instanceof THREE.Mesh){const name=o.name.slice(11);(o.material as THREE.MeshBasicMaterial).color.set(name===s.scenario?.crossLight?(name==='rood'?'#fb2939':name==='oranje'?'#fcb02e':'#36e16b'):'#33383b');}});this.red.visible=showLight;this.yellow.visible=showLight;this.green.visible=showLight;
  for(const mesh of this.actorPool.values())mesh.visible=false;
  s.actors.forEach((a,i)=>{const key=a.kind+':'+(a.id??i);let mesh=this.actorPool.get(key);if(!mesh){mesh=a.kind==='auto'?makeCar('#cf6143'):a.kind==='fietser'?makeBike():makePedestrian();this.actorPool.set(key,mesh);this.scene.add(mesh);}mesh.visible=true;mesh.position.set(a.x,0,a.z);mesh.rotation.y=-a.heading;});
  for(const [name,mesh] of [['rood',this.red],['oranje',this.yellow],['groen',this.green]] as const){(mesh.material as THREE.MeshBasicMaterial).color.set(name===s.light?(name==='rood'?'#fb2939':name==='oranje'?'#fcb02e':'#36e16b'):'#33383b');}
- if(mirrorElements)for(const name of ['links','rechts','binnen'] as const){const stage=performance.now(),target=this.targets[name];this.renderer.setRenderTarget(target);this.renderer.render(this.scene,this.mirrors[name]);
+ const probe=import.meta.env.DEV?new URLSearchParams(location.search).get('mirrorProbe'):null;
+ if(mirrorElements&&probe!=='off')for(const name of ['links','rechts','binnen'] as const){const stage=performance.now(),target=this.targets[name];this.renderer.setRenderTarget(target);this.renderer.render(this.scene,this.mirrors[name]);
  this.profile.mirrorRenderMs+=performance.now()-stage;
  // MVP GPU readback. X-flip approximates a real mirror; it is not optically calibrated.
- const ctx=mirrorElements[name].getContext('2d');if(ctx){const w=target.width,h=target.height;const buffer=this.mirrorBuffers[name]??={pixels:new Uint8Array(w*h*4),image:ctx.createImageData(w,h)};let t=performance.now();this.renderer.readRenderTargetPixels(target,0,0,w,h,buffer.pixels);this.profile.readbackMs+=performance.now()-t;t=performance.now();copyMirrorPixels(buffer.pixels,buffer.image.data,w,h);this.profile.copyMs+=performance.now()-t;t=performance.now();ctx.putImageData(buffer.image,0,0);this.profile.paintMs+=performance.now()-t;}
+ if(probe==='render')continue;const ctx=mirrorElements[name].getContext('2d');if(ctx){const w=target.width,h=target.height;const buffer=this.mirrorBuffers[name]??={pixels:new Uint8Array(w*h*4),image:ctx.createImageData(w,h)};let t=performance.now();this.renderer.readRenderTargetPixels(target,0,0,w,h,buffer.pixels);this.profile.readbackMs+=performance.now()-t;if(probe==='read')continue;t=performance.now();copyMirrorPixels(buffer.pixels,buffer.image.data,w,h);this.profile.copyMs+=performance.now()-t;if(probe==='copy')continue;t=performance.now();ctx.putImageData(buffer.image,0,0);this.profile.paintMs+=performance.now()-t;}
  }
  this.profile.frames++;this.renderer.domElement.dataset.mirrorProfile=JSON.stringify(this.profile);
  this.renderer.setRenderTarget(null);const width=this.renderer.domElement.clientWidth,height=this.renderer.domElement.clientHeight;

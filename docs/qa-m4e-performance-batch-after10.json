@@ -1,0 +1,87 @@
+{
+  "sampleSeconds": 4,
+  "viewport": "1280x1000",
+  "mission": 10,
+  "probe": "full",
+  "modes": {
+    "single": {
+      "fps": 27.711984841307437,
+      "frames": 117,
+      "mirrorRenderMs": 2.3162393149657126,
+      "readbackMs": 5.417948718509104,
+      "copyMs": 0.4641025642044524,
+      "paintMs": 0.18632478744555742,
+      "pages": 1,
+      "sides": [],
+      "mirrors": [
+        {
+          "hash": 680646615,
+          "colors": 17
+        },
+        {
+          "hash": 1522467873,
+          "colors": 218
+        },
+        {
+          "hash": 1025009580,
+          "colors": 235
+        }
+      ]
+    },
+    "span": {
+      "fps": 23.243801652957618,
+      "frames": 99,
+      "mirrorRenderMs": 1.9505050513479445,
+      "readbackMs": 4.742424238510806,
+      "copyMs": 0.4535353557027952,
+      "paintMs": 0.15555555802403073,
+      "pages": 1,
+      "sides": [],
+      "mirrors": [
+        {
+          "hash": 680646615,
+          "colors": 17
+        },
+        {
+          "hash": 1522467873,
+          "colors": 218
+        },
+        {
+          "hash": 1025009580,
+          "colors": 235
+        }
+      ]
+    },
+    "windows": {
+      "fps": 13.960190939423223,
+      "frames": 62,
+      "mirrorRenderMs": 1.7790322553726934,
+      "readbackMs": 4.562903223979857,
+      "copyMs": 0.44354838853882206,
+      "paintMs": 0.1338709693762564,
+      "pages": 3,
+      "sides": [
+        "13.8 FPS · render 1.5 ms · pakketouderdom 110 ms · klok 0.00 s",
+        "13.8 FPS · render 1.5 ms · pakketouderdom 69 ms · klok 0.00 s"
+      ],
+      "mirrors": [
+        {
+          "hash": 680646615,
+          "colors": 17
+        },
+        {
+          "hash": 1522467873,
+          "colors": 218
+        },
+        {
+          "hash": 1025009580,
+          "colors": 235
+        }
+      ]
+    }
+  },
+  "binary": "Chromium Headless Shell 1248",
+  "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "staticBatching": true,
+  "experimentStatus": "Verworpen experiment; niet opgenomen in eindcode"
+}

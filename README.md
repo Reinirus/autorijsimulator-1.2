@@ -2,11 +2,15 @@
 
 **DEMO — NIET CBR-GECERTIFICEERD. Geen vervanging voor rijles.** Milestone 1 blijft formeel open voor hardware- en duurtests. De gebruiker heeft de ontwikkeling van Milestone 2 en 3 uitdrukkelijk toegestaan terwijl die acceptatie openstaat.
 
-## Milestone 4D
+## Milestone 4E
 
-Branch milestone-4-rijmissies bevat acht speelbare oefenmissies. Missies 1–6 blijven behouden, inclusief D/R en parkeren. Missie 7 rijdt circa 241 meter over twee echte rotondes, met de eerste en derde afslag, B6/D1, haaientanden, fietsers en zebrapaden. Missie 8 rijdt circa 330 meter over een gebogen A1-60-buitenweg met voorligger, tegenligger, fietser en beperkt zicht. Kies Rustig of Extra verkeer / beperkt zicht; wijzigen herstart de rit. Seeds, verkeersmomenten en globale tijden worden in het anonieme rapport bewaard. Twee seconden is afstandsadvies, geen zelfstandige wettelijke overtreding.
+Branch milestone-4-rijmissies biedt tien selecteerbare oefenmissies, met behoud van de acht bestaande routes, D/R en achteruit parkeren, cockpit, drie echte spiegels, drie schermmodi en anonieme lokale rapportage met JSON/CSV.
 
-Missies 9 en 10 blijven uitgeschakeld. De drie schermmodi en echte spiegelcamera’s gebruiken dezelfde canonieke wereld. Zie docs/M4_VOORTGANG.md en docs/TESTVERSLAG.md voor echte controles, prestaties en resterende Windows-, hardware- en juridische acceptatie. PR #2 blijft concept tegen milestone-3-gecontroleerd. Niet mergen of publiceren.
+Missie 9 rijdt circa 712 meter over een echte toerit, invoegstrook, twee doorgaande rijstroken, uitvoegstrook en afrit. Het is een specifiek A1-60-werkvak met G1/J16, geen algemene snelweglimiet. Missie 10 verbindt circa 1.287 meter woonwijk, kruispunten, verkeerslichten, een echte rotonde, gebogen buitenweg en snelweg met één wereldtoestand en klok. Beide nieuwe missies zijn met echte toetsenbordritten in Rustig/Druk gecontroleerd. Leerstand biedt uitleg; oefenexamenstand toont tijdens de rit alleen navigatie en achteraf het rapport. Geen officiële CBR-slaagcriteria.
+
+Lint, typecheck, build, 173 unit-tests en 11 productie-subpadtests slagen. De volledige browserrun is 45/47; de onderbroken woonwijkrit slaagt in de afzonderlijke herhaling (6/6 afsluitende controles). De bekende Windows-downloadannulering blijft open en de strikte exporttest blijft actief. De drievensterweergave met software-rendering blijft traag; een onstabiele optimalisatie is teruggedraaid, geen FPS-winst geclaimd.
+
+Zie docs/M4_VOORTGANG.md en docs/TESTVERSLAG.md voor feitelijke resultaten, bronnen, prestaties en resterende Windows-, juridische en hardwarevalidatie. M1 blijft formeel open. PR #2 blijft concept tegen milestone-3-gecontroleerd. Niet mergen of publiceren.
 
 ## Nieuw in Milestone 3
 

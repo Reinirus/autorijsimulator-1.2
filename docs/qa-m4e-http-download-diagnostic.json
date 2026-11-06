@@ -1,0 +1,12 @@
+[
+  {
+    "custom": false,
+    "failure": "canceled",
+    "path": "Error: download.path: canceled"
+  },
+  {
+    "custom": true,
+    "failure": "canceled",
+    "path": "Error: download.path: canceled"
+  }
+]

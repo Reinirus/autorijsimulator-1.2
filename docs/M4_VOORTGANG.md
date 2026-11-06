@@ -1,46 +1,38 @@
-# Milestone 4D — rotondes en buitenwegen
+# Milestone 4E — snelweg en zelfstandig rijden
 
-**DEMO — NIET CBR-GECERTIFICEERD.** Uitgangspunt: gecontroleerde M4C-commit 7cb4179f5700cc1714c26e5ab14c9f4c1ca77283. Werk uitsluitend op milestone-4-rijmissies. M1 blijft formeel open voor hardware- en duuracceptatie. Eerdere voortgang staat in M4_VOORTGANG_M4C_HISTORIE.md.
+**DEMO — NIET CBR-GECERTIFICEERD.** 6 november 2026. Uitgangspunt: cfb2eeb48d14ea052598c2292a92fc2d1a488582, branch milestone-4-rijmissies. De M4D-historie is bewaard in M4_VOORTGANG_M4D_HISTORIE.md. M1 blijft formeel open voor hardware- en duuracceptatie.
 
 ## Speelbare missies
 
-Missies 1–6 blijven behouden. Missie 7 en 8 zijn toegevoegd nadat hun volledige routes met echte voertuigfysica en browser-keydown/keyup waren doorlopen. De uiteindelijke versie is daarna opnieuw in de volledige regressie gecontroleerd. Missies 9 en 10 blijven uitgeschakeld; de oude routevoorstellen in development.ts zijn geen speelbare implementaties.
+Missies 1–10 zijn afzonderlijk selecteerbaar. Missies 1–8, D/R, werkelijk achteruit parkeren, cockpit, drie echte spiegels, drie schermmodi en anonieme opslag/export blijven behouden. De twee nieuwe missies zijn pas vrijgegeven nadat beide routes in beide moeilijkheidsstanden werkelijk waren afgerond met voertuigfysica en browser-keydown/keyup. Afronden is geen officieel slagen of bewering van juridisch foutloos rijden.
 
-| Missie | Uitgewerkte route |
+| Missie | Nieuwe uitwerking |
 |---|---|
-| 7 — rotondes | Circa 241 meter, twee afzonderlijke ringvormige wegen met een middeneiland van 10,3 m straal, rijbaan 10,3–17,7 m en vier aangesloten armen. De leerling rijdt de eerste afslag op rotonde 1 en de derde op rotonde 2; werkelijk tegen de klok in langs het eiland. Zes unieke verkeersmomenten, B6/haaientanden, D1, herhaalde A1-borden voor nieuwe wegvakken, zebrapaden en afzonderlijke fietsoversteken. NPC’s naderen, verlenen voorrang, rijden de ring op en verlaten die. |
-| 8 — buitenweg | Circa 330 meter doorlopende, gebogen Nederlandse oefenweg. Expliciet A1 60 km/u; geen universele limiet voor alle buitenwegen. Rand- en middenmarkeringen, langzamere auto, tegenligger en fietser. In de bocht wordt de ingestelde zichtafstand korter en moet de leerling anticiperen op het langzamere verkeer. Vier unieke verkeersmomenten. |
+| 9 | Circa 712 m, 198 routepunten en vijf verkeersmomenten: toerit/invoegstrook, twee doorgaande rijstroken, wisselen naar links en terug naar rechts, remmend verkeer, uitvoegstrook, afrit en eindstop na G2. Gescheiden tegenrijbaan, middenberm, markeringen, G1/G2, A1, J16 en afritaanwijzing. |
+| 10 | Circa 1.287 m, 373 routepunten en twaalf verkeersmomenten. Woonwijk met fietser, gelijkwaardig kruispunt, B6, verkeerslichten, echte ringvormige rotonde met eerste afslag, gebogen buitenweg met voorligger/tegenligger/fietser, snelweg met in- en uitvoegen en eindstop. De wegdelen sluiten fysiek aan. |
 
-Beide missies hebben een startpunt, routeaanwijzingen, bereikbare routepunten, eindvak met werkelijk remmen/stilstaan, rapport, opslag en herstart. D/R, cockpit, drie echte spiegelcamera’s en alle drie schermmodi zijn behouden. Blauwe leerhulpen zijn op de nieuwe routes beperkt tot een selectie routepunten; de werkelijke asfaltgeometrie is leidend. Alle nieuwe geometrie en borden zijn eigen procedureel werk.
+De snelweg is een **specifiek A1-60-werkvak met twee open doorgaande rijstroken**. Het A1-bord heeft geen tijdsonderbord; de oefencontext vermeldt 10:00. Dit is geen algemene snelweglimiet. Na G2 volgt A1 30 en het eindvak buiten de doorgaande snelwegrijbaan. Het bestaande voertuigmodel met maximaal 64,8 km/u is behouden; geen ongetest 100–130-km/u-model.
 
-## Moeilijkheid en reproduceerbaarheid
+## Canonieke wereld, regels en verkeer
 
-De selector biedt Rustig en Extra verkeer / beperkt zicht. Een wijziging herstart de gekozen rit en wordt expliciet zo aangekondigd. Missie 7 gebruikt seeds 707/708; de tweede variant voegt een extra auto toe die via een echte toerit nadert en gebruikt andere activering/snelheden. Missie 8 gebruikt 808/809 en respectievelijk 45/28 meter modelzicht in het begrensde mistvak, tegenover 140 meter daarbuiten. Dit zijn oefenparameters, geen wettelijke zicht-/reactietijden. De wereld blijft binnen de rit één klok gebruiken; een verkeersmoment veroorzaakt geen reset.
+journey-course.ts beschrijft de verbonden rijlijn, wegdelen, NPC-trajecten en verkeersmomenten. journey-runtime.ts verwerkt die binnen dezelfde Simulation-stap als de voertuigfysica. Eén voertuig, wereldtoestand en fixed-timestep-klok blijven de hele rit bestaan. Een verkeersmoment reset niets. Zijvensters ontvangen snapshots en simuleren geen eigen verkeer. Ook een moduswisseling bij klok nul wist de interpolatiebuffer.
 
-## Canonieke architectuur
+NPC’s behouden hun identiteit en traject tussen verkeersmomenten. Zij versnellen/remmen begrensd, volgen voorliggers en reageren op voorspelde conflicten met de leerling. De rotonde-NPC gebruikt bij zijn eigen B6 de bestaande ringconflictcontrole en M3-beslisser. De snelwegauto’s hebben verschillende snelheden en een reproduceerbaar remmoment. Het is een eindige scenariostroom; verkeersdichtheid later in missie 10 hangt mede van rij- en wachttijden af, geen onbeperkte verkeersgenerator of algemene rijstrookkeuze-AI.
 
-advanced-course.ts beschrijft rijlijnen, ringwegen, toeritten/afritten, verkeersmomenten, NPC-trajecten en zichtvak. advanced-runtime.ts verwerkt de feiten in dezelfde Simulation-stap als de voertuigfysica. Het houdt geen tweede voertuig of klok bij. De zes bestaande missies blijven het bestaande pad gebruiken.
+Rustig/Druk gebruiken seeds 909/910 en 1010/1011. Druk voegt twee snelwegauto’s toe en beperkt in de buitenwegsectie van missie 10 het modelzicht tot 45 m. Dit zijn modelparameters, geen wettelijke normen. De M3-beslisser blijft behouden. Nieuwe ruimtelijke beoordelingen blijven **oefenfeedback/advies** zolang menselijke validatie ontbreekt. Twee seconden is advies; contact bewijst geen juridische schuld. Niet gemeten spiegel-, oog- of dodehoekgedrag wordt niet als fout beoordeeld. Geen CBR-punten of officiële slaagcriteria.
 
-NPC’s bestaan in dezelfde wereld en kunnen hun traject na een verkeersmoment vervolgen. Zij wachten bij B6 voor conflicterend ringverkeer en bij geactiveerde kwetsbare oversteken, houden ruimte tot voorliggers en reageren op voorspelde conflicten met de leerling. De extra auto staat niet als een geparkeerd obstakel op de ring, maar nadert via een aangesloten rijbaan. Unit-tests controleren ook onderling NPC-contact gedurende de complete testritten.
+## Leerstand, examen en rapport
 
-De satellietvensters ontvangen alleen snapshots. Een wijziging van moeilijkheid/seed wist de interpolatiebuffer ook wanneer beide toestanden klok nul hebben, zodat oude en nieuwe NPC-lijsten niet worden gemengd. Geen satelliet berekent eigen NPC’s, verkeersregels of voertuigfysica.
+De leerstand biedt opdrachten, uitleg, pauze en herstart. De oefenexamenstand toont tijdens de rit navigatie en instrumenten, zonder live verkeersfeedback, rem-/voorrangshints, blauwe leerhulpen of inzichtvraag. Pauzeren onthult geen rapport. Na afronden of expliciet beëindigen verschijnt het volledige rapport; een beëindigd examen vereist herstart. Beide standen gebruiken dezelfde fysica en regels.
 
-## Verkeersbeoordeling
+Iedere encounter heeft een unieke ID binnen de rit, begin/eindtijd en begrijpelijke opdracht. Gebeurtenissen bevatten eigen codes, tijd, positie, snelheid, bebord maximum, bron-ID’s en verbeteradvies. De ritstand wordt anoniem bewaard en gaat mee in JSON en CSV-observaties. Oude rapporten blijven leesbaar. Herstart wist alleen de actuele rit en behoudt modus/moeilijkheid; eerder bewaarde rapporten blijven lokaal bestaan.
 
-De pure M3-regelmodule blijft behouden en verwerkt B6-/oversteekfeiten. D1 bepaalt de rijrichting; het is niet op zichzelf een voorrangsregel. Op deze expliciete oefenrotondes staan B6 en haaientanden bij de ingerichte voorrangspunten. Ook de afzonderlijke fietsoversteek bij het verlaten heeft expliciete voorrangstekens; er wordt geen algemene prioriteit voor alle fietsers bij iedere rotonde verondersteld. De zebra valt onder de afzonderlijke voetgangersregel.
+## Werkelijke controle en beperkingen
 
-Bij het werkelijk uitrijden wordt rechts richting getoetst aan artikel 17 lid 2; geen verplichte linkerrichting bij het naderen wordt verzonnen. Onbekende/off-route passages geven advies in plaats van een bewezen juridische conclusie. De broncatalogus bewaart artikel, versie, controledatum en open menselijke reviewstatus. Nieuwe ruimtelijke toepassing en getalsmatige conflictvensters vereisen menselijke review.
+Lint, typecheck, productiebuild en 173/173 unit-tests slagen. Volledige browserrun: 45/47 in 32,9 min. Alle vier nieuwe complete ritten slagen. Eén woonwijkrit verloor zijn browsercontext; de afzonderlijke herhaling slaagt samen met vijf afsluitende controles: 6/6. De andere fout is de bestaande Windows-downloadannulering. Exacte commando’s, laatste subpadresultaat en beperkingen staan in TESTVERSLAG.md.
 
-ruralFindings scheidt de getoonde A1-limiet van veiligheidsadviezen. Een te korte twee-secondenafstand is uitsluitend advies en heeft geen zelfstandige juridische regel-ID. Het zichtadvies is een berekening met de actuele modelsnelheid en remfysica onder de ingestelde zichtconditie; het bewijst niet dat een echte bestuurder artikel 19 heeft overtreden. Geen fictieve CBR-slaagscore, betrouwbare oogtracking of onbewezen spiegel-/dodehoekfout.
+De spiegelketen blijft inhoudelijk ongewijzigd. Headless Shell gebruikt SwiftShader-softwareweergave; drie vensters blijven ook zonder spiegels traag. Een statisch geometriebatching-experiment is geheel teruggedraaid: spiegelpixels bleven gelijk, maar FPS-winst was niet stabiel. **Geen prestatieverbetering geclaimd.** Ruwe qa-m4e-performance-*.json tonen ook waarden onder 15 FPS.
 
-Per verkeersmoment en gebeurtenis worden unieke IDs binnen de rit, globale tijd, feiten, seed/moeilijkheid, bronverwijzingen en verbeteradvies vastgelegd. JSON en CSV ondersteunen nu missies 7/8 en bevatten de variant en seed; oude rapporten blijven leesbaar. Een herstart wist de actuele rit en houdt de gekozen moeilijkheid vast; eerder bewaarde anonieme rapporten blijven lokaal beschikbaar.
+Open: Windows-downloadacceptatie, menselijke juridische/WRM-/didactische review, doelgroep/toegankelijkheid, Edge, schoollaptops/GPU’s, fysieke monitoren/DPI, stuur/pedalen en twee duurtests van 30 minuten. Eigen schematische weg-/bordgeometrie is geen CROW/BABW-certificering. Geen fysiek gekalibreerd banden-/zichtmodel, complete statische botsingswereld, algemene inhaalengine of volledige automatische toetsing van alle snelwegverboden van RVV 43.
 
-## Werkelijke controle en resterende grenzen
-
-Zie TESTVERSLAG.md voor de werkelijk uitgevoerde commando’s, volledige ritten, regressies, fouten en beperkingen. Ruwe FPS-/spiegelmetingen staan in qa-m4d-performance.json; route- en eindbeelden in qa-m4d-*.png. De spiegelketen is inhoudelijk ongewijzigd: drie 320×190-targets, synchronische GPU-readback, pixeltransformatie en canvasoverdracht. De bestaande tijdmetingen zijn opnieuw gebruikt. Er is geen onbewezen asynchrone, verlaagde resolutie- of frequentiewijziging ingevoerd.
-
-Dit is een begrensd, deterministisch oefenverkeersmodel. Geen algemene stads-/plattelands-AI, volledig statisch botsingssysteem, fysiek gekalibreerd banden-/wegdekmodel, echte zicht-/oogmeting, rotonde met meerdere rijstroken of complete inhaalbeoordeling. De NPC’s zijn benoemde scenarioactoren, geen onbegrensde verkeersstroom. Afstand-/zichtmodellen en nieuwe bordplaatsingen vragen juridische/WRM-/didactische review.
-
-Open blijven: lokale Windows-bestandsdownloadacceptatie, doelgroep-/toegankelijkheidsacceptatie, Edge, echte schoollaptops en GPU’s, fysieke monitoren/DPI, stuur/pedalen en twee duurtests van 30 minuten. Leer-/oefenexamenstand wordt niet als afgerond gepresenteerd. Geen certificering of volledige M1-acceptatie. PR #2 blijft concept tegen milestone-3-gecontroleerd; niet mergen en geen GitHub Pages-publicatie.
-
-Laatste lokale resultaten: npm ci/lint/typecheck/build geslaagd; 160/160 unit-tests; volledige Chromium-run 39/40 (19,2 min), alleen de bekende Windows-downloadannulering. Alle nieuwe ritten en de zes bestaande missies slagen. Na de laatste UI-/bordverduidelijking zijn schermmetingen, overgangscontrole en smoketest herhaald: 3/3 (47,3 s). Productiesubpad: 9/9 (23,2 s). De afzonderlijke Linux-CI-resultaten staan bij PR #2.
+PR #2 blijft concept tegen milestone-3-gecontroleerd. Alleen de M4-branch wordt bijgewerkt. Niet mergen en geen GitHub Pages-publicatie starten.

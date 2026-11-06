@@ -15,7 +15,7 @@ export class SnapshotBuffer {
   if(p.type!=='snapshot'||!Number.isFinite(p.sentAt)||!Number.isFinite(p.seq)||!p.state||!p.calibration)return false;
   const last=this.latest;
   if(last&&(p.sentAt<last.sentAt||(p.epoch===last.epoch&&p.seq<=last.seq)))return false;
-  if(last&&(p.epoch!==last.epoch||p.state.clock<last.state.clock||p.state.scenario?.id!==last.state.scenario?.id||p.state.mission?.id!==last.state.mission?.id||p.state.course?.seed!==last.state.course?.seed||p.state.mission?.encounterId!==last.state.mission?.encounterId))this.packets=[];
+  if(last&&(p.epoch!==last.epoch||p.state.clock<last.state.clock||p.state.scenario?.id!==last.state.scenario?.id||p.state.mission?.id!==last.state.mission?.id||p.state.course?.seed!==last.state.course?.seed||p.state.course?.mode!==last.state.course?.mode||p.state.mission?.encounterId!==last.state.mission?.encounterId))this.packets=[];
   this.latest=p;this.packets.push(p);if(this.packets.length>12)this.packets.shift();return true;
  }
  age(now:number){return this.latest?Math.max(0,now-this.latest.sentAt):Infinity;}

@@ -1,0 +1,87 @@
+{
+  "sampleSeconds": 4,
+  "viewport": "1280x1000",
+  "mission": 7,
+  "probe": "copy",
+  "modes": {
+    "single": {
+      "fps": 59.95174009294825,
+      "frames": 241,
+      "mirrorRenderMs": 0.8614107887279938,
+      "readbackMs": 5.613278007606253,
+      "copyMs": 0.2626556013382322,
+      "paintMs": 0,
+      "pages": 1,
+      "sides": [],
+      "mirrors": [
+        {
+          "hash": 1469814213,
+          "colors": 1
+        },
+        {
+          "hash": 1469814213,
+          "colors": 1
+        },
+        {
+          "hash": 1469814213,
+          "colors": 1
+        }
+      ]
+    },
+    "span": {
+      "fps": 60.02789678172871,
+      "frames": 241,
+      "mirrorRenderMs": 0.7327800797476314,
+      "readbackMs": 5.0829875517435585,
+      "copyMs": 0.2684647337035025,
+      "paintMs": 0,
+      "pages": 1,
+      "sides": [],
+      "mirrors": [
+        {
+          "hash": 1469814213,
+          "colors": 1
+        },
+        {
+          "hash": 1469814213,
+          "colors": 1
+        },
+        {
+          "hash": 1469814213,
+          "colors": 1
+        }
+      ]
+    },
+    "windows": {
+      "fps": 59.926206571895506,
+      "frames": 242,
+      "mirrorRenderMs": 0.6958677670187201,
+      "readbackMs": 4.92314049823225,
+      "copyMs": 0.2247933884543821,
+      "paintMs": 0,
+      "pages": 3,
+      "sides": [
+        "60.0 FPS · render 0.7 ms · pakketouderdom 68 ms · klok 19.10 s",
+        "60.0 FPS · render 1.7 ms · pakketouderdom 65 ms · klok 19.09 s"
+      ],
+      "mirrors": [
+        {
+          "hash": 1469814213,
+          "colors": 1
+        },
+        {
+          "hash": 1469814213,
+          "colors": 1
+        },
+        {
+          "hash": 1469814213,
+          "colors": 1
+        }
+      ]
+    }
+  },
+  "binary": "Chromium full 1248 --headless",
+  "running": true,
+  "staticBatching": false,
+  "experimentStatus": "Renderer zonder geometriebatching"
+}

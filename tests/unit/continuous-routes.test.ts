@@ -2,7 +2,7 @@ import {it,expect} from 'vitest';
 import {Simulation} from '../../src/core/simulation';
 import {ROUTES} from '../../src/missions/route';
 import {DEVELOPMENT_ROUTES,validateLanes} from '../../src/missions/development';
-it('historische routevoorstellen blijven expliciet buiten de speelbare registratie',()=>{expect(Object.keys(DEVELOPMENT_ROUTES)).toHaveLength(6);expect(Object.keys(ROUTES)).toEqual(['1','2','3','4','5','6','7','8']);for(const r of Object.values(DEVELOPMENT_ROUTES)){expect(r.points.at(-1)!.stop).toBe(true);expect(new Set(r.encounters.map(e=>e.id)).size).toBe(r.encounters.length);}});
+it('historische routevoorstellen blijven expliciet buiten de speelbare registratie',()=>{expect(Object.keys(DEVELOPMENT_ROUTES)).toHaveLength(6);expect(Object.keys(ROUTES)).toEqual(['1','2','3','4','5','6','7','8','9','10']);for(const r of Object.values(DEVELOPMENT_ROUTES)){expect(r.points.at(-1)!.stop).toBe(true);expect(new Set(r.encounters.map(e=>e.id)).size).toBe(r.encounters.length);}});
 it('valideert rijstrookgeometrie en aansluitingen vóór routevrijgave',()=>{expect(validateLanes([{id:'a',width:3,center:[{x:0,z:0},{x:0,z:-10}],successors:['a']}])).toEqual([]);expect(validateLanes([{id:'a',width:0,center:[],successors:['missing']}])).toHaveLength(2);});
 it('herhaalde verkeersmomenten behouden klok en afzonderlijke gebeurtenis-ID’s',()=>{
  // Deliberate boundary injection verifies the encounter adapter, not a full journey.
