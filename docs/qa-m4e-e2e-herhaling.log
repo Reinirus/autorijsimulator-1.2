@@ -1,0 +1,26 @@
+
+  VITE v7.3.7  ready in 2156 ms
+
+  ➜  Local:   http://127.0.0.1:4573/
+
+> nederlandse-autorijsimulator@0.1.0 test:e2e
+> playwright test tests/e2e/milestone4b.spec.ts tests/e2e/milestone4e-state.spec.ts tests/e2e/missions.spec.ts tests/e2e/milestone4d-state.spec.ts tests/e2e/smoke.spec.ts --grep missie 3|missiemenu|M4E|M4D verlaten|start, missie en stop
+
+
+Running 6 tests using 1 worker
+
+(node:8020) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\e2e\milestone4b.spec.ts:4:23 › M4B missie 3: volledige woonwijkrit met echte invoer, NPC’s en herhaalde verkeersmomenten (1.4m)
+  ok 2 tests\e2e\milestone4d-state.spec.ts:2:1 › M4D verlaten wist de variantindicatie en behoudt de M4E-missieselectie (407ms)
+  ok 3 tests\e2e\milestone4e-state.spec.ts:2:1 › M4E examen verbergt live feedback, bewaart modus na reset en toont een eindrapport (5.1s)
+  ok 4 tests\e2e\milestone4e-state.spec.ts:3:1 › M4E snelweg en gecombineerde route gebruiken drie gevulde spiegels en gedeelde vensterstaat (9.3s)
+  ok 5 tests\e2e\missions.spec.ts:3:1 › missiemenu toont tien beschikbare gecontroleerde oefenmissies (392ms)
+  ok 6 tests\e2e\smoke.spec.ts:2:1 › start, missie en stop (2.3s)
+
+  6 passed (1.7m)
+npm notice
+npm notice New major version of npm available! 10.9.2 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

@@ -1,0 +1,58 @@
+[
+  {
+    "binary": "Chromium full 1248",
+    "method": "Blob",
+    "custom": false,
+    "failure": "canceled",
+    "path": "Error: download.path: canceled"
+  },
+  {
+    "binary": "Chromium full 1248",
+    "method": "Blob",
+    "custom": true,
+    "failure": "canceled",
+    "path": "Error: download.path: canceled"
+  },
+  {
+    "binary": "Chromium full 1248",
+    "method": "HTTP attachment",
+    "custom": false,
+    "failure": "canceled",
+    "path": "Error: download.path: canceled"
+  },
+  {
+    "binary": "Chromium full 1248",
+    "method": "HTTP attachment",
+    "custom": true,
+    "failure": "canceled",
+    "path": "Error: download.path: canceled"
+  },
+  {
+    "binary": "Chromium Headless Shell 1248",
+    "method": "Blob",
+    "custom": false,
+    "failure": "canceled",
+    "path": "Error: download.path: canceled"
+  },
+  {
+    "binary": "Chromium Headless Shell 1248",
+    "method": "Blob",
+    "custom": true,
+    "failure": "canceled",
+    "path": "Error: download.path: canceled"
+  },
+  {
+    "binary": "Chromium Headless Shell 1248",
+    "method": "HTTP attachment",
+    "custom": false,
+    "failure": "canceled",
+    "path": "Error: download.path: canceled"
+  },
+  {
+    "binary": "Chromium Headless Shell 1248",
+    "method": "HTTP attachment",
+    "custom": true,
+    "failure": "canceled",
+    "path": "Error: download.path: canceled"
+  }
+]

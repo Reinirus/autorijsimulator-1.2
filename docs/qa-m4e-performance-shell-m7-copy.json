@@ -1,0 +1,87 @@
+{
+  "sampleSeconds": 4,
+  "viewport": "1280x1000",
+  "mission": 7,
+  "probe": "copy",
+  "modes": {
+    "single": {
+      "fps": 35.364396654719236,
+      "frames": 148,
+      "mirrorRenderMs": 1.1027027040317252,
+      "readbackMs": 3.0824324309423163,
+      "copyMs": 0.45202702747003454,
+      "paintMs": 0,
+      "pages": 1,
+      "sides": [],
+      "mirrors": [
+        {
+          "hash": 1469814213,
+          "colors": 1
+        },
+        {
+          "hash": 1469814213,
+          "colors": 1
+        },
+        {
+          "hash": 1469814213,
+          "colors": 1
+        }
+      ]
+    },
+    "span": {
+      "fps": 27.078384798099762,
+      "frames": 114,
+      "mirrorRenderMs": 0.9903508754153001,
+      "readbackMs": 2.8675438602242553,
+      "copyMs": 0.49210526205991445,
+      "paintMs": 0,
+      "pages": 1,
+      "sides": [],
+      "mirrors": [
+        {
+          "hash": 1469814213,
+          "colors": 1
+        },
+        {
+          "hash": 1469814213,
+          "colors": 1
+        },
+        {
+          "hash": 1469814213,
+          "colors": 1
+        }
+      ]
+    },
+    "windows": {
+      "fps": 17.43959246435572,
+      "frames": 76,
+      "mirrorRenderMs": 0.8868421045573134,
+      "readbackMs": 2.671052631971083,
+      "copyMs": 0.46973684273268046,
+      "paintMs": 0,
+      "pages": 3,
+      "sides": [
+        "17.0 FPS · render 1.2 ms · pakketouderdom 102 ms · klok 22.75 s",
+        "16.8 FPS · render 2.2 ms · pakketouderdom 60 ms · klok 22.81 s"
+      ],
+      "mirrors": [
+        {
+          "hash": 1469814213,
+          "colors": 1
+        },
+        {
+          "hash": 1469814213,
+          "colors": 1
+        },
+        {
+          "hash": 1469814213,
+          "colors": 1
+        }
+      ]
+    }
+  },
+  "binary": "Chromium Headless Shell 1248",
+  "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "staticBatching": false,
+  "experimentStatus": "Renderer zonder geometriebatching"
+}

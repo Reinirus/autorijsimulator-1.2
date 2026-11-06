@@ -1,0 +1,172 @@
+[
+  {
+    "from": "app.ts",
+    "to": "src/app.ts",
+    "same": false
+  },
+  {
+    "from": "style.css",
+    "to": "src/style.css",
+    "same": false
+  },
+  {
+    "from": "model (2).ts",
+    "to": "src/missions/model.ts",
+    "same": false
+  },
+  {
+    "from": "panel (3).ts",
+    "to": "src/missions/panel.ts",
+    "same": false
+  },
+  {
+    "from": "missions.spec.ts",
+    "to": "tests/e2e/missions.spec.ts",
+    "same": false
+  },
+  {
+    "from": "missions.test.ts",
+    "to": "tests/unit/missions.test.ts",
+    "same": false
+  },
+  {
+    "from": "M4_VOORTGANG.md",
+    "to": "docs/M4_VOORTGANG.md",
+    "same": false
+  },
+  {
+    "from": "keyboard.ts",
+    "to": "src/core/keyboard.ts",
+    "same": true
+  },
+  {
+    "from": "state.ts",
+    "to": "src/core/state.ts",
+    "same": true
+  },
+  {
+    "from": "simulation.ts",
+    "to": "src/core/simulation.ts",
+    "same": true
+  },
+  {
+    "from": "physics.ts",
+    "to": "src/core/physics.ts",
+    "same": true
+  },
+  {
+    "from": "pixels.ts",
+    "to": "src/displays/pixels.ts",
+    "same": true
+  },
+  {
+    "from": "mirrors.ts",
+    "to": "src/displays/mirrors.ts",
+    "same": true
+  },
+  {
+    "from": "satellite.ts",
+    "to": "src/displays/satellite.ts",
+    "same": true
+  },
+  {
+    "from": "config.ts",
+    "to": "src/displays/config.ts",
+    "same": true
+  },
+  {
+    "from": "sync.ts",
+    "to": "src/displays/sync.ts",
+    "same": true
+  },
+  {
+    "from": "controller.ts",
+    "to": "src/displays/controller.ts",
+    "same": true
+  },
+  {
+    "from": "cameras.ts",
+    "to": "src/displays/cameras.ts",
+    "same": true
+  },
+  {
+    "from": "catalog.ts",
+    "to": "src/rules/catalog.ts",
+    "same": true
+  },
+  {
+    "from": "evaluator.ts",
+    "to": "src/rules/evaluator.ts",
+    "same": true
+  },
+  {
+    "from": "session.ts",
+    "to": "src/assessment/session.ts",
+    "same": true
+  },
+  {
+    "from": "demo.ts",
+    "to": "src/questions/demo.ts",
+    "same": true
+  },
+  {
+    "from": "scene.ts",
+    "to": "src/renderer/scene.ts",
+    "same": true
+  },
+  {
+    "from": "engine.ts",
+    "to": "src/traffic/engine.ts",
+    "same": true
+  },
+  {
+    "from": "geometry.ts",
+    "to": "src/traffic/geometry.ts",
+    "same": true
+  },
+  {
+    "from": "geometry (4).ts",
+    "to": "src/world/geometry.ts",
+    "same": true
+  },
+  {
+    "from": "scenarios (1).ts",
+    "to": "src/traffic/scenarios.ts",
+    "same": true
+  },
+  {
+    "from": "scenarios (5).ts",
+    "to": "src/world/scenarios.ts",
+    "same": true
+  },
+  {
+    "from": "catalog (1) (2).ts",
+    "to": "src/scenarios/catalog.ts",
+    "same": true
+  },
+  {
+    "from": "model (1).ts",
+    "to": "src/scenarios/model.ts",
+    "same": true
+  },
+  {
+    "from": "panel (1).ts",
+    "to": "src/scenarios/panel.ts",
+    "same": true
+  },
+  {
+    "from": "runtime (1).ts",
+    "to": "src/scenarios/runtime.ts",
+    "same": true
+  },
+  {
+    "from": "traffic (1).ts",
+    "to": "src/rules/traffic.ts",
+    "same": true
+  },
+  {
+    "from": "main.ts",
+    "to": "src/main.ts",
+    "same": true
+  }
+]

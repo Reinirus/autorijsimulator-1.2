@@ -1,0 +1,87 @@
+{
+  "sampleSeconds": 4,
+  "viewport": "1280x1000",
+  "mission": 10,
+  "probe": "full",
+  "modes": {
+    "single": {
+      "fps": 21.402700032867223,
+      "frames": 91,
+      "mirrorRenderMs": 6.715384616956606,
+      "readbackMs": 6.6428571461321235,
+      "copyMs": 0.5087912059747256,
+      "paintMs": 0.20769230677531317,
+      "pages": 1,
+      "sides": [],
+      "mirrors": [
+        {
+          "hash": 680646615,
+          "colors": 17
+        },
+        {
+          "hash": 1522467873,
+          "colors": 218
+        },
+        {
+          "hash": 1025009580,
+          "colors": 235
+        }
+      ]
+    },
+    "span": {
+      "fps": 17.17561508779692,
+      "frames": 77,
+      "mirrorRenderMs": 6.0597402615980664,
+      "readbackMs": 5.883116887761401,
+      "copyMs": 0.48051947432679015,
+      "paintMs": 0.19999999969036547,
+      "pages": 1,
+      "sides": [],
+      "mirrors": [
+        {
+          "hash": 680646615,
+          "colors": 17
+        },
+        {
+          "hash": 1522467873,
+          "colors": 218
+        },
+        {
+          "hash": 1025009580,
+          "colors": 235
+        }
+      ]
+    },
+    "windows": {
+      "fps": 11.33218558636108,
+      "frames": 52,
+      "mirrorRenderMs": 5.253846149605054,
+      "readbackMs": 5.394230778973836,
+      "copyMs": 0.4307692274451256,
+      "paintMs": 0.1692307643019236,
+      "pages": 3,
+      "sides": [
+        "10.2 FPS · render 3.6 ms · pakketouderdom 104 ms · klok 0.00 s",
+        "10.2 FPS · render 3.5 ms · pakketouderdom 173 ms · klok 0.00 s"
+      ],
+      "mirrors": [
+        {
+          "hash": 680646615,
+          "colors": 17
+        },
+        {
+          "hash": 1522467873,
+          "colors": 218
+        },
+        {
+          "hash": 1025009580,
+          "colors": 235
+        }
+      ]
+    }
+  },
+  "binary": "Chromium Headless Shell 1248",
+  "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "staticBatching": false,
+  "experimentStatus": "Renderer zonder geometriebatching"
+}

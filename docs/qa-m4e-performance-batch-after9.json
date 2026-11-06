@@ -1,0 +1,87 @@
+{
+  "sampleSeconds": 4,
+  "viewport": "1280x1000",
+  "mission": 9,
+  "probe": "full",
+  "modes": {
+    "single": {
+      "fps": 43.41324586349518,
+      "frames": 180,
+      "mirrorRenderMs": 1.682222220632765,
+      "readbackMs": 3.586111112435659,
+      "copyMs": 0.4594444445437855,
+      "paintMs": 0.13611111160781647,
+      "pages": 1,
+      "sides": [],
+      "mirrors": [
+        {
+          "hash": 203553128,
+          "colors": 86
+        },
+        {
+          "hash": 1060255075,
+          "colors": 89
+        },
+        {
+          "hash": 3983483412,
+          "colors": 81
+        }
+      ]
+    },
+    "span": {
+      "fps": 35.69888351158138,
+      "frames": 149,
+      "mirrorRenderMs": 1.5449664412728892,
+      "readbackMs": 3.104026846637662,
+      "copyMs": 0.4557046978265647,
+      "paintMs": 0.11073825503355705,
+      "pages": 1,
+      "sides": [],
+      "mirrors": [
+        {
+          "hash": 203553128,
+          "colors": 86
+        },
+        {
+          "hash": 1060255075,
+          "colors": 89
+        },
+        {
+          "hash": 3983483412,
+          "colors": 81
+        }
+      ]
+    },
+    "windows": {
+      "fps": 22.305181845961105,
+      "frames": 95,
+      "mirrorRenderMs": 1.363157893795716,
+      "readbackMs": 3.113684214416303,
+      "copyMs": 0.43578947249211764,
+      "paintMs": 0.11894736791911878,
+      "pages": 3,
+      "sides": [
+        "22.4 FPS · render 1.0 ms · pakketouderdom 107 ms · klok 0.00 s",
+        "22.4 FPS · render 1.2 ms · pakketouderdom 93 ms · klok 0.00 s"
+      ],
+      "mirrors": [
+        {
+          "hash": 203553128,
+          "colors": 86
+        },
+        {
+          "hash": 1060255075,
+          "colors": 89
+        },
+        {
+          "hash": 3983483412,
+          "colors": 81
+        }
+      ]
+    }
+  },
+  "binary": "Chromium Headless Shell 1248",
+  "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "staticBatching": true,
+  "experimentStatus": "Verworpen experiment; niet opgenomen in eindcode"
+}

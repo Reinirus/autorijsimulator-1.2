@@ -1,6 +1,16 @@
-# Nederlandse Autorijsimulator — Milestone 3
+# Nederlandse Autorijsimulator — Milestone 4 ontwikkelversie
 
-**DEMO · NIET CBR-GECERTIFICEERD. Geen vervanging voor rijles.** Milestone 1 blijft formeel open voor hardware- en duurtests. De gebruiker heeft de ontwikkeling van Milestone 2 en 3 uitdrukkelijk toegestaan terwijl die acceptatie openstaat.
+**DEMO — NIET CBR-GECERTIFICEERD. Geen vervanging voor rijles.** Milestone 1 blijft formeel open voor hardware- en duurtests. De gebruiker heeft de ontwikkeling van Milestone 2 en 3 uitdrukkelijk toegestaan terwijl die acceptatie openstaat.
+
+## Milestone 4E
+
+Branch milestone-4-rijmissies biedt tien selecteerbare oefenmissies, met behoud van de acht bestaande routes, D/R en achteruit parkeren, cockpit, drie echte spiegels, drie schermmodi en anonieme lokale rapportage met JSON/CSV.
+
+Missie 9 rijdt circa 712 meter over een echte toerit, invoegstrook, twee doorgaande rijstroken, uitvoegstrook en afrit. Het is een specifiek A1-60-werkvak met G1/J16, geen algemene snelweglimiet. Missie 10 verbindt circa 1.287 meter woonwijk, kruispunten, verkeerslichten, een echte rotonde, gebogen buitenweg en snelweg met één wereldtoestand en klok. Beide nieuwe missies zijn met echte toetsenbordritten in Rustig/Druk gecontroleerd. Leerstand biedt uitleg; oefenexamenstand toont tijdens de rit alleen navigatie en achteraf het rapport. Geen officiële CBR-slaagcriteria.
+
+Lint, typecheck, build, 173 unit-tests en 11 productie-subpadtests slagen. De volledige browserrun is 45/47; de onderbroken woonwijkrit slaagt in de afzonderlijke herhaling (6/6 afsluitende controles). De bekende Windows-downloadannulering blijft open en de strikte exporttest blijft actief. De drievensterweergave met software-rendering blijft traag; een onstabiele optimalisatie is teruggedraaid, geen FPS-winst geclaimd.
+
+Zie docs/M4_VOORTGANG.md en docs/TESTVERSLAG.md voor feitelijke resultaten, bronnen, prestaties en resterende Windows-, juridische en hardwarevalidatie. M1 blijft formeel open. PR #2 blijft concept tegen milestone-3-gecontroleerd. Niet mergen of publiceren.
 
 ## Nieuw in Milestone 3
 
@@ -68,6 +78,6 @@ Bij een andere repositorynaam: stel BASE_PATH bij bouwen en PAGES_BASE bij de te
 
 ## GitHub en overdracht
 
-De volledige M3-inhoud staat voor beoordeling op branch milestone-3-gecontroleerd van Reinirus/autorijsimulator-1.2. De CI-workflow controleert push en pull requests. Pages wordt alleen via workflow_dispatch gestart; deze overdracht publiceert niet en merge naar main vereist beoordeling.
+De M4-ontwikkelversie staat voor beoordeling op branch milestone-4-rijmissies van Reinirus/autorijsimulator-1.2. De CI-workflow controleert push en pull requests. Pages wordt alleen via workflow_dispatch gestart; deze overdracht publiceert niet en merge naar main vereist beoordeling.
 
 Lees docs/TESTVERSLAG.md voor de werkelijk uitgevoerde controles en beperkingen, docs/OVERDRACHT_M3.md voor de pakketvergelijking, docs/M4_TECHNISCHE_BASIS.md voor het oordeel over M4 en docs/ARCHITECTUUR.md voor de opbouw. Historische verslagen zijn afzonderlijk bewaard. De zes M3-situaties zijn een begrensd verkeersmodel; menselijke juridische/didactische review en hardware-/duuracceptatie blijven open. Eigen code MIT, procedurele geometrie, geen gekopieerde CBR-content.

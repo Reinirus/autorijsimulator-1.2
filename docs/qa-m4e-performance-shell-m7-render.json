@@ -1,0 +1,87 @@
+{
+  "sampleSeconds": 4,
+  "viewport": "1280x1000",
+  "mission": 7,
+  "probe": "render",
+  "modes": {
+    "single": {
+      "fps": 37.51803751803752,
+      "frames": 156,
+      "mirrorRenderMs": 0.8512820507853459,
+      "readbackMs": 0,
+      "copyMs": 0,
+      "paintMs": 0,
+      "pages": 1,
+      "sides": [],
+      "mirrors": [
+        {
+          "hash": 1469814213,
+          "colors": 1
+        },
+        {
+          "hash": 1469814213,
+          "colors": 1
+        },
+        {
+          "hash": 1469814213,
+          "colors": 1
+        }
+      ]
+    },
+    "span": {
+      "fps": 28.661439704263092,
+      "frames": 121,
+      "mirrorRenderMs": 0.7347107450824139,
+      "readbackMs": 0,
+      "copyMs": 0,
+      "paintMs": 0,
+      "pages": 1,
+      "sides": [],
+      "mirrors": [
+        {
+          "hash": 1469814213,
+          "colors": 1
+        },
+        {
+          "hash": 1469814213,
+          "colors": 1
+        },
+        {
+          "hash": 1469814213,
+          "colors": 1
+        }
+      ]
+    },
+    "windows": {
+      "fps": 17.02803950505165,
+      "frames": 75,
+      "mirrorRenderMs": 0.7506666672229767,
+      "readbackMs": 0,
+      "copyMs": 0,
+      "paintMs": 0,
+      "pages": 3,
+      "sides": [
+        "15.3 FPS · render 1.3 ms · pakketouderdom 110 ms · klok 22.77 s",
+        "17.0 FPS · render 2.6 ms · pakketouderdom 99 ms · klok 22.77 s"
+      ],
+      "mirrors": [
+        {
+          "hash": 1469814213,
+          "colors": 1
+        },
+        {
+          "hash": 1469814213,
+          "colors": 1
+        },
+        {
+          "hash": 1469814213,
+          "colors": 1
+        }
+      ]
+    }
+  },
+  "binary": "Chromium Headless Shell 1248",
+  "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "staticBatching": false,
+  "experimentStatus": "Renderer zonder geometriebatching"
+}

@@ -1,4 +1,4 @@
-# Architectuur — Milestone 1–3
+# Architectuur — Milestone 1–4B
 
 ## Eén eigenaar, passieve schermen
 
@@ -54,3 +54,23 @@ M1 blijft open voor hardware- en duuracceptatie. M2 is op expliciet gebruikersve
 - SnapshotBuffer wist de interpolatiereeks bij scenario-ID-wisseling, ook als beide scenario's klok 0 hebben. Daardoor wordt een auto uit de vorige situatie niet geïnterpoleerd naar een voetganger uit de volgende. Zijvensters blijven uitsluitend renderen en berekenen geen eigen regels, score, NPC's of fysica.
 
 De fysieke weg- en verkeersclassificatie is afgebakend op deze scènes. Geen algemene visuele herkenning van verkeersborden, adaptieve stads-AI, oog-/hoofdtracking of volledig banden-/botsingsmodel. Broncontrole is uitgevoerd tegen de officiële RVV-versie 01-07-2026 die op 04-11-2026 als geldend is geleverd. Menselijke verkeerskundige, juridische en didactische validatie blijft open.
+
+## Milestone 4B: doorlopende verkeersmomenten
+
+RouteRuntime bevat nu een encounterregister met begin/einde en expliciete IDs. De route-adapter verandert alleen de coördinaten voor de aanroep van de bestaande M3-simulatie en zet gebeurtenissen terug naar de globale klok/wereld; voertuig en klok blijven behouden. roads.ts levert de asfaltvlakken die zowel de lange wegopbouw als de continuïteitscontrole gebruiken. streets.ts bouwt daarbij eigen huizen, trottoirs en borden; de oude demo-wereld wordt voor missie 3/4 verborgen en bij terugkeer weer getoond. Dispose maakt ook textures en instanced buffers vrij. Zijvensters ontvangen dezelfde volledige WorldState, zonder eigen Simulation. De publicatie-/reviewstatus staat in M4_VOORTGANG.md.
+
+## Milestone 4C: gedraaide routes en globale signaalplannen
+
+encounters.ts construeert expliciete varianten van de M3-scènes en verzorgt een rigide wereld/lokaal-transformatie voor voertuig, NPC, koprichting en NPC-routepunten. Geen klok of voertuigreset tussen verkeersmomenten. traffic/signals.ts berekent drie locatieplannen uit de globale simulatietijd; world/signals.ts gebruikt dezelfde functie voor alle zichtbare lichtkoppen, ook buiten het actieve moment. NPC- en regeladapters krijgen de canonieke signaalfase aangeleverd, inclusief een afzonderlijk voetgangerslicht. De pure rules/traffic.ts blijft inhoudelijk ongewijzigd.
+
+core/stopping.ts draait een kopie van de actuele voertuigpose met dezelfde integrateVehicle-remfysica uit tot stilstand. Afstand tot de bestemde stopstreep en remweg zijn transparante modelmetingen. Geel levert uitsluitend modeladvies op; onbekende stuur-/achteropkomende omstandigheden blijven onzeker. De oude 0,7-s-reactietoeslag is vervallen. De vaste seed en ruimtelijke trigger van het onverwachte conflict worden in de canonieke scenariotoestand bewaard, niet door zijvensters berekend.
+
+Eventcodes worden binnen een verkeersmoment ontdubbeld; fase- en geelobservaties krijgen een tijdcomponent zodat een volgende cyclus opnieuw kan worden vastgelegd. De route voegt de encounter-ID toe en zet iedere gebeurtenistijd terug naar globale rittijd. Exports bewaren eventId, encounterregister, feiten en advies en blijven achterwaarts compatibel met oude M4-rapporten. Snapshotgedrag en de drie spiegelcamera’s zijn behouden. DrivingView meet uitsluitend de bestaande render/readback/kopie/overdrachtstappen; het pixelalgoritme en de timingfrequentie zijn niet geoptimaliseerd of verlaagd.
+
+## Milestone 4D: ringwegen en buitenweg
+
+advanced-course.ts bevat onafhankelijk van rendering de routepunten, echte ringcentra, rijbaanbreedtes, toeritten/afritten, NPC-trajecten, B6-/oversteek-/uitrijmeetpunten en de twee vaste moeilijkheidsconfiguraties. Bereikbare routepunten en eindstop blijven door de bestaande routevoortgang bepaald. De lange buitenweg gebruikt echte gebogen trajecten, een parallelle tegengestelde rijroute en een expliciete A1-limiet. world/advanced.ts bouwt daarbij ringvormig asfalt met een echt middeneiland en aangesloten wegen, borden en markeringen uit dezelfde data. Mist gebruikt de canonieke zichtwaarde; terug naar bestaande missies herstelt de oorspronkelijke mist en achtergrondkleur.
+
+advanced-runtime.ts wordt uitsluitend vanuit de ene Simulation aangeroepen na de bestaande voertuigfysica. NPC’s volgen hun eigen doorlopende, begrensde trajecten en kunnen na het huidige verkeersmoment blijven bestaan. B6-/zebrafeiten gaan naar de bestaande pure M3-beslisser. rules/rural.ts scheidt beborde snelheid van afstands-/zichtadvies. Gebeurtenissen en encounters gebruiken globale klok en IDs, geen lokale routeklokreset. Input, spiegelcamera’s, pixeltransformatie en de oorspronkelijke M1–M6-paden blijven behouden.
+
+WorldState draagt de serialiseerbare course-toestand: variant/seed, fysieke routepositie, modelzicht, limiet, NPC-activering, beoordeelde meetpunten en begeleidende feiten. Zijvensters renderen de ontvangen toestand zonder extra Simulation. SnapshotBuffer wist de reeks ook bij een seedwissel, inclusief twee varianten met klok nul; daardoor worden NPC-lijsten van verschillende configuraties niet geïnterpoleerd. Rapportage/export bewaart variant/seed en ondersteunt oude opgeslagen resultaten.

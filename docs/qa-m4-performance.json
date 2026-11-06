@@ -1,0 +1,19 @@
+{
+  "environment": "Windows headless Chromium, korte steekproef; geen hardwarebenchmark",
+  "single": {
+    "center": "Midden: 32.0 FPS · render 9.1 ms. ",
+    "sides": []
+  },
+  "span": {
+    "center": "Midden: 33.6 FPS · render 7.4 ms. ",
+    "sides": []
+  },
+  "windows": {
+    "center": "Midden: 17.8 FPS · render 6.7 ms. links: pakket 154, klok 9.80 s, ouderdom 81 ms, 17.8 FPS | rechts: pakket 154, klok 9.82 s, ouderdom 81 ms, 17.9 FPS",
+    "sides": [
+      "17.8 FPS · render 1.0 ms · pakketouderdom 136 ms · klok 10.12 s",
+      "17.9 FPS · render 0.9 ms · pakketouderdom 92 ms · klok 10.11 s"
+    ]
+  },
+  "clockSpreadSeconds": 0.04007633587786508
+}

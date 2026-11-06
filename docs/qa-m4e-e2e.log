@@ -1,0 +1,147 @@
+
+  VITE v7.3.7  ready in 976 ms
+
+  ➜  Local:   http://127.0.0.1:4573/
+
+> nederlandse-autorijsimulator@0.1.0 test:e2e
+> playwright test
+
+
+Running 47 tests using 1 worker
+
+(node:38960) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 tests\e2e\displays.spec.ts:5:1 › breed beeld, kalibratie en terugval behouden de bestaande missie (3.6s)
+  ok  2 tests\e2e\displays.spec.ts:16:1 › drie vensters delen klok, kalibratie en bron; zijvenster kan herladen (6.2s)
+  ok  3 tests\e2e\displays.spec.ts:30:1 › bronverlies en herstart herstellen zonder tweede simulatie (4.1s)
+  ok  4 tests\e2e\displays.spec.ts:41:1 › geblokkeerde pop-ups vallen terug naar één scherm (461ms)
+M2_METRICS {"single":{"clockSpreadSeconds":0,"center":"Midden: 41.6 FPS · render 6.2 ms. ","sides":[]},"span":{"clockSpreadSeconds":0,"center":"Midden: 35.6 FPS · render 7.2 ms. ","sides":[]},"windows":{"clockSpreadSeconds":0.04057971014492878,"center":"Midden: 15.9 FPS · render 7.3 ms. rechts: pakket 258, klok 14.30 s, ouderdom 68 ms, 16.3 FPS | links: pakket 258, klok 14.35 s, ouderdom 92 ms, 16.3 FPS","sides":["17.4 FPS · render 1.0 ms · pakketouderdom 72 ms · klok 14.59 s","17.4 FPS · render 1.0 ms · pakketouderdom 58 ms · klok 14.58 s"]}}
+  ok  5 tests\e2e\displays.spec.ts:45:1 › korte prestatiemeting in alle drie modi (15.9s)
+  ok  6 tests\e2e\displays.spec.ts:56:1 › tijdelijk pakketverlies bevriest het zijbeeld en herstelt automatisch (6.1s)
+  ok  7 tests\e2e\displays.spec.ts:67:1 › ontbrekende scherm-API houdt handmatige plaatsing beschikbaar (1.7s)
+  ok  8 tests\e2e\displays.spec.ts:74:1 › kalibratievelden gebruiken pijltjestoetsen zonder de auto te bedienen (1.2s)
+  ok  9 tests\e2e\milestone3.spec.ts:5:21 › M3 rechts: scène, cockpit, NPC en drie spiegels (2.1s)
+  ok 10 tests\e2e\milestone3.spec.ts:5:21 › M3 haaientanden: scène, cockpit, NPC en drie spiegels (2.2s)
+  ok 11 tests\e2e\milestone3.spec.ts:5:21 › M3 lichten: scène, cockpit, NPC en drie spiegels (2.2s)
+  ok 12 tests\e2e\milestone3.spec.ts:5:21 › M3 fietser: scène, cockpit, NPC en drie spiegels (2.0s)
+  ok 13 tests\e2e\milestone3.spec.ts:5:21 › M3 zebra: scène, cockpit, NPC en drie spiegels (2.2s)
+  ok 14 tests\e2e\milestone3.spec.ts:5:21 › M3 wegrijden: scène, cockpit, NPC en drie spiegels (2.2s)
+  ok 15 tests\e2e\milestone3.spec.ts:13:1 › M3 roodlichtpassage toont feiten, bron en alternatief (5.6s)
+  ok 16 tests\e2e\milestone3.spec.ts:18:1 › M3 wachten op groen en passeren geeft geen rode-lichtafwijking (14.0s)
+  ok 17 tests\e2e\milestone3.spec.ts:22:1 › M3 wegrijden zonder richting geeft observatie; reset met richting geeft die niet (3.0s)
+  ok 18 tests\e2e\milestone3.spec.ts:27:1 › M3 situatie en NPC synchroniseren naar zijvensters en breedbeeld blijft werken (8.1s)
+  ok 19 tests\e2e\milestone4b-displays.spec.ts:3:1 › M4B lange wegen, NPC’s en encounter-ID blijven gelijk in drie schermmodi (37.1s)
+  x  20 tests\e2e\milestone4b.spec.ts:4:23 › M4B missie 3: volledige woonwijkrit met echte invoer, NPC’s en herhaalde verkeersmomenten (1.3m)
+(node:18980) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 21 tests\e2e\milestone4b.spec.ts:4:23 › M4B missie 4: volledige woonwijkrit met echte invoer, NPC’s en herhaalde verkeersmomenten (1.8m)
+  ok 22 tests\e2e\milestone4c-displays.spec.ts:3:1 › M4C alle schermmodi, FPS, spiegel-readback en herstel (40.5s)
+  ok 23 tests\e2e\milestone4c.spec.ts:4:23 › M4C missie 5: volledige fysieke browserrit, gebeurtenissen, opslag en herstart (1.3m)
+  ok 24 tests\e2e\milestone4c.spec.ts:4:23 › M4C missie 6: volledige fysieke browserrit, gebeurtenissen, opslag en herstart (2.2m)
+  ok 25 tests\e2e\milestone4d-displays.spec.ts:3:1 › M4D schermmodi, variantwissel, herstel, FPS en spiegel-readback (44.6s)
+  ok 26 tests\e2e\milestone4d-state.spec.ts:2:1 › M4D verlaten wist de variantindicatie en houdt missies 9/10 uitgeschakeld (318ms)
+M4D_RIDE {"id":7,"difficulty":"rustig","completed":true,"clock":105.66666666666195,"minDelta":0,"maxJump":0.19194444444444514,"winding":[-1.4598716268730947,-4.6018632743799675],"minimumRadius":13.511792411669012,"minimumVisibility":140,"maxHeading":3.0436355541695157,"encounters":6}
+  ok 27 tests\e2e\milestone4d.spec.ts:4:90 › M4D missie 7 rustig: echte complete browserrit (1.8m)
+M4D_RIDE {"id":7,"difficulty":"druk","completed":true,"clock":105.63333333332862,"minDelta":0.01666666666666572,"maxJump":0.18966666666666754,"winding":[-1.4601316613154267,-4.601525686223839],"minimumRadius":13.526646387541977,"minimumVisibility":140,"maxHeading":3.0419221498191034,"encounters":6}
+  ok 28 tests\e2e\milestone4d.spec.ts:4:90 › M4D missie 7 druk: echte complete browserrit (1.8m)
+M4D_RIDE {"id":8,"difficulty":"rustig","completed":true,"clock":103.84999999999539,"minDelta":0,"maxJump":0.23280555555555704,"winding":[],"minimumRadius":100,"minimumVisibility":45,"maxHeading":0.904430385481868,"encounters":4}
+  ok 29 tests\e2e\milestone4d.spec.ts:4:90 › M4D missie 8 rustig: echte complete browserrit (1.8m)
+M4D_RIDE {"id":8,"difficulty":"druk","completed":true,"clock":103.84999999999539,"minDelta":0.01666666666666572,"maxJump":0.2913333333333341,"winding":[],"minimumRadius":100,"minimumVisibility":28,"maxHeading":0.9035770335480399,"encounters":4}
+  ok 30 tests\e2e\milestone4d.spec.ts:4:90 › M4D missie 8 druk: echte complete browserrit (1.8m)
+  ok 31 tests\e2e\milestone4e-state.spec.ts:2:1 › M4E examen verbergt live feedback, bewaart modus na reset en toont een eindrapport (4.8s)
+  ok 32 tests\e2e\milestone4e-state.spec.ts:3:1 › M4E snelweg en gecombineerde route gebruiken drie gevulde spiegels en gedeelde vensterstaat (8.1s)
+M4E_BROWSER 9 rustig {
+  complete: true,
+  clock: 107.01666666666188,
+  minimumDelta: 0,
+  maxJump: 0.6370555555554837,
+  start: 0,
+  end: 711.4043699082252
+}
+  ok 33 tests\e2e\milestone4e.spec.ts:4:84 › M4E 9 rustig: complete toetsenbordrit (1.8m)
+M4E_BROWSER 9 druk {
+  complete: true,
+  clock: 109.73333333332839,
+  minimumDelta: 0,
+  maxJump: 0.4893541666666469,
+  start: 0,
+  end: 711.4029887298769
+}
+  ok 34 tests\e2e\milestone4e.spec.ts:4:84 › M4E 9 druk: complete toetsenbordrit (1.9m)
+M4E_BROWSER 10 rustig {
+  complete: true,
+  clock: 299.58333333338953,
+  minimumDelta: 0,
+  maxJump: 0.6646648776268453,
+  start: 0,
+  end: 1286.9318256152676
+}
+  ok 35 tests\e2e\milestone4e.spec.ts:4:84 › M4E 10 rustig: complete toetsenbordrit (5.0m)
+M4E_BROWSER 10 druk {
+  complete: true,
+  clock: 298.61666666672375,
+  minimumDelta: 0,
+  maxJump: 0.6444444444444068,
+  start: 0,
+  end: 1286.9361345892232
+}
+  ok 36 tests\e2e\milestone4e.spec.ts:4:84 › M4E 10 druk: complete toetsenbordrit (5.0m)
+  ok 37 tests\e2e\mission-driving.spec.ts:3:23 › M4 missie 1: volledige browserrit via toetsenbordevenementen, bewaren, export en herstart (19.0s)
+  ok 38 tests\e2e\mission-driving.spec.ts:3:23 › M4 missie 2: volledige browserrit via toetsenbordevenementen, bewaren, export en herstart (38.0s)
+  x  39 tests\e2e\mission-features.spec.ts:3:1 › M4 rapporten blijven anoniem, overleven herladen en exporteren echte CSV/JSON (1.9s)
+(node:16520) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 40 tests\e2e\mission-features.spec.ts:8:1 › M4 blijft bruikbaar zonder localStorage (2.8s)
+  ok 41 tests\e2e\mission-features.spec.ts:11:1 › M4 drie schermmodi, achteruit, missiegegevens, spiegels, herladen en terugval (16.9s)
+  ok 42 tests\e2e\missions.spec.ts:3:1 › missiemenu toont acht beschikbare missies en twee nog in ontwikkeling (326ms)
+  ok 43 tests\e2e\quality.spec.ts:3:1 › bediening, loslaten, focusverlies en vraagpauze (3.3s)
+  ok 44 tests\e2e\quality.spec.ts:24:1 › zichtbare cockpit en drie levende spiegelbeelden (3.1s)
+  ok 45 tests\e2e\quality.spec.ts:38:1 › verkeerslicht toont rood, groen, oranje en opnieuw rood (21.8s)
+  ok 46 tests\e2e\quality.spec.ts:46:1 › echte rendercamera’s zien achterobjecten aan de juiste zijde, ook na sturen (936ms)
+  ok 47 tests\e2e\smoke.spec.ts:2:1 › start, missie en stop (2.1s)
+
+
+  1) tests\e2e\milestone4b.spec.ts:4:23 › M4B missie 3: volledige woonwijkrit met echte invoer, NPC’s en herhaalde verkeersmomenten
+
+    Error: page.evaluate: Execution context was destroyed, most likely because of a navigation.
+
+      4 | for(const id of [3,4])test(`M4B missie ${id}: volledige woonwijkrit met echte invoer, NPC’s en herhaalde verkeersmomenten`,async({page})=>{
+      5 |  test.setTimeout(300000);const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));await page.goto('/');await page.selectOption('#missionSelect',String(id));await page.locator('#missionSelect').blur();await page.click('#start');
+    > 6 |  const pilot=page.evaluate(async({route,scenarios})=>new Promise<{completed:boolean;clock:number;minDelta:number;maxJump:number}>(resolve=>{
+        |                   ^
+      7 |   const held=new Set<string>();const key=(name:string,on:boolean)=>{if(on===held.has(name))return;window.dispatchEvent(new KeyboardEvent(on?'keydown':'keyup',{key:name,bubbles:true}));if(on)held.add(name);else held.delete(name);};let lastClock=0,lastZ=23,minDelta=1,maxJump=0;const start=performance.now();
+      8 |   function frame(){const e=document.querySelector<HTMLElement>('.screen')!,v=JSON.parse(e.dataset.vehicle!),m=JSON.parse(e.dataset.mission!),traffic=JSON.parse(e.dataset.traffic!),clock=Number(e.dataset.clock);minDelta=Math.min(minDelta,clock-lastClock);maxJump=Math.max(maxJump,Math.abs(v.z-lastZ));lastClock=clock;lastZ=v.z;
+      9 |    if(m.completed||performance.now()-start>240000){for(const name of [...held])key(name,false);resolve({completed:m.completed,clock,minDelta,maxJump});return;}
+        at C:\Users\Q038575\Documents\Codex\2026-11-03\je-x20\outputs\autorijsimulator-m4-rijmissies\tests\e2e\milestone4b.spec.ts:6:19
+
+    Error Context: test-results\milestone4b-M4B-missie-3-v-fd515--herhaalde-verkeersmomenten\error-context.md
+
+  2) tests\e2e\mission-features.spec.ts:3:1 › M4 rapporten blijven anoniem, overleven herladen en exporteren echte CSV/JSON
+
+    Error: expect(received).toBeNull()
+
+    Received: "canceled"
+
+      3 | test('M4 rapporten blijven anoniem, overleven herladen en exporteren echte CSV/JSON',async({page})=>{
+      4 |  await page.goto('/');await page.selectOption('#missionSelect','1');await page.locator('#missionSelect').blur();await page.click('#start');await page.keyboard.down('w');await expect.poll(async()=>Number(await page.locator('#speed').textContent())).toBeGreaterThan(2);await page.keyboard.up('w');await page.click('#stop');await page.click('#missionSave');await expect(page.locator('#storageStatus')).toContainText('lokaal bewaard');await page.reload();
+    > 5 |  for(const [button,type] of [['#missionJson','json'],['#missionCsv','csv']]){const event=page.waitForEvent('download');await page.click(button);const result=await event;expect(await result.failure()).toBeNull();const file=await result.path();const body=readFileSync(file!,'utf8');expect(body.length).toBeGreaterThan(30);if(type==='json'){const records=JSON.parse(body);expect(records).toHaveLength(1);expect(records[0].completed).toBe(false);expect(records[0].missionId).toBe(1);expect(records[0]).not.toHaveProperty('name');}else expect(body).toContain('maximum_kmh');}
+        |                                                                                                                                                                                                         ^
+      6 |  await page.click('#missionClear');expect(await page.evaluate(()=>localStorage.getItem('nederlandse-autorijsimulator-m4-anoniem-v1'))).toBeNull();
+      7 | });
+      8 | test('M4 blijft bruikbaar zonder localStorage',async({page})=>{
+        at C:\Users\Q038575\Documents\Codex\2026-11-03\je-x20\outputs\autorijsimulator-m4-rijmissies\tests\e2e\mission-features.spec.ts:5:201
+
+    Error Context: test-results\mission-features-M4-rappor-de01b-n-exporteren-echte-CSV-JSON\error-context.md
+
+  Slow test file: tests\e2e\milestone4e.spec.ts (13.7m)
+  Slow test file: tests\e2e\milestone4d.spec.ts (7.1m)
+  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+  2 failed
+    tests\e2e\milestone4b.spec.ts:4:23 › M4B missie 3: volledige woonwijkrit met echte invoer, NPC’s en herhaalde verkeersmomenten
+    tests\e2e\mission-features.spec.ts:3:1 › M4 rapporten blijven anoniem, overleven herladen en exporteren echte CSV/JSON
+  45 passed (32.9m)
+npm notice
+npm notice New major version of npm available! 10.9.2 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

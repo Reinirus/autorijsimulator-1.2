@@ -5,3 +5,4 @@ test-results/
 .env*
 
 *.tsbuildinfo
+test-results-pages/

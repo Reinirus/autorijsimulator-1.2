@@ -25,3 +25,5 @@ export function rightOfWay(c:JunctionCase):RightOfWay {
  if(c.type==='voorrangsbord') return {yieldRequired:c.signRequiresYield,reason:'Borden regelen voorrang; uitsluitend voor dit expliciete scenario.',sourceRule:'PRIORITY',automatable:false};
  return {yieldRequired:c.fromRight,reason:'Gelijkwaardig kruispunt: bestuurder van rechts; uitzonderingen niet gemodelleerd.',sourceRule:'PRIORITY',automatable:true};
 }
+
+Object.assign(RULES,{VISIBILITY:{id:'VISIBILITY',article:'RVV 1990 artikel 19',source:RVV,version:'2026-07-01',checkedAt:'2026-11-05',reviewedByHuman:false,status:'bron-gecontroleerd',summary:'Kunnen stoppen binnen de overzienbare en vrije afstand. Een modelwaarschuwing bewijst dit niet voor een echte rit.'},ROUND_DIRECTION:{id:'ROUND_DIRECTION',article:'RVV 1990 artikel 62 en bijlage 1 D1',source:RVV,version:'2026-07-01',checkedAt:'2026-11-05',reviewedByHuman:false,status:'bron-gecontroleerd',summary:'D1 geeft de verplichte rijrichting aan; voorrang volgt afzonderlijk uit aanwezige borden en markeringen.'}});

@@ -1,0 +1,87 @@
+{
+  "sampleSeconds": 4,
+  "viewport": "1280x1000",
+  "mission": 9,
+  "probe": "full",
+  "modes": {
+    "single": {
+      "fps": 59.95919789014346,
+      "frames": 241,
+      "mirrorRenderMs": 2.5049792525679244,
+      "readbackMs": 6.249377592099653,
+      "copyMs": 0.24688796692864035,
+      "paintMs": 0.1614107910033578,
+      "pages": 1,
+      "sides": [],
+      "mirrors": [
+        {
+          "hash": 2548223653,
+          "colors": 83
+        },
+        {
+          "hash": 3927120279,
+          "colors": 87
+        },
+        {
+          "hash": 4057823173,
+          "colors": 79
+        }
+      ]
+    },
+    "span": {
+      "fps": 60.05856951442694,
+      "frames": 242,
+      "mirrorRenderMs": 2.0991735540884586,
+      "readbackMs": 5.09504132256035,
+      "copyMs": 0.26074380125881225,
+      "paintMs": 0.14008264502217946,
+      "pages": 1,
+      "sides": [],
+      "mirrors": [
+        {
+          "hash": 2548223653,
+          "colors": 83
+        },
+        {
+          "hash": 3927120279,
+          "colors": 87
+        },
+        {
+          "hash": 4057823173,
+          "colors": 79
+        }
+      ]
+    },
+    "windows": {
+      "fps": 60.00878177285513,
+      "frames": 246,
+      "mirrorRenderMs": 2.146341463778077,
+      "readbackMs": 4.482520325639384,
+      "copyMs": 0.21747967455445266,
+      "paintMs": 0.11788617861949331,
+      "pages": 3,
+      "sides": [
+        "60.0 FPS · render 1.2 ms · pakketouderdom 44 ms · klok 0.37 s",
+        "60.0 FPS · render 1.2 ms · pakketouderdom 46 ms · klok 0.37 s"
+      ],
+      "mirrors": [
+        {
+          "hash": 2548223653,
+          "colors": 83
+        },
+        {
+          "hash": 3927120279,
+          "colors": 87
+        },
+        {
+          "hash": 4057823173,
+          "colors": 79
+        }
+      ]
+    }
+  },
+  "binary": "Chromium full 1248 --headless",
+  "running": false,
+  "staticBatching": false,
+  "experimentStatus": "Renderer zonder geometriebatching"
+}

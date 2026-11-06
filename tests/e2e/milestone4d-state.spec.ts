@@ -1,0 +1,2 @@
+import {test,expect} from '@playwright/test';
+test('M4D verlaten wist de variantindicatie en behoudt de M4E-missieselectie',async({page})=>{await page.goto('/');await page.selectOption('#missionSelect','7');await expect(page.locator('#courseStatus')).toContainText('Seed 707');await page.selectOption('#missionSelect','');await expect(page.locator('#courseStatus')).toBeEmpty();await expect(page.locator('#missionDifficulty')).toBeDisabled();await expect(page.locator('#missionSelect option:disabled')).toHaveCount(0);});

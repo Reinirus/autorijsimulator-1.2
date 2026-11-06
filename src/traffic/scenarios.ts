@@ -8,7 +8,8 @@ export function advanceScenarioActors(state:WorldState,def:ScenarioDefinition,dt
  return state.actors.map(a=>{
   const v=state.vehicle,started=state.scenario!.startedActors;let desired=started?(a.desiredSpeed??def.actor.speed):0;let reason:'rijden'|'wachten'|'noodrem'='rijden';
   const finished=a.route&&Math.hypot(a.x-a.route.at(-1)!.x,a.z-a.route.at(-1)!.z)<.01;if(finished)desired=0;
-  if(def.zebra&&a.x>=4.5){const stopped=v.speed<.15&&v.z<19&&v.z>12.4;if(!stopped){desired=0;reason='wachten';}}
+  if(def.zebra&&a.x>=4.5){const stopped=v.speed<.15&&v.z<19&&v.z>12.4;const allowed=def.signal?state.scenario!.pedestrianLight==='groen':stopped;if(!allowed){desired=0;reason='wachten';}}
+  if(state.scenario!.hazardTriggered!==undefined&&!state.scenario!.hazardTriggered){desired=0;reason='wachten';}
   if(def.signal&&a.x< -6){const light=state.scenario!.crossLight??crossLight(state.clock);const crossRed=light==='rood';const crossYellow=light==='oranje';const gap=-6.1-a.x;const canStop=a.speed*a.speed/(2*NPC_MODEL.braking)<=gap;
    if(crossRed||(crossYellow&&canStop)){desired=Math.min(desired,Math.sqrt(2*NPC_MODEL.braking*Math.max(0,gap)));if(gap<.08)desired=0;reason='wachten';}}
   const futureEgo={...v,x:v.x+Math.sin(v.heading)*v.speed*NPC_MODEL.predictionSeconds,z:v.z-Math.cos(v.heading)*v.speed*NPC_MODEL.predictionSeconds};
