@@ -1,0 +1,8 @@
+{
+  "center": "Midden: 15.9 FPS · render 8.3 ms. links: pakket 95, klok 5.29 s, ouderdom 121 ms, 15.9 FPS | rechts: pakket 95, klok 5.30 s, ouderdom 147 ms, 16.0 FPS",
+  "sides": [
+    "15.9 FPS · render 1.3 ms · pakketouderdom 67 ms · klok 5.48 s",
+    "16.0 FPS · render 1.2 ms · pakketouderdom 65 ms · klok 5.51 s"
+  ],
+  "clockSpreadSeconds": 0.09111111111111114
+}

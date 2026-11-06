@@ -1,6 +1,12 @@
-# Nederlandse Autorijsimulator — Milestone 4 ontwikkelversie
+# Nederlandse Autorijsimulator — Milestone 5A ontwikkelversie
 
 **DEMO — NIET CBR-GECERTIFICEERD. Geen vervanging voor rijles.** Milestone 1 blijft formeel open voor hardware- en duurtests. De gebruiker heeft de ontwikkeling van Milestone 2 en 3 uitdrukkelijk toegestaan terwijl die acceptatie openstaat.
+
+## Milestone 5A
+
+Branch milestone-5-theorie-inzicht voegt de knop **Theorie & gevaarherkenning** toe aan de behouden tien rijmissies. Kies Verkeersregels, Gevaarherkenning, Verkeersinzicht of alle onderwerpen. Oefenen geeft direct uitleg; oefentoets geeft het volledige rapport achteraf. De vijftien tekstvragen zijn eigen conceptmateriaal, niet menselijk juridisch of didactisch gevalideerd. Geen officiële CBR-toets of slaaggrens.
+
+Theorie pauzeert de rit. Het laatste complete resultaat wordt anoniem lokaal opgeslagen; een geblokkeerde opslag verhindert oefenen niet. CSV-export is aanwezig, maar daadwerkelijke bestandsdownloads worden in deze Windows-testomgeving geannuleerd. Lint/typecheck/build, 186 unit-tests en 13 productie-subpadtests slagen; volledige Chromium-suite: 53/55, beide fouten zijn strikte downloads. Zie docs/M5_TESTVERSLAG.md en docs/M5_VOORTGANG.md. Alleen een concept-PR naar de M4-branch na groene CI; niet mergen of publiceren.
 
 ## Milestone 4E
 

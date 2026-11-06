@@ -14,3 +14,9 @@
 .mission-active .scenario-panel {padding:8px 16px}.mission-active .scenario-panel > :not(#indicatorControls){display:none}.mission-panel details{padding:6px;border-bottom:1px solid #456}#missionNavigation{font-weight:700;color:#9de1ff}
 
 .drive-task{position:absolute;top:31%;left:12px;right:12px;padding:8px 12px;border-radius:6px;background:#102235e8;color:#fff;font-weight:700;pointer-events:none;z-index:3}.drive-task[hidden]{display:none}
+/* M5 separate practice dialog; deliberately does not change M4 driving overlay. */
+#theoryDialog{max-height:85vh;overflow:auto;width:min(660px,94vw)}
+#theoryDialog button{display:block;width:100%;margin:.45rem 0;text-align:left;min-height:44px}
+#theoryDialog p{line-height:1.55}
+#theoryDialog label{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:12px 0}
+#theoryDialog select{min-height:44px;max-width:100%}

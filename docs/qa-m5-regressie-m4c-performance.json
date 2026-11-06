@@ -1,0 +1,172 @@
+{
+  "environment": "Windows headless Chromium; korte steekproef met dezelfde spiegel-readback, geen hardwareacceptatie",
+  "sampleSeconds": 4,
+  "mission5": {
+    "single": {
+      "profile": {
+        "frames": 152,
+        "fps": 36.31932331345346,
+        "mirrorRenderMs": 1.400657889874358,
+        "readbackMs": 4.45657894878011,
+        "copyMs": 0.4361842098204713,
+        "paintMs": 0.14210526331474907
+      },
+      "mirrors": [
+        {
+          "colors": 78,
+          "hash": 3444259415
+        },
+        {
+          "colors": 238,
+          "hash": 3197257788
+        },
+        {
+          "colors": 229,
+          "hash": 1626334633
+        }
+      ],
+      "center": "Midden: 35.2 FPS · render 9.4 ms. ",
+      "sides": []
+    },
+    "span": {
+      "profile": {
+        "frames": 138,
+        "fps": 32.88611395744059,
+        "mirrorRenderMs": 1.2710144908531853,
+        "readbackMs": 4.247826091621233,
+        "copyMs": 0.4289855032727338,
+        "paintMs": 0.13260869617047516
+      },
+      "mirrors": [
+        {
+          "colors": 78,
+          "hash": 3444259415
+        },
+        {
+          "colors": 238,
+          "hash": 3197257788
+        },
+        {
+          "colors": 229,
+          "hash": 1626334633
+        }
+      ],
+      "center": "Midden: 31.4 FPS · render 8.8 ms. ",
+      "sides": []
+    },
+    "windows": {
+      "profile": {
+        "frames": 65,
+        "fps": 14.600179694519317,
+        "mirrorRenderMs": 1.5553846074984623,
+        "readbackMs": 5.060000000550197,
+        "copyMs": 0.45846154598089367,
+        "paintMs": 0.1492307708813594
+      },
+      "mirrors": [
+        {
+          "colors": 78,
+          "hash": 3444259415
+        },
+        {
+          "colors": 238,
+          "hash": 3197257788
+        },
+        {
+          "colors": 229,
+          "hash": 1626334633
+        }
+      ],
+      "center": "Midden: 16.7 FPS · render 8.1 ms. links: pakket 278, klok 17.73 s, ouderdom 121 ms, 15.6 FPS | rechts: pakket 278, klok 17.75 s, ouderdom 121 ms, 15.7 FPS",
+      "sides": [
+        "15.6 FPS · render 1.3 ms · pakketouderdom 124 ms · klok 18.07 s",
+        "15.7 FPS · render 1.1 ms · pakketouderdom 139 ms · klok 18.07 s"
+      ]
+    },
+    "clockSpreadSeconds": 0.040229885057467385
+  },
+  "mission6": {
+    "single": {
+      "profile": {
+        "frames": 177,
+        "fps": 42.86544609137629,
+        "mirrorRenderMs": 1.2706214684551045,
+        "readbackMs": 2.9847457570544744,
+        "copyMs": 0.44237289017876663,
+        "paintMs": 0.1254237317769541
+      },
+      "mirrors": [
+        {
+          "colors": 75,
+          "hash": 1041795620
+        },
+        {
+          "colors": 236,
+          "hash": 1260972890
+        },
+        {
+          "colors": 224,
+          "hash": 797398378
+        }
+      ],
+      "center": "Midden: 41.6 FPS · render 6.8 ms. ",
+      "sides": []
+    },
+    "span": {
+      "profile": {
+        "frames": 151,
+        "fps": 36.25450180072029,
+        "mirrorRenderMs": 1.2966887410113355,
+        "readbackMs": 3.080132450094286,
+        "copyMs": 0.46026489947805344,
+        "paintMs": 0.10927152238934246
+      },
+      "mirrors": [
+        {
+          "colors": 75,
+          "hash": 1041795620
+        },
+        {
+          "colors": 236,
+          "hash": 1260972890
+        },
+        {
+          "colors": 224,
+          "hash": 797398378
+        }
+      ],
+      "center": "Midden: 38.0 FPS · render 7.0 ms. ",
+      "sides": []
+    },
+    "windows": {
+      "profile": {
+        "frames": 84,
+        "fps": 19.40043420014059,
+        "mirrorRenderMs": 1.1261904793126243,
+        "readbackMs": 2.84761905670166,
+        "copyMs": 0.44404760996500653,
+        "paintMs": 0.13095237598532722
+      },
+      "mirrors": [
+        {
+          "colors": 75,
+          "hash": 1041795620
+        },
+        {
+          "colors": 236,
+          "hash": 1260972890
+        },
+        {
+          "colors": 224,
+          "hash": 797398378
+        }
+      ],
+      "center": "Midden: 19.3 FPS · render 6.2 ms. links: pakket 634, klok 16.30 s, ouderdom 82 ms, 19.4 FPS | rechts: pakket 633, klok 16.26 s, ouderdom 87 ms, 19.5 FPS",
+      "sides": [
+        "19.4 FPS · render 1.0 ms · pakketouderdom 101 ms · klok 16.72 s",
+        "19.5 FPS · render 1.6 ms · pakketouderdom 115 ms · klok 16.72 s"
+      ]
+    },
+    "clockSpreadSeconds": 0.024390243902438158
+  }
+}

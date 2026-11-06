@@ -60,3 +60,9 @@ De officiële RVV-versie 01-07-2026 is rechtstreeks opgehaald met Invoke-WebRequ
 - Artikel 76: doorgetrokken markeringen. Invoeg-/uitvoegopeningen hebben onderbroken blokmarkering, de doorgaande rijstrookscheiding onderbroken markering; het oefentraject schrijft geen overschrijding van de gesloten randmarkering voor. Afmetingen, borden en wegontwerp zijn procedurele oefengeometrie, niet als CROW/BABW-gecertificeerd beoordeeld.
 
 Broncontrole is geen menselijke juridische, WRM- of didactische goedkeuring. reviewedByHuman blijft false. Geen officiële CBR-punten of slaagcriteria.
+
+## Aanvullende technische broncontrole Milestone 5A — 6 november 2026
+
+Officiële geconsolideerde RVV-versie 01-07-2026, https://wetten.overheid.nl/BWBR0004825/2026-07-01/0 , opnieuw rechtstreeks opgehaald (HTTP 200; web-open gaf 429 en telt niet als inzage). SHA256 HTML: 85980DD858738A4798B3B391F1DC10D2B8FFCFF969443FDCFDC67805885C3AEE. Artikelen 15, 18, 49, 54, 68 en 79 gelezen voor de nieuwe conceptcasussen. B6 behoudt bestaande M3-bronnen artikelen 62/63/80 en bijlage 1.
+
+Regelvragen koppelen naar RED/PRIORITY/YIELD_SIGN/MANOEUVRE/PEDESTRIAN met bestaande artikelverwijzing, versie, bron-URL, datum 2026-11-06 en reviewedByHuman:false. De context is afgebakend: eigen rood licht en eigen stopstreep; gelijkwaardige verharde wegen zonder afwijkende tekens/tram; wegrijden uit parkeervak; zebra zonder voetgangerslicht of stoet. De fietser die rechtdoor op dezelfde weg gaat is onderscheiden van de rechts afslaande auto. Gevaarherkenning/inzicht zijn oefenadvies, geen numerieke wettelijke normen. Alle vragen blijven NIET MENSELIJK GEVALIDEERD. Technische tekstcontrole is geen WRM-/juridische of didactische goedkeuring.
