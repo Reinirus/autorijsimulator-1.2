@@ -1,6 +1,12 @@
-# Nederlandse Autorijsimulator — Milestone 5A ontwikkelversie
+# Nederlandse Autorijsimulator — Milestone 5B ontwikkelversie
 
 **DEMO — NIET CBR-GECERTIFICEERD. Geen vervanging voor rijles.** Milestone 1 blijft formeel open voor hardware- en duurtests. De gebruiker heeft de ontwikkeling van Milestone 2 en 3 uitdrukkelijk toegestaan terwijl die acceptatie openstaat.
+
+## Milestone 5B — bewegende gevaarherkenning
+
+De knop **Gevaarherkenning in beweging** opent tien korte 3D-situaties. Kies leerstand met uitleg of oefentoets met uitleg achteraf. Bekijk de film en doorloop Kijk, Voorspel en Beslis. De rijmissie wacht tijdens de les; pauze/herhaling en toetsenbordbediening zijn beschikbaar. Alleen het laatste complete anonieme resultaat wordt lokaal bewaard. Conceptinhoud, nog niet menselijk juridisch of didactisch gevalideerd.
+
+Alle tien rijmissies en vijftien M5A-vragen blijven behouden. Actuele controles en beperkingen: docs/M5B_TESTVERSLAG.md. Alleen concept-PR naar milestone-5-theorie-inzicht na groene CI; niet mergen of publiceren.
 
 ## Milestone 5A
 

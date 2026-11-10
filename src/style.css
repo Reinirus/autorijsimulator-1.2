@@ -20,3 +20,5 @@
 #theoryDialog p{line-height:1.55}
 #theoryDialog label{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:12px 0}
 #theoryDialog select{min-height:44px;max-width:100%}
+
+#hazardDialog{box-sizing:border-box;width:min(860px,calc(100vw - 16px));max-width:calc(100vw - 16px);max-height:94dvh;overflow:auto;padding:clamp(12px,3vw,24px);border:1px solid #7895a6;border-radius:14px;background:#203748;color:#fff}#hazardDialog::backdrop{background:#07141bd9}#hazardFilm{display:block;width:100%;height:clamp(170px,32vh,330px);border-radius:8px}#hazardControls>button,#hazardDialog>button{display:block;width:100%;min-height:48px;margin:8px 0;white-space:normal;text-align:left}#hazardDialog button:focus-visible{outline:3px solid #ffe26b;outline-offset:2px}#hazardDialog h3{margin:12px 0}#hazardDialog h4{font-size:1.1rem;margin:10px 0}#hazardDialog p{overflow-wrap:anywhere}#hazardDialog details{padding:10px 0;border-bottom:1px solid #7895a6}.hazard-tools{display:flex;flex-wrap:wrap;gap:8px}.hazard-tools button{min-height:48px}#hazardTime{font-variant-numeric:tabular-nums}

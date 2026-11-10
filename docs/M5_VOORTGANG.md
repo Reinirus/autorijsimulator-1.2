@@ -22,3 +22,7 @@
 164 aangeleverde losse bestanden gemapt; oorspronkelijke ZIP niet beschikbaar. Werkende tien M4E-ritten behouden en opnieuw volledig in Chromium gereden, inclusief Rustig/Druk voor 7–10. Hersteld: niet ontdekte unit-testbestandsnaam, geblokkeerde opslaggetter, validatie van opgeslagen resultaten, verouderde antwoordacties, pauze van wereldklok en native spatiebediening. Regelvragen hebben bronmetadata en alle antwoorden een uitlegbaar eindrapport.
 
 Resultaten: npm ci/lint/typecheck/build geslaagd; 186/186 unit-tests; Chromium 53/55; productie-subpad 13/13. Strikte M4-JSON- en M5-CSV-bestandsdownloads geven op Windows canceled. Tests blijven strikt actief; de export is daardoor niet volledig vrijgegeven. GitHub CI moet groen zijn voordat een concept-PR naar milestone-4-rijmissies wordt gemaakt. Details en logs: M5_TESTVERSLAG.md. Geen merge of publicatie.
+
+## Milestone 5B — 10 november 2026
+
+Nieuwe aparte branch vanaf b4588eb. Tien bewegende Three.js-situaties met Kijk–Voorspel–Beslis, leerstand en oefentoets, anonieme gevalideerde opslag en uitleg per situatie. Tien rijmissies, vijftien theorievragen en alle bestaande tests behouden. 197 unit-tests slagen; volledige Chromium: 2 failed; 59 passed (35.6m); productie-subpad: 14 passed (49.0s). Strikte Windows-exporttests blijven actief. Zie M5B_TESTVERSLAG.md voor precieze uitslagen, correcties en beperkingen. Menselijke juridische/didactische review en hardwareacceptatie blijven open. Geen merge of publicatie; concept-PR pas na groene CI.
