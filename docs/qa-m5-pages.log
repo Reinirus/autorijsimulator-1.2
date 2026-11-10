@@ -1,0 +1,30 @@
+  ➜  Local:   http://127.0.0.1:4576/autorijsimulator-1.2/
+
+> nederlandse-autorijsimulator@0.1.0 test:pages
+> playwright test --config playwright.pages.config.ts
+
+
+Running 13 tests using 1 worker
+
+(node:38156) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 tests\pages\milestone4b.spec.ts:2:23 › M4B missie 3 en lange wereld op productie-subpad met zijvensters (2.9s)
+  ok  2 tests\pages\milestone4b.spec.ts:2:23 › M4B missie 4 en lange wereld op productie-subpad met zijvensters (2.9s)
+  ok  3 tests\pages\milestone4c.spec.ts:2:23 › M4C missie 5 laadt op productie-repositorysubpad (1.5s)
+  ok  4 tests\pages\milestone4c.spec.ts:2:23 › M4C missie 6 laadt op productie-repositorysubpad (1.2s)
+  ok  5 tests\pages\milestone4d.spec.ts:2:23 › M4D missie 7: productie-subpad, variant en gedeelde wereld (3.2s)
+  ok  6 tests\pages\milestone4d.spec.ts:2:23 › M4D missie 8: productie-subpad, variant en gedeelde wereld (2.6s)
+  ok  7 tests\pages\milestone4e.spec.ts:2:24 › M4E 9: productie-subpad, volledige spiegels en gedeelde wereld (3.3s)
+  ok  8 tests\pages\milestone4e.spec.ts:2:24 › M4E 10: productie-subpad, volledige spiegels en gedeelde wereld (3.9s)
+  ok  9 tests\pages\missions.spec.ts:2:1 › M4 missies, navigatie, automaat en spiegels laden op het repositorysubpad (2.8s)
+  ok 10 tests\pages\pages.spec.ts:2:1 › productie-subpad laadt cockpit, dynamische modules en beide zijvensters (2.9s)
+  ok 11 tests\pages\pages.spec.ts:13:1 › productie-M3 laadt zes situaties en synchroniseert een wisseling naar zijvensters (5.9s)
+  ok 12 tests\pages\theory.spec.ts:3:44 › M5 productie-subpad oefenen: theorie en tien missies blijven bereikbaar (711ms)
+  ok 13 tests\pages\theory.spec.ts:3:44 › M5 productie-subpad oefentoets: theorie en tien missies blijven bereikbaar (517ms)
+
+  13 passed (36.0s)
+npm notice
+npm notice New major version of npm available! 10.9.2 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

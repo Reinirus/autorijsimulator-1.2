@@ -1,0 +1,23 @@
+{
+  "environment": "Windows headless Chromium, korte steekproef, geen hardwarebenchmark",
+  "results": {
+    "single": {
+      "clockSpreadSeconds": 0,
+      "center": "Midden: 40.8 FPS · render 6.2 ms. ",
+      "sides": []
+    },
+    "span": {
+      "clockSpreadSeconds": 0,
+      "center": "Midden: 42.4 FPS · render 6.1 ms. ",
+      "sides": []
+    },
+    "windows": {
+      "clockSpreadSeconds": 0.02680412371134011,
+      "center": "Midden: 20.0 FPS · render 5.7 ms. links: pakket 228, klok 12.25 s, ouderdom 149 ms, 20.1 FPS | rechts: pakket 229, klok 12.25 s, ouderdom 63 ms, 20.1 FPS",
+      "sides": [
+        "19.7 FPS · render 1.0 ms · pakketouderdom 54 ms · klok 12.65 s",
+        "19.7 FPS · render 0.9 ms · pakketouderdom 53 ms · klok 12.67 s"
+      ]
+    }
+  }
+}
