@@ -1,0 +1,61 @@
+
+> nederlandse-autorijsimulator@0.1.0 test
+> vitest run --reporter=default --reporter=json --outputFile=../../work/m5b-unit.json
+
+
+ RUN  v3.2.7 C:/Users/Q038575/Documents/Codex/2026-11-03/je-x20/outputs/autorijsimulator-m5b-gevaarherkenning
+
+ ✓ tests/unit/theory.test.ts (7 tests) 22ms
+ ✓ tests/unit/theory-storage.test.ts (6 tests) 14ms
+ ✓ tests/unit/hazards.test.ts (11 tests) 19ms
+ ✓ tests/unit/mission-routes.test.ts (5 tests) 49ms
+ ✓ tests/unit/continuous-routes.test.ts (3 tests) 18ms
+ ✓ tests/unit/milestone4e-state.test.ts (9 tests) 76ms
+ ✓ tests/unit/milestone3.test.ts (62 tests) 234ms
+stdout | tests/unit/milestone4e.test.ts > M4E physical route 9 rustig
+M4E_PHYSICS 9 rustig 107.36666666666186 711.4041891016251 198 198 0 []
+
+ ✓ tests/unit/physics.test.ts (6 tests) 13ms
+ ✓ tests/unit/displays.test.ts (11 tests) 15ms
+ ✓ tests/unit/missions.test.ts (7 tests) 12ms
+stdout | tests/unit/milestone4e.test.ts > M4E physical route 9 druk
+M4E_PHYSICS 9 druk 109.98333333332837 711.4041891016251 198 198 0 []
+
+ ✓ tests/unit/milestone4b.test.ts (8 tests) 1495ms
+   ✓ M4B missie 4 complete rit met fysica en M3-beoordeling  335ms
+   ✓ beoordeelt herhaald niet voor laten gaan op de echte route afzonderlijk  584ms
+ ✓ tests/unit/rules.test.ts (5 tests) 8ms
+ ✓ tests/unit/milestone4c.test.ts (20 tests) 1385ms
+ ✓ tests/unit/camera-pose.test.ts (1 test) 6ms
+ ✓ tests/unit/traffic.test.ts (2 tests) 6ms
+ ✓ tests/unit/keyboard.test.ts (2 tests) 6ms
+ ✓ tests/unit/pixels.test.ts (1 test) 5ms
+ ✓ tests/unit/mirrors.test.ts (3 tests) 7ms
+stdout | tests/unit/milestone4e.test.ts > M4E physical route 10 rustig
+M4E_PHYSICS 10 rustig 300.5833333333886 1286.9361918914256 373 373 0 []
+
+stdout | tests/unit/milestone4e.test.ts > M4E physical route 10 druk
+M4E_PHYSICS 10 druk 299.2166666667232 1286.9357961160651 373 373 0 []
+
+ ✓ tests/unit/milestone4e.test.ts (4 tests) 5841ms
+   ✓ M4E physical route 9 rustig  406ms
+   ✓ M4E physical route 9 druk  471ms
+   ✓ M4E physical route 10 rustig  2806ms
+   ✓ M4E physical route 10 druk  2155ms
+ ✓ tests/unit/milestone4d.test.ts (24 tests) 7867ms
+   ✓ M4D volledige fysicarit 7 rustig  1023ms
+   ✓ M4D volledige fysicarit 7 druk  1036ms
+   ✓ M4D volledige fysicarit 8 rustig  307ms
+   ✓ richting wordt bij beide echte afslagen afzonderlijk beoordeeld, niet als verplichte linkerrichting bij oprijden  592ms
+   ✓ M4D 7: unieke encounters, oplopende tijden en anonieme export  579ms
+   ✓ moeilijkheid en seeds zijn reproduceerbaar, met extra rotondeverkeer en minder zicht  1534ms
+   ✓ M4D 7: herstart behoudt moeilijkheid maar wist klok, verkeer en rapport  548ms
+   ✓ moeilijkheid en seed gaan mee in JSON/CSV en ongeldige varianten worden geweigerd  604ms
+   ✓ NPC’s missie 7 reageren zonder onderlinge botsingen  644ms
+
+ Test Files  20 passed (20)
+      Tests  197 passed (197)
+   Start at  12:47:41
+   Duration  10.69s (transform 2.45s, setup 0ms, collect 13.53s, tests 17.09s, environment 6ms, prepare 8.74s)
+
+JSON report written to C:/Users/Q038575/Documents/Codex/2026-11-03/je-x20/work/m5b-unit.json
