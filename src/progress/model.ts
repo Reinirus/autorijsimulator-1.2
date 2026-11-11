@@ -1,4 +1,4 @@
-import {parseResults,RESULTS_KEY,type SavedResult} from '../missions/model';
+import {MISSIONS,parseResults,RESULTS_KEY,type SavedResult} from '../missions/model';
 import {readResult,STORAGE_KEY as THEORY_KEY,type Result} from '../theory/engine';
 import {readHazardResult,STORAGE_KEY as HAZARD_KEY,correct,type HazardResult} from '../hazards/session';
 import {QUESTION_BANK} from '../theory/bank';
@@ -13,10 +13,18 @@ export function readLocalData(storage:Pick<Storage,'getItem'>|null):LocalData{
  try{return {missions:parseResults(storage.getItem(RESULTS_KEY)),theory:readResult(storage),hazard:readHazardResult(storage)};}
  catch{return {missions:[],theory:null,hazard:null};}
 }
+const practiceTips:Record<string,string>={
+ verkeersregels:'Herhaal de vragen over verkeersregels. Kijk bij elk antwoord naar het bord of de markering.',
+ gevaarherkenning:'Bekijk een bewegende situatie opnieuw. Zoek eerst wie je pad kan kruisen.',
+ verkeersinzicht:'Lees de uitleg. Bedenk wat een andere weggebruiker als volgende kan doen.',
+ kijken:'Pauzeer de film. Kijk langs geparkeerde auto’s en naar de randen van de weg.',
+ voorspellen:'Kies één weggebruiker. Bedenk waar die over een paar seconden kan zijn.',
+ beslissen:'Bekijk de situatie opnieuw. Leg uit waarom je doorrijdt, gas loslaat of remt.'
+};
 function advice(good:number,total:number,theme:string):string{
  if(total===0)return 'Maak eerst een oefening.';
  if(good===total)return 'Goed geoefend. Herhaal met een andere situatie.';
- return 'Oefen '+theme+' opnieuw en lees de uitleg bij je keuzes.';
+ return practiceTips[theme];
 }
 export function summarize(data:LocalData):LocalSummary{
  const missions=data.missions;
@@ -42,15 +50,23 @@ function csvCell(value:unknown):string{
  const v=String(value??'');
  return '"'+(/^[\s]*[=+@-]/.test(v)?"'"+v:v).replaceAll('"','""')+'"';
 }
+export function missionOverview(data:LocalData){
+ return MISSIONS.map(m=>({
+  id:m.id,
+  attempts:data.missions.filter(r=>r.missionId===m.id).length,
+  completed:data.missions.filter(r=>r.missionId===m.id&&r.completed).length
+ }));
+}
 export function teacherCSV(data:LocalData):string{
  const s=summarize(data);
  const rows:(string|number)[][]=[
  ['onderdeel','meting','goed','totaal','advies'],
- ['Rijmissies','Bewaarde pogingen',s.completedMissions,s.missionAttempts,'Voltooide oefendoelen zijn geen officiële slagingsscores.'],
+ ['Rijmissies','Afgeronde pogingen',s.completedMissions,s.missionAttempts,'Beoordeel de oefendoelen.'],
  ['Rijmissies','Verschillende voltooide missies',s.uniqueMissions,10,'Bekijk de afzonderlijke oefenrapporten voor details.'],
  ['Rijmissies','Vastgelegde verkeersmeldingen',s.missionEvents,s.missionEvents,'Het aantal meldingen is geen foutscore.'],
+ ...missionOverview(data).map(m=>['Rijmissies','Missie '+m.id,m.completed,m.attempts,m.completed?'Herhaal de rit met een ander oefendoel.':'Kies deze missie en volg de oefendoelen.']),
  ...s.theory.map(d=>['Theorie',d.name,d.good,d.total,d.advice]),
  ...s.hazard.map(d=>['Gevaarherkenning',d.name,d.good,d.total,d.advice])
  ];
- return '\ufeff'+rows.map(row=>row.map(csvCell).join(',')).join('\r\n');
+ return '\ufeff'+rows.map(row=>row.map(csvCell).join(';')).join('\r\n');
 }

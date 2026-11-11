@@ -10,4 +10,22 @@ describe('Deterministische besturing',()=>{
  it('reproduceert exact dezelfde simulatie',()=>{const a=new Simulation(),b=new Simulation();a.start();b.start();a.setInput({throttle:true,right:true});b.setInput({throttle:true,right:true});for(let i=0;i<120;i++){a.step();b.step();}expect(a.state).toEqual(b.state);});
  it('max snelheid en correcte omzetting km/h',()=>{let v=zero;for(let i=0;i<3000;i++)v=integrateVehicle(v,{...input,throttle:true},FIXED_DT);expect(v.speed).toBeLessThanOrEqual(18);expect(kmh(10)).toBe(36);});
  it('stop wist input en stopt klok',()=>{const s=new Simulation();s.start();s.setInput({throttle:true});s.step();s.stop();const t=s.state.clock;s.step();expect(s.state.clock).toBe(t);expect(s.state.input.throttle).toBe(false);});
+ it.each(['demo','zebra',1,2,3,4,5,6,7,8,9,10] as const)('rijdt achteruit en schakelt pas bij stilstand in %s',mode=>{
+  const sim=new Simulation();
+  if(typeof mode==='number')sim.selectMission(mode);
+  else sim.selectScenario(mode);
+  const {x,z,heading}=sim.state.vehicle;
+  expect(sim.setGear('R')).toBe(true);
+  sim.start();
+  sim.setInput({throttle:true});
+  for(let i=0;i<15;i++)sim.step();
+  const car=sim.state.vehicle;
+  expect(car.speed).toBeLessThan(0);
+  expect((car.x-x)*Math.sin(heading)-(car.z-z)*Math.cos(heading)).toBeLessThan(0);
+  expect(sim.setGear('D')).toBe(false);
+  sim.setInput({throttle:false,brake:true});
+  for(let i=0;i<30;i++)sim.step();
+  expect(sim.state.vehicle.speed).toBe(0);
+  expect(sim.setGear('D')).toBe(true);
+ });
 });

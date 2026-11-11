@@ -1,4 +1,4 @@
-import {readLocalData,summarize,teacherCSV,NO_IDENTITY,type DomainSummary} from './model';
+import {missionOverview,readLocalData,summarize,teacherCSV,NO_IDENTITY,type DomainSummary} from './model';
 import {exportExerciseBundle,parseExerciseBundle,importExerciseBundle,clearExerciseData} from './exercise-file';
 
 export class ProgressPanel{
@@ -17,6 +17,15 @@ export class ProgressPanel{
   this.dialog.replaceChildren();const data=readLocalData(this.storage());const s=summarize(data);
   this.dialog.append(this.el('h2','Mijn oefenoverzicht'),this.el('p','DEMO — NIET CBR-GECERTIFICEERD'),this.el('p',NO_IDENTITY));
   this.dialog.append(this.el('h3','Rijmissies'),this.el('p',s.completedMissions+' afgeronde oefenpogingen van '+s.missionAttempts+' opgeslagen pogingen. '+s.uniqueMissions+' van 10 verschillende missies minimaal eenmaal voltooid.'),this.el('p',s.missionEvents+' verkeersmeldingen in opgeslagen ritten (geen foutscore).'));
+  const missions=this.el('details','');
+  missions.append(this.el('summary','Bekijk alle tien missies'));
+  const list=this.el('ul','');
+  for(const mission of missionOverview(data)){
+   const status=mission.attempts===0?'Nog oefenen':mission.completed?'Afgerond':'Nog niet afgerond';
+   list.append(this.el('li',`Missie ${mission.id} · ${status} · ${mission.completed} van ${mission.attempts} pogingen afgerond`));
+  }
+  missions.append(list);
+  this.dialog.append(missions);
   this.group('Theorie',s.theory);this.group('Gevaarherkenning',s.hazard);
   this.dialog.append(this.el('h3','Docentenoverzicht'),this.el('p','Het CSV-overzicht bevat alleen samenvattende, anonieme oefenresultaten van dit apparaat. Het is niet geschikt om leerlingen onderling te vergelijken.'));
   this.button('Exporteer anoniem docentoverzicht (CSV)',()=>{
@@ -37,6 +46,7 @@ export class ProgressPanel{
   const result=this.el('p','');result.id='exerciseFileStatus';result.setAttribute('role','status');this.dialog.append(result);
   file.addEventListener('change',async()=>{
    const selected=file.files?.[0];if(!selected)return;
+   file.value='';
    if(selected.size>2_000_000){result.textContent='Bestand te groot (maximaal 2 MB).';return;}
    const storage=this.storage();if(!storage){result.textContent='Lokale opslag is niet beschikbaar.';return;}
    try{

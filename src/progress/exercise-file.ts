@@ -7,21 +7,9 @@ export const BUNDLE_TYPE='rijsim-anoniem-oefenbestand';
 export type ExerciseBundle={kind:typeof BUNDLE_TYPE;version:1;createdAt:string;missions:LocalData['missions'];theory:LocalData['theory'];hazard:LocalData['hazard']};
 const KEYS=[RESULTS_KEY,THEORY_KEY,HAZARD_KEY] as const;
 type LocalStore=Pick<Storage,'getItem'|'setItem'|'removeItem'>;
-export function exportExerciseBundle(storage:Pick<Storage,'getItem'>):ExerciseBundle{
- const data=readLocalData(storage);
- return {kind:BUNDLE_TYPE,version:1,createdAt:new Date().toISOString(),...data};
-}
-export function parseExerciseBundle(raw:string):ExerciseBundle|null{
- if(raw.length>2_000_000)return null;
- try{
-  const value:unknown=JSON.parse(raw);
-  if(!value||typeof value!=='object')return null;
-  const b=value as Partial<ExerciseBundle>;
-  if(b.kind!==BUNDLE_TYPE||b.version!==1||typeof b.createdAt!=='string'||!Number.isFinite(Date.parse(b.createdAt))||!Array.isArray(b.missions)||b.missions.length>100)return null;
-  const incoming=parseResults(JSON.stringify(b.missions));
-  if(incoming.length!==b.missions.length)return null;
+function selectMissionFields(missions:LocalData['missions']):LocalData['missions']{
   // Only allow known fields; never retain imported name/email/unknown JSON fields.
-  const missions:LocalData['missions']=incoming.map(m=>({
+  return missions.map(m=>({
    version:1,missionId:m.missionId,date:m.date,completed:m.completed,
    durationS:m.durationS,distanceM:m.distanceM,maxSpeedKmh:m.maxSpeedKmh,
    ...(m.mode?{mode:m.mode}:{}),
@@ -36,6 +24,21 @@ export function parseExerciseBundle(raw:string):ExerciseBundle|null{
     ...(typeof e.advice==='string'?{advice:e.advice}:{})
    }))
   }));
+}
+export function exportExerciseBundle(storage:Pick<Storage,'getItem'>):ExerciseBundle{
+ const data=readLocalData(storage);
+ return {kind:BUNDLE_TYPE,version:1,createdAt:new Date().toISOString(),...data,missions:selectMissionFields(data.missions)};
+}
+export function parseExerciseBundle(raw:string):ExerciseBundle|null{
+ if(raw.length>2_000_000)return null;
+ try{
+  const value:unknown=JSON.parse(raw);
+  if(!value||typeof value!=='object')return null;
+  const b=value as Partial<ExerciseBundle>;
+  if(b.kind!==BUNDLE_TYPE||b.version!==1||typeof b.createdAt!=='string'||!Number.isFinite(Date.parse(b.createdAt))||!Array.isArray(b.missions)||b.missions.length>100)return null;
+  const incoming=parseResults(JSON.stringify(b.missions));
+  if(incoming.length!==b.missions.length)return null;
+  const missions=selectMissionFields(incoming);
   if(b.theory!==null&&b.theory!==undefined&&!readResult({getItem:()=>JSON.stringify(b.theory)}))return null;
   if(b.hazard!==null&&b.hazard!==undefined&&!readHazardResult({getItem:()=>JSON.stringify(b.hazard)}))return null;
   if(b.theory===undefined||b.hazard===undefined)return null;

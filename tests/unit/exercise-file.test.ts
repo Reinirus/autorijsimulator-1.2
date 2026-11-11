@@ -33,6 +33,16 @@ describe('M5C oefenbestanden voor gedeelde apparaten',()=>{
   expect(clearExerciseData(dest)).toBe(true);
   expect(dest.getItem(RESULTS_KEY)).toBeNull();expect(dest.getItem(THEORY_KEY)).toBeNull();expect(dest.getItem(HAZARD_KEY)).toBeNull();
  });
+ it('neemt onbekende velden uit oude lokale ritgegevens niet over in een nieuw oefenbestand',()=>{
+  const storage=memory();
+  storage.setItem(RESULTS_KEY,JSON.stringify([{
+   version:1,missionId:1,date:'2026-11-11',completed:false,durationS:1,
+   distanceM:2,maxSpeedKmh:3,observations:[],trafficEvents:[],studentName:'Fictieve leerling'
+  }]));
+  const bundle=exportExerciseBundle(storage);
+  expect(bundle.missions).toHaveLength(1);
+  expect(bundle.missions[0]).not.toHaveProperty('studentName');
+ });
  it('vermengt bestaande resultaten nooit met een ander bestand',()=>{
   const dest=memory();dest.setItem(RESULTS_KEY,'[]');
   expect(importExerciseBundle(dest,exportExerciseBundle(memory()))).toBe(false);

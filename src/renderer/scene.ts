@@ -1,3 +1,4 @@
+import {makePlayerCar} from './player-car';
 import {COURSES} from '../missions/advanced-course';
 import {configureCourseVisibility} from '../world/advanced';
 import {updateSignalHeads} from '../world/signals';
@@ -19,18 +20,29 @@ export class DrivingView{
  private mirrors=makeMirrors();private targets:Record<'links'|'rechts'|'binnen',THREE.WebGLRenderTarget>;
  private actorPool=new Map<string,THREE.Group>();private scenarioRoad:THREE.Group|null=null;private scenarioId='';private red!:THREE.Mesh;private yellow!:THREE.Mesh;private green!:THREE.Mesh;
  private baseWorld=new THREE.Group();
+ private playerCar:THREE.Group;
+ private exteriorCamera=new THREE.PerspectiveCamera(56,1,.1,180);
+ private reverseMaterial=new THREE.MeshBasicMaterial({color:'#696e73'});
+ private brakeMaterial=new THREE.MeshBasicMaterial({color:'#861821'});
  constructor(canvas:HTMLCanvasElement){
  this.renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:'high-performance'});
  this.renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
  this.scene=new THREE.Scene();buildWorld(this.scene);for(const object of [...this.scene.children])this.baseWorld.add(object);this.scene.add(this.baseWorld);
  this.scene.add(new THREE.HemisphereLight('#f4f7ff','#52663e',2.0));const sun=new THREE.DirectionalLight('#fff6e8',2.5);sun.position.set(8,18,20);this.scene.add(sun);
  this.camera=new THREE.PerspectiveCamera(72,1,.08,180);
+ this.playerCar=makePlayerCar(this.reverseMaterial,this.brakeMaterial);
+ this.playerCar.visible=false;
+ this.scene.add(this.playerCar);
  this.targets={links:new THREE.WebGLRenderTarget(320,190),rechts:new THREE.WebGLRenderTarget(320,190),binnen:new THREE.WebGLRenderTarget(320,190)};
  for(const [n,c] of [['rood','#fb2939'],['oranje','#fcb02e'],['groen','#36e16b']] as const){const mesh=new THREE.Mesh(new THREE.SphereGeometry(.21,12,12),new THREE.MeshBasicMaterial({color:c}));mesh.position.set(3.9,n==='rood'?5.74:n==='oranje'?5.25:4.75,3.8);this.scene.add(mesh);if(n==='rood')this.red=mesh;else if(n==='oranje')this.yellow=mesh;else this.green=mesh;}
 
  }
- render(s:WorldState,mirrorElements:Record<'links'|'rechts'|'binnen',HTMLCanvasElement>|null,options:{mode?:'single'|'span';side?:Side;calibration?:Calibration}={}):void {
+ render(s:WorldState,mirrorElements:Record<'links'|'rechts'|'binnen',HTMLCanvasElement>|null,options:{mode?:'single'|'span';side?:Side;calibration?:Calibration;exterior?:boolean}={}):void {
  const {vehicle:v}=s;const config=options.calibration??DEFAULT_CALIBRATION;
+ this.playerCar.position.set(v.x,0,v.z);
+ this.playerCar.rotation.y=-v.heading;
+ this.reverseMaterial.color.set(s.gear==='R'?'#ffffff':'#696e73');
+ this.brakeMaterial.color.set(s.input.brake?'#ff2828':'#861821');
  configureCourseVisibility(this.scene,s.mission?.id===8||s.mission?.id===10&&(s.course?.visibility??140)<140?COURSES[8]:undefined,s.course?.visibility??140);
  this.baseWorld.visible=!s.mission||s.mission.id<3;
  this.renderer.setPixelRatio(Math.min(devicePixelRatio,config.pixelRatio));
@@ -54,7 +66,21 @@ export class DrivingView{
  this.renderer.setScissorTest(false);this.renderer.setViewport(0,0,width,height);this.renderer.clear();
  const views=options.mode==='span'?panels(width,config):[{side:options.side??'midden',x:0,width}];
  for(const panel of views){const camera=panel.side==='midden'?this.camera:this.sideCameras[panel.side];const gap=options.mode==='span'?Math.min(config.bezel,panel.width/4):0;const pw=Math.max(1,panel.width-gap);
- configureCamera(camera,v,panel.side,config,pw/height);this.renderer.setViewport(panel.x+gap/2,0,pw,height);this.renderer.setScissor(panel.x+gap/2,0,pw,height);this.renderer.setScissorTest(true);this.renderer.render(this.scene,camera);}
+ configureCamera(camera,v,panel.side,config,pw/height);
+ const exterior=options.exterior===true&&panel.side==='midden';
+ if(exterior){
+  this.exteriorCamera.position.set(v.x-5*Math.sin(v.heading),2.9,v.z+5*Math.cos(v.heading));
+  this.exteriorCamera.lookAt(v.x,.8,v.z);
+  this.exteriorCamera.aspect=pw/height;
+  this.exteriorCamera.updateProjectionMatrix();
+ }
+ this.renderer.setViewport(panel.x+gap/2,0,pw,height);
+ this.renderer.setScissor(panel.x+gap/2,0,pw,height);
+ this.renderer.setScissorTest(true);
+ this.playerCar.visible=exterior;
+ try{this.renderer.render(this.scene,exterior?this.exteriorCamera:camera);}
+ finally{this.playerCar.visible=false;}
+ }
  this.renderer.setScissorTest(false);this.renderer.setViewport(0,0,width,height);
  }
  }
