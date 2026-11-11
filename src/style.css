@@ -25,3 +25,4 @@
 
 /* M5C local summary: readable on school displays and small screens. */
 #progressDialog{max-height:90dvh;overflow:auto;width:min(740px,calc(100vw - 20px))}#progressDialog li{line-height:1.55;margin:.5rem 0}#progressDialog button{display:block;width:100%;min-height:48px;text-align:left;margin:.7rem 0}#progressDialog p{line-height:1.5}
+#exerciseImport{max-width:100%}
