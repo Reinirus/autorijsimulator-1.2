@@ -17,6 +17,14 @@ describe('M5C oefenbestanden voor gedeelde apparaten',()=>{
   expect(parseExerciseBundle(JSON.stringify({...b,missions:[{name:'Leerling',completed:true}]}))).toBeNull();
   expect(parseExerciseBundle('niet json')).toBeNull();
  });
+ it('verwijdert onbekende persoonlijke naamvelden uit geïmporteerde oefenbestanden',()=>{
+  const b=exportExerciseBundle(memory());
+  const original={version:1,missionId:1,date:'2026-11-11',completed:true,durationS:10,distanceM:15,maxSpeedKmh:20,observations:[],trafficEvents:[]};
+  const parsed=parseExerciseBundle(JSON.stringify({...b,missions:[{...original,studentName:'Voornaam',email:'leerling@example.org'}]}));
+  expect(parsed).not.toBeNull();
+  expect(JSON.stringify(parsed)).not.toContain('studentName');
+  expect(JSON.stringify(parsed)).not.toContain('leerling@example.org');
+ });
  it('importeert uitsluitend in een lege opslag en kan wissen',()=>{
   const origin=memory(),dest=memory();const b=exportExerciseBundle(origin);
   expect(importExerciseBundle(dest,b)).toBe(true);

@@ -18,8 +18,24 @@ export function parseExerciseBundle(raw:string):ExerciseBundle|null{
   if(!value||typeof value!=='object')return null;
   const b=value as Partial<ExerciseBundle>;
   if(b.kind!==BUNDLE_TYPE||b.version!==1||typeof b.createdAt!=='string'||!Number.isFinite(Date.parse(b.createdAt))||!Array.isArray(b.missions)||b.missions.length>100)return null;
-  const missions=parseResults(JSON.stringify(b.missions));
-  if(missions.length!==b.missions.length)return null;
+  const incoming=parseResults(JSON.stringify(b.missions));
+  if(incoming.length!==b.missions.length)return null;
+  // Only allow known fields; never retain imported name/email/unknown JSON fields.
+  const missions:LocalData['missions']=incoming.map(m=>({
+   version:1,missionId:m.missionId,date:m.date,completed:m.completed,
+   durationS:m.durationS,distanceM:m.distanceM,maxSpeedKmh:m.maxSpeedKmh,
+   ...(m.mode?{mode:m.mode}:{}),
+   ...(m.variant?{variant:{difficulty:m.variant.difficulty,seed:m.variant.seed}}:{}),
+   observations:[...m.observations],
+   ...(m.encounters?{encounters:m.encounters.map(e=>({id:e.id,scenario:e.scenario,actorKind:e.actorKind,instruction:e.instruction,startedAt:e.startedAt,finishedAt:e.finishedAt}))}:{}),
+   trafficEvents:m.trafficEvents.map(e=>({
+    time:e.time,category:e.category,message:e.message,ruleIds:[...e.ruleIds],
+    ...(typeof e.eventId==='string'?{eventId:e.eventId}:{}),
+    ...(typeof e.encounterId==='string'?{encounterId:e.encounterId}:{}),
+    ...(Array.isArray(e.facts)&&e.facts.every(x=>typeof x==='string')?{facts:[...e.facts]}:{}),
+    ...(typeof e.advice==='string'?{advice:e.advice}:{})
+   }))
+  }));
   if(b.theory!==null&&b.theory!==undefined&&!readResult({getItem:()=>JSON.stringify(b.theory)}))return null;
   if(b.hazard!==null&&b.hazard!==undefined&&!readHazardResult({getItem:()=>JSON.stringify(b.hazard)}))return null;
   if(b.theory===undefined||b.hazard===undefined)return null;
